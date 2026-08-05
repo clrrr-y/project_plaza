@@ -4460,6 +4460,10 @@ html.prototype-env:has(#chats-screen.is-first-time) .chat-debug-panel { display:
   gap: 12px;
   align-items: center;
 }
+.card-row .card-action-btn:only-child {
+  grid-column: 1 / -1;
+  border-radius: 16px;
+}
 .status-card .card-action-btn {
   position: relative;
   overflow: hidden;
@@ -4588,7 +4592,7 @@ html.prototype-env:has(#chats-screen.is-first-time) .chat-debug-panel { display:
 }
 .business-flow-head {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
 }
@@ -4615,7 +4619,7 @@ html.prototype-env:has(#chats-screen.is-first-time) .chat-debug-panel { display:
   background: rgba(123,110,246,0.08);
   border: 1px solid rgba(123,110,246,0.16);
   color: #675CEB;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 700;
   line-height: 1;
   text-align: center;
@@ -4624,8 +4628,7 @@ html.prototype-env:has(#chats-screen.is-first-time) .chat-debug-panel { display:
 .business-flow-status.is-completed,
 .business-flow-status.is-paid,
 .business-flow-status.is-delivered,
-.business-flow-status.is-active,
-.business-flow-status.is-confirmed {
+.business-flow-status.is-active {
   background: rgba(12,122,76,0.08);
   border-color: rgba(12,122,76,0.16);
   color: #0c7a4c;
@@ -10286,6 +10289,49 @@ body.profile-active .chat-debug-panel {
   font-weight: 400;
   line-height: 20px;
 }
+.peb-tracking-auto {
+  width: 100%;
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(241,242,248,0.9);
+  border: 1px solid rgba(0,0,0,0.045);
+  text-align: left;
+}
+.peb-tracking-disclaimer {
+  color: rgba(100,96,120,0.62);
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+.peb-tracking-status {
+  color: #3E3A52;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+.peb-tracking-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  font-size: 12px;
+}
+.peb-tracking-row span { color: rgba(94,87,120,0.7); }
+.peb-tracking-row strong { color: #251F38; font-weight: 700; letter-spacing: 0.2px; }
+.peb-tracking-external {
+  display: block;
+  margin-top: 6px;
+  color: #3B82F6;
+  font-size: 12.5px;
+  line-height: 1.4;
+  word-break: break-all;
+  text-decoration: underline;
+}
 .plaza-escrow-bubble .peb-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -12923,7 +12969,7 @@ body.profile-active .chat-debug-panel {
   flex-shrink: 0;
 }
 .member-sheet-title {
-  font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px;
+  font-size: 16px; font-weight: 700; color: #1f1b2e; letter-spacing: -0.2px;
 }
 .member-sheet-done {
   font-size: 15px; font-weight: 600; color: var(--accent);
@@ -12994,7 +13040,7 @@ body.profile-active .chat-debug-panel {
 }
 .member-row:active { background: rgba(123,110,246,0.04); }
 .member-row-info { flex: 1; min-width: 0; }
-.member-row-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+.member-row-name { font-size: 14px; font-weight: 500; color: #1f1b2e; }
 .member-row-sub { font-size: 11.5px; color: var(--muted); margin-top: 1px; }
 .member-cb {
   width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
@@ -13053,7 +13099,7 @@ body.profile-active .chat-debug-panel {
   min-width: 0;
 }
 .contact-sheet-row-name {
-  color: var(--ink);
+  color: #1f1b2e;
   font-size: 14px;
   font-weight: 600;
 }
@@ -13257,23 +13303,92 @@ body.profile-active .chat-debug-panel {
 .tx-field::placeholder { color: var(--muted); }
 .tx-field:focus { border-color: rgba(123,110,246,0.4); }
 
-/* Plaza amount-entry flow: full-page, light, and focused. */
-#send-money-screen,
-#request-money-screen {
+/* Plaza amount-entry flow: bottom sheet, light, and focused. */
+.money-sheet-overlay {
+  position: absolute; inset: 0; z-index: 400;
+  background: rgba(13,11,24,0.32);
+  display: none;
+  align-items: flex-end;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.money-sheet-overlay.open {
+  display: flex;
+  animation: msOverlayIn 220ms ease forwards;
+}
+.money-sheet-overlay.closing {
+  display: flex;
+  animation: msOverlayOut 200ms ease forwards;
+  pointer-events: none;
+}
+.money-sheet {
+  position: relative;
+  width: 100%;
+  max-height: 92%;
+  min-height: 0;
   background:
     radial-gradient(circle at 8% 4%, rgba(143,184,255,0.12), transparent 34%),
     radial-gradient(circle at 92% 14%, rgba(255,175,214,0.10), transparent 32%),
     linear-gradient(180deg, #fbfaff 0%, #fff 46%, #faf8ff 100%);
+  border-radius: 24px 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateY(100%);
+  transition: transform 300ms cubic-bezier(.22,.8,.2,1);
+  box-shadow: 0 -8px 40px rgba(13,11,24,0.14);
 }
-#send-money-screen .topbar,
-#request-money-screen .topbar {
-  background: rgba(255,255,255,0.66);
-  border-bottom-color: rgba(218,211,238,0.62);
+.money-sheet-overlay.open .money-sheet { transform: translateY(0); }
+.money-sheet-handle {
+  width: 36px; height: 4px;
+  border-radius: 999px;
+  background: rgba(123,110,246,0.20);
+  margin: 10px auto 0;
+  flex-shrink: 0;
 }
+.money-sheet-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 20px 4px;
+  flex-shrink: 0;
+}
+.money-sheet-title { font-size: 17px; font-weight: 700; color: #1f1b2e; letter-spacing: -0.2px; }
+/* The money sheets stay light-themed even in dark mode, unlike most of the
+   app's chrome — override the dark-theme white text so it stays legible. */
+#send-money-sheet .tx-recipient-name,
+#request-money-sheet .tx-recipient-name,
+#send-money-sheet .tx-field,
+#request-money-sheet .tx-field,
+#request-money-sheet .amount-input,
+#request-money-sheet .amount-currency,
+#request-money-sheet .request-share-identity-name,
+#request-money-sheet .request-share-brand {
+  color: #1f1b2e;
+}
+.money-sheet-close,
+.money-sheet-back {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(123,110,246,0.08);
+  color: #6f66a4;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.money-sheet-close:active,
+.money-sheet-back:active { background: rgba(123,110,246,0.16); }
 .money-entry-content {
+  flex: 1;
+  height: auto;
+  min-height: 0;
   gap: 14px;
-  padding: 14px 20px 0;
+  overflow-y: auto;
+  padding: 6px 20px 190px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
+.money-entry-content::-webkit-scrollbar { display: none; }
 .money-entry-contact {
   min-height: 64px;
   padding: 10px 12px;
@@ -13342,23 +13457,23 @@ body.profile-active .chat-debug-panel {
   height: 1px;
 }
 .money-keypad {
-  width: min(100%, 300px);
-  margin: 2px auto 4px;
+  width: min(100%, 240px);
+  margin: 0 auto 2px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 8px;
 }
 .money-key {
   aspect-ratio: 1;
-  min-height: 66px;
+  min-height: 48px;
   border: 1px solid rgba(123,110,246,0.14);
   border-radius: 50%;
   background:
     radial-gradient(circle at 30% 20%, rgba(255,255,255,0.92), rgba(255,255,255,0.56) 52%, rgba(246,242,255,0.82) 100%);
   color: #26213a;
   font-family: inherit;
-  font-size: 26px;
-  font-weight: 650;
+  font-size: 19px;
+  font-weight: 500;
   line-height: 1;
   box-shadow: 0 8px 18px rgba(52,42,92,0.055), inset 0 1px 0 rgba(255,255,255,0.92);
   transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
@@ -13372,7 +13487,29 @@ body.profile-active .chat-debug-panel {
 }
 .money-key-delete {
   color: #6f66a4;
-  font-size: 23px;
+  font-size: 17px;
+}
+.money-key-empty {
+  visibility: hidden;
+  pointer-events: none;
+  box-shadow: none;
+  border-color: transparent;
+  background: transparent;
+}
+/* The money sheets stay light-themed even in dark mode — override the
+   dark-theme's blanket input/select/textarea styling so fields stay legible. */
+html.plaza-theme-dark #send-money-sheet input,
+html.plaza-theme-dark #request-money-sheet input,
+html.plaza-theme-dark #send-money-sheet select,
+html.plaza-theme-dark #request-money-sheet select {
+  background: rgba(255,255,255,0.78) !important;
+  border-color: rgba(226,222,237,0.9) !important;
+  color: #1f1b2e !important;
+  box-shadow: none !important;
+}
+html.plaza-theme-dark #send-money-sheet input::placeholder,
+html.plaza-theme-dark #request-money-sheet input::placeholder {
+  color: #A09AB8 !important;
 }
 .money-entry-field-group {
   display: grid;
@@ -13394,10 +13531,12 @@ body.profile-active .chat-debug-panel {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 18px rgba(42,35,82,0.035);
 }
 .money-entry-action-bar {
-  position: sticky;
+  position: absolute;
+  left: 0;
+  right: 0;
   bottom: 0;
   z-index: 5;
-  margin: 2px -20px 0;
+  margin: 0;
   padding: 12px 20px calc(16px + env(safe-area-inset-bottom));
   background: linear-gradient(180deg, rgba(255,255,255,0), rgba(252,250,255,0.94) 22%, rgba(252,250,255,0.98));
   backdrop-filter: blur(12px);
@@ -13410,190 +13549,42 @@ body.profile-active .chat-debug-panel {
   font-size: 16px;
   font-weight: 700;
 }
-.rm-flow-shell {
-  width: 100%;
-  min-height: 0;
-  overflow: hidden;
+.rm-other-methods-link {
+  align-self: center;
+  margin: 0 auto 2px;
+  padding: 6px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
 }
-.rm-flow-track {
-  width: 200%;
-  display: flex;
-  align-items: stretch;
-  transition: transform 260ms cubic-bezier(.22, 1, .36, 1);
-}
-.rm-flow-shell.is-options .rm-flow-track {
-  transform: translateX(-50%);
-}
-.rm-flow-page {
-  width: 50%;
-  flex: 0 0 50%;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.rm-options-row {
+.rm-other-methods-link:active { opacity: 0.7; }
+.rm-text-link-option {
   width: 100%;
   min-height: 54px;
-  border: 1px solid rgba(123,110,246,0.14);
-  border-radius: 16px;
-  padding: 0 14px 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  color: #312a49;
-  background: rgba(255,255,255,0.78);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.92), 0 8px 18px rgba(42,35,82,0.035);
+  padding: 0 4px;
+  border: 0;
+  border-bottom: 1px solid rgba(231,227,240,0.82);
+  background: transparent;
+  color: #1f1b2e;
   font-family: inherit;
   text-align: left;
+  font-size: 15px;
+  font-weight: 600;
 }
-.rm-options-row strong {
-  display: block;
-  color: #28213f;
-  font-size: 14px;
-  font-weight: 650;
-}
-.rm-options-row small {
-  display: block;
-  margin-top: 2px;
-  color: #8f87a8;
-  font-size: 11px;
-  font-weight: 400;
-}
-.rm-options-row .hugeicon {
-  color: #7b6ef6;
-  font-size: 18px;
-}
-.rm-options-page-card {
-  display: grid;
-  gap: 10px;
-  border: 1px solid rgba(123,110,246,0.14);
-  border-radius: 20px;
-  padding: 12px;
-  background: rgba(255,255,255,0.78);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.92), 0 10px 24px rgba(42,35,82,0.05);
-}
-.rm-options-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 2px 2px 8px;
-}
-.rm-options-back {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1px solid rgba(123,110,246,0.14);
-  background: rgba(255,255,255,0.72);
-  color: #5e5878;
-  display: grid;
-  place-items: center;
-}
-.rm-options-title {
-  color: #171522;
-  font-size: 17px;
-  font-weight: 700;
-}
-.rm-option-action {
-  width: 100%;
-  min-height: 58px;
-  border: 1px solid rgba(218,211,238,0.88);
-  border-radius: 16px;
-  padding: 0 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(255,220,238,0.16), transparent 48%),
-    rgba(255,255,255,0.82);
-  color: #2a2440;
-  font: inherit;
-  font-size: 14px;
-  font-weight: 650;
-  text-align: left;
-}
-.rm-option-action:active,
-.rm-options-row:active,
-.rm-options-back:active {
-  transform: scale(0.985);
-  background: rgba(247,243,255,0.86);
-}
+.rm-text-link-option:last-child { border-bottom: 0; }
+.rm-text-link-option:active { background: rgba(123,110,246,0.06); }
 @media (max-height: 760px) {
   .money-entry-content { gap: 10px; }
   .money-entry-amount-panel { padding-top: 12px; }
   .money-entry-amount-display { font-size: 42px; }
-  .money-keypad { width: min(100%, 270px); gap: 9px; }
-  .money-key { min-height: 58px; font-size: 23px; }
+  .money-keypad { width: min(100%, 230px); gap: 7px; }
+  .money-key { min-height: 46px; font-size: 18px; }
 }
 
-.rm-methods {
-  border: 1px solid rgba(218,211,238,0.92);
-  border-radius: 14px;
-  background: rgba(255,255,255,0.76);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 8px 22px rgba(123,110,246,0.05);
-  backdrop-filter: blur(12px) saturate(1.08);
-  -webkit-backdrop-filter: blur(12px) saturate(1.08);
-  overflow: hidden;
-}
-.rm-methods-toggle {
-  width: 100%;
-  min-height: 48px;
-  padding: 0 14px 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border: 0;
-  background: transparent;
-  color: rgba(67,59,102,0.9);
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: left;
-}
-.rm-methods-chevron {
-  width: 16px;
-  height: 16px;
-  flex: 0 0 auto;
-  transition: transform 160ms ease;
-}
-.rm-methods.is-expanded .rm-methods-chevron {
-  transform: rotate(180deg);
-}
-.rm-methods-panel {
-  display: none;
-  border-top: 1px solid rgba(231,227,240,0.82);
-  padding: 4px 0;
-}
-.rm-methods.is-expanded .rm-methods-panel {
-  display: block;
-}
-.rm-method-option {
-  width: 100%;
-  min-height: 62px;
-  padding: 10px 14px 10px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  border: 0;
-  border-bottom: 1px solid rgba(231,227,240,0.66);
-  background: transparent;
-  color: rgba(67,59,102,0.9);
-  font-family: inherit;
-  text-align: left;
-}
-.rm-method-option:last-child { border-bottom: 0; }
-.rm-method-option-title {
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 600;
-}
-.rm-method-option:active,
-.rm-methods-toggle:active {
-  background: rgba(123,110,246,0.05);
-}
 .rm-method-btn {
   min-height: 48px;
   border-radius: 14px;
@@ -13886,16 +13877,13 @@ body.profile-active .chat-debug-panel {
 .request-pay-custom input {
   height: 50px;
 }
-html.plaza-theme-dark :is(.rm-methods,.rm-method-btn,.request-share-card,.request-pay-card,.request-share-link-box,.qr-share-card) {
+html.plaza-theme-dark :is(.rm-method-btn,.request-pay-card,.qr-share-card) {
   background: rgba(28,32,43,0.86);
   border-color: rgba(179,136,255,0.22);
   color: rgba(236,238,248,0.9);
 }
 html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.request-pay-custom label) {
   color: rgba(182,186,200,0.84);
-}
-html.plaza-theme-dark :is(.rm-methods-toggle,.rm-method-option,.rm-method-option-title) {
-  color: rgba(236,238,248,0.94);
 }
 
 /* Confirm review card */
@@ -13917,8 +13905,8 @@ html.plaza-theme-dark :is(.rm-methods-toggle,.rm-method-option,.rm-method-option
 }
 .tx-confirm-row:last-child { border-bottom: 0; }
 .tx-confirm-label { font-size: 13px; color: var(--muted); font-weight: 500; flex-shrink: 0; }
-.tx-confirm-value { font-size: 14px; font-weight: 600; color: var(--ink); text-align: right; }
-.tx-confirm-amount { font-size: 26px; font-weight: 700; color: var(--ink); }
+.tx-confirm-value { font-size: 14px; font-weight: 600; color: #1f1b2e; text-align: right; }
+.tx-confirm-amount { font-size: 26px; font-weight: 700; color: #1f1b2e; }
 
 /* ── Track: legacy individual subclasses ─────────────── */
 .track-summary-top {
@@ -19106,7 +19094,8 @@ html.plaza-theme-dark :is(.rm-methods-toggle,.rm-method-option,.rm-method-option
 }
 .chat-swipe-action:active { transform: scale(.95); background: rgba(255,255,255,.94); }
 .chat-swipe-action .hugeicon { width: 21px; height: 21px; font-size: 21px; }
-.chat-swipe-action[data-swipe-action="pin"] { color: #A48135; }
+.chat-swipe-action[data-swipe-action="read"] { color: #5B4FD6; font-weight: 650; }
+.chat-swipe-action[data-swipe-action="pin"] { color: #8C6B1C; font-weight: 650; }
 .chat-swipe-action[data-swipe-action="delete"] { color: #C56E7C; }
 .chat-swipe-action[data-swipe-action="mute"] { color: #817A95; }
 .chat-swipe-shell .chat-row {
@@ -19117,8 +19106,8 @@ html.plaza-theme-dark :is(.rm-methods-toggle,.rm-method-option,.rm-method-option
   touch-action: pan-y;
   will-change: transform;
 }
-.chat-swipe-shell .chat-row.is-swipe-left { transform: translateX(-148px); }
-.chat-swipe-shell .chat-row.is-swipe-right { transform: translateX(148px); }
+.chat-swipe-shell .chat-row.is-swipe-left { transform: translateX(-160px); }
+.chat-swipe-shell .chat-row.is-swipe-right { transform: translateX(160px); }
 .chat-swipe-shell.is-pinned .chat-row { background: rgba(255,255,255,.52); }
 .chat-swipe-shell.is-pinned::before {
   content: "";
@@ -25917,6 +25906,12 @@ html.plaza-theme-dark :is(.product-card,.money-card,.status-card,.partner-miniap
   color: #FFFFFF !important;
   box-shadow: 0 14px 34px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.04) !important;
 }
+html.plaza-theme-dark :is(.conversation-product-name,.conversation-product-price) {
+  color: #FFFFFF !important;
+}
+html.plaza-theme-dark .conversation-product-status {
+  color: #B6BAC8 !important;
+}
 
 html.plaza-theme-dark :is(.card-title,.partner-miniapp-title,.wallet-action-copy strong,.wallet-activity-info strong,.wallet-activity-amount,.product-body strong,.money-body strong,.status-body strong) {
   color: #FFFFFF !important;
@@ -27308,135 +27303,118 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   <!-- ══════════════════════════════════════════════════
        SEND MONEY SCREEN
   ════════════════════════════════════════════════════ -->
-  <section class="screen" id="send-money-screen" data-nav="chats">
-    <div class="status"><span>9:41</span></div>
-    <header class="topbar">
-      <button class="icon-btn" aria-label="Back" data-go="conversation-screen">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <div class="title-stack" style="flex:1">
-        <div id="sm-screen-title" class="screen-title">Send Money</div>
+  <div class="money-sheet-overlay" id="send-money-sheet-overlay" aria-hidden="true">
+    <div class="money-sheet" id="send-money-sheet" role="dialog" aria-modal="true" aria-label="Send Money">
+      <div class="money-sheet-handle"></div>
+      <div class="money-sheet-header">
+        <span class="money-sheet-title" id="sm-screen-title">Send Money</span>
+        <button class="money-sheet-close" id="sm-sheet-close" type="button" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+        </button>
       </div>
-    </header>
 
-    <!-- Step 1: Entry -->
-    <div class="tx-content money-entry-content" id="sm-entry">
-      <button class="tx-recipient send-money-recipient money-entry-contact" id="sm-contact-field" type="button">
-        <div id="sm-avatar" class="avatar av-1" style="width:48px;height:48px;font-size:17px">NJ</div>
-        <div class="tx-recipient-info">
-          <div id="sm-name" class="tx-recipient-name">Recipient</div>
-          <div id="sm-contact-sub" class="tx-contact-sub">Plaza Wallet</div>
+      <!-- Step 1: Entry -->
+      <div class="tx-content money-entry-content" id="sm-entry">
+        <button class="tx-recipient send-money-recipient money-entry-contact" id="sm-contact-field" type="button">
+          <div id="sm-avatar" class="avatar av-1" style="width:48px;height:48px;font-size:17px">NJ</div>
+          <div class="tx-recipient-info">
+            <div id="sm-name" class="tx-recipient-name">Recipient</div>
+            <div id="sm-contact-sub" class="tx-contact-sub">Plaza Wallet</div>
+          </div>
+          <span class="tx-contact-chevron" id="sm-contact-chevron" aria-hidden="true">›</span>
+        </button>
+        <section class="money-entry-amount-panel" aria-label="Amount to send">
+          <div class="money-entry-eyebrow">Amount</div>
+          <div class="money-entry-amount-display" id="sm-amount-display" data-money-display="send">₱0.00</div>
+          <div class="money-entry-balance" id="sm-balance-line">Plaza Wallet balance ₱0.00</div>
+          <div class="money-entry-helper" id="sm-amount-help" aria-live="polite"></div>
+          <input class="money-entry-raw-input" id="sm-amount" type="text" inputmode="decimal" value="" aria-hidden="true" tabindex="-1">
+        </section>
+        <div class="money-keypad" aria-label="Send money amount keypad">
+          <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="1">1</button>
+          <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="2">2</button>
+          <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="3">3</button>
+          <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="4">4</button>
+          <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="5">5</button>
+          <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="6">6</button>
+          <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="7">7</button>
+          <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="8">8</button>
+          <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="9">9</button>
+          <span class="money-key money-key-empty" aria-hidden="true"></span>
+          <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="0">0</button>
+          <button class="money-key money-key-delete" type="button" data-keypad-flow="send" data-keypad-value="delete" aria-label="Delete amount digit">⌫</button>
         </div>
-        <span class="tx-contact-chevron" id="sm-contact-chevron" aria-hidden="true">›</span>
-      </button>
-      <section class="money-entry-amount-panel" aria-label="Amount to send">
-        <div class="money-entry-eyebrow">Amount</div>
-        <div class="money-entry-amount-display" id="sm-amount-display" data-money-display="send">₱0.00</div>
-        <div class="money-entry-balance" id="sm-balance-line">Plaza Wallet balance ₱0.00</div>
-        <div class="money-entry-helper" id="sm-amount-help" aria-live="polite"></div>
-        <input class="money-entry-raw-input" id="sm-amount" type="text" inputmode="decimal" value="" aria-hidden="true" tabindex="-1">
-      </section>
-      <div class="money-keypad" aria-label="Send money amount keypad">
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="1">1</button>
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="2">2</button>
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="3">3</button>
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="4">4</button>
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="5">5</button>
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="6">6</button>
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="7">7</button>
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="8">8</button>
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="9">9</button>
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value=".">.</button>
-        <button class="money-key" type="button" data-keypad-flow="send" data-keypad-value="0">0</button>
-        <button class="money-key money-key-delete" type="button" data-keypad-flow="send" data-keypad-value="delete" aria-label="Delete amount digit">⌫</button>
+        <div class="money-entry-field-group">
+          <label class="money-entry-field-label" for="sm-note">Note</label>
+          <input class="tx-field money-entry-field" id="sm-note" type="text" placeholder="Add a note (optional)">
+        </div>
+        <div class="money-entry-action-bar">
+          <button class="primary-btn" id="sm-continue-btn" disabled>Continue</button>
+        </div>
       </div>
-      <div class="money-entry-field-group">
-        <label class="money-entry-field-label" for="sm-note">Note</label>
-        <input class="tx-field money-entry-field" id="sm-note" type="text" placeholder="Add a note (optional)">
-      </div>
-      <div class="money-entry-action-bar">
-        <button class="primary-btn" id="sm-continue-btn" disabled>Continue</button>
+
+      <!-- Step 2: Confirm -->
+      <div class="tx-content" id="sm-confirm" hidden>
+        <div class="tx-confirm-card">
+          <div class="tx-confirm-row">
+            <span class="tx-confirm-label">Sending to</span>
+            <span class="tx-confirm-value" id="sm-c-name">—</span>
+          </div>
+          <div class="tx-confirm-row">
+            <span class="tx-confirm-label">Amount</span>
+            <span class="tx-confirm-amount" id="sm-c-amount">—</span>
+          </div>
+          <div class="tx-confirm-row" id="sm-c-note-row">
+            <span class="tx-confirm-label">Note</span>
+            <span class="tx-confirm-value" id="sm-c-note">—</span>
+          </div>
+          <div class="tx-confirm-row">
+            <span class="tx-confirm-label">Transfer via</span>
+            <span class="tx-confirm-value">Plaza · Instant · No fees</span>
+          </div>
+        </div>
+        <button class="primary-btn" id="sm-confirm-btn" style="width:100%;height:52px;font-size:16px;border-radius:14px">Confirm & Send</button>
+        <button class="secondary-btn" id="sm-cancel-btn" style="width:100%;height:46px;border-radius:14px;margin-top:8px">Cancel</button>
       </div>
     </div>
-
-    <!-- Step 2: Confirm -->
-    <div class="tx-content" id="sm-confirm" hidden>
-      <div class="tx-confirm-card">
-        <div class="tx-confirm-row">
-          <span class="tx-confirm-label">Sending to</span>
-          <span class="tx-confirm-value" id="sm-c-name">—</span>
-        </div>
-        <div class="tx-confirm-row">
-          <span class="tx-confirm-label">Amount</span>
-          <span class="tx-confirm-amount" id="sm-c-amount">—</span>
-        </div>
-        <div class="tx-confirm-row" id="sm-c-note-row">
-          <span class="tx-confirm-label">Note</span>
-          <span class="tx-confirm-value" id="sm-c-note">—</span>
-        </div>
-        <div class="tx-confirm-row">
-          <span class="tx-confirm-label">Transfer via</span>
-          <span class="tx-confirm-value">Plaza · Instant · No fees</span>
-        </div>
-      </div>
-      <button class="primary-btn" id="sm-confirm-btn" style="width:100%;height:52px;font-size:16px;border-radius:14px">Confirm & Send</button>
-      <button class="secondary-btn" id="sm-cancel-btn" style="width:100%;height:46px;border-radius:14px;margin-top:8px">Cancel</button>
-    </div>
-  </section>
+  </div>
 
 
   <!-- ══════════════════════════════════════════════════
        REQUEST MONEY SCREEN
   ════════════════════════════════════════════════════ -->
-  <section class="screen" id="request-money-screen" data-nav="chats">
-    <div class="status"><span>9:41</span></div>
-    <header class="topbar">
-      <button class="icon-btn" aria-label="Back" data-go="conversation-screen">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <div class="title-stack" style="flex:1">
-        <div class="screen-title">Request Money</div>
+  <div class="money-sheet-overlay" id="request-money-sheet-overlay" aria-hidden="true">
+    <div class="money-sheet" id="request-money-sheet" role="dialog" aria-modal="true" aria-label="Request Money">
+      <div class="money-sheet-handle"></div>
+      <div class="money-sheet-header">
+        <button class="money-sheet-back" id="request-money-sheet-back" type="button" aria-label="Back" hidden>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="money-sheet-title" id="request-money-sheet-title">Request Money</span>
+        <button class="money-sheet-close" id="rm-sheet-close" type="button" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+        </button>
       </div>
-    </header>
-    <div class="tx-content" id="rm-content">
-      <!-- populated by populateRequestMoney() -->
-    </div>
-  </section>
-
-  <section class="screen" id="request-qr-screen" data-nav="chats">
-    <div class="status"><span>9:41</span></div>
-    <header class="topbar">
-      <button class="icon-btn" aria-label="Back" data-go="request-money-screen">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <div class="title-stack" style="flex:1">
-        <div class="screen-title">Request via QR</div>
+      <div class="tx-content" id="rm-content">
+        <!-- populated by populateRequestMoney() -->
       </div>
-    </header>
-    <div class="tx-content request-share-content" id="request-qr-content">
-      <!-- populated by renderRequestQrPage() -->
-    </div>
-  </section>
-
-  <section class="screen" id="request-link-screen" data-nav="chats">
-    <div class="status"><span>9:41</span></div>
-    <header class="topbar">
-      <button class="icon-btn" aria-label="Back" data-go="request-money-screen">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <div class="title-stack" style="flex:1">
-        <div class="screen-title">Request via Payment Link</div>
+      <div class="tx-content" id="request-methods-content" hidden>
+        <button class="rm-text-link-option" id="rm-request-qr-btn" type="button">Generate QR Code</button>
+        <button class="rm-text-link-option" id="rm-request-link-btn" type="button">Generate Payment Link</button>
       </div>
-    </header>
-    <div class="tx-content request-share-content" id="request-link-content">
-      <!-- populated by renderRequestLinkPage() -->
+      <div class="tx-content request-share-content" id="request-qr-content" hidden>
+        <!-- populated by renderRequestQrPage() -->
+      </div>
+      <div class="tx-content request-share-content" id="request-link-content" hidden>
+        <!-- populated by renderRequestLinkPage() -->
+      </div>
     </div>
-  </section>
+  </div>
 
   <section class="screen" id="request-pay-screen" data-nav="wallet">
     <div class="status"><span>9:41</span></div>
     <header class="topbar">
-      <button class="icon-btn" aria-label="Back" data-go="request-money-screen">
+      <button class="icon-btn" aria-label="Back" data-go="conversation-screen">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <div class="title-stack" style="flex:1">
@@ -31305,7 +31283,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
   function businessActionLabels(actionKind) {
     const actionPairs = {
-      order: ['Track Order', 'View Details'],
+      order: ['Track Order'],
       shipment: ['Track Shipment', 'View Details'],
       delivery: ['Track Delivery', 'View Details'],
       ticket: ['View Ticket', 'View Details'],
@@ -31386,7 +31364,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         <div class="status-body">
           <div class="business-flow-head">
             <div>
-              <div class="business-flow-kicker">${escapeHtml(type)}</div>
+              ${card.hideKicker ? '' : `<div class="business-flow-kicker">${escapeHtml(type)}</div>`}
               <div class="business-flow-title">${escapeHtml(title)}</div>
             </div>
             <span class="business-flow-status is-${escapeHtml(compactStatusClass(td.status))}">${escapeHtml(td.status || 'Updated')}</span>
@@ -31463,6 +31441,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       flowId,
       actionKind: card.actionKind || 'order',
       title: card.title || c.marketplaceProduct?.name || trackData[flowId]?.type || 'Transaction',
+      hideKicker: card.hideKicker,
       refLabel: card.refLabel || 'Reference No.',
       etaLabel: card.etaLabel,
       eta: card.eta,
@@ -31610,8 +31589,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   // Same idea as requestMoneySkipContactDefault, but for the Send Money screen.
   let sendMoneySkipContactDefault = false;
   let requestShareState = null;
-  let requestMoneyReturnPanel = 'main';
-  let requestMoneyDraft = null;
+  let requestMoneySheetPage = 'main';
   const moneyEntryState = {
     send: { raw: '' },
     request: { raw: '' }
@@ -32277,16 +32255,54 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
   const groupPendingInvites = {};
 
+  // Shared with Track Collection's member avatars (see populateTrack) so the same
+  // person shows up with the same face wherever their name appears in the app.
+  const MOCK_MEMBER_PHOTO_IDS = [12, 25, 38, 7, 44, 29, 56, 15, 41, 33, 52, 18, 47, 63, 21, 35, 60, 9, 49, 26, 68, 14, 53, 31, 40, 5, 57, 23, 46, 11];
+  function mockMemberPhotoFor(name) {
+    const seed = String(name || '').split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    const photoId = MOCK_MEMBER_PHOTO_IDS[Math.abs(seed) % MOCK_MEMBER_PHOTO_IDS.length];
+    return `https://i.pravatar.cc/96?img=${photoId}`;
+  }
+
+  // Groups with a seeded collection (see seedMockCollections) already have a full,
+  // named roster there — reuse those names/photos instead of inventing "Member N"
+  // placeholders, so Chat Members matches Track Collection for the same group.
+  function collectionMemberNamesFor(chatId) {
+    const collectionId = window._groupCollByChat?.[chatId];
+    const collection = collectionId ? window._groupCollections?.[collectionId] : null;
+    if (!collection) return [];
+    return [
+      ...(collection.paid || []).map(entry => entry.name),
+      ...(collection.pending || []),
+      ...(collection.exempted || [])
+    ].filter(name => name && !/^you\b/i.test(name));
+  }
+
   function groupMembersFor(chatId, c = conversations[chatId]) {
     const targetCount = c?.memberCount || groupMemberCountFromStatus(c) || groupMemberDefaults[chatId]?.length || 0;
     const members = [...(c?.members || groupMemberDefaults[chatId] || [])];
+    const usedNames = new Set(members.map(m => String(m.name || '').toLowerCase()));
+    const namePool = [...collectionMemberNamesFor(chatId), ...MOCK_MEMBER_NAMES]
+      .filter(name => !usedNames.has(String(name).toLowerCase()));
+    let poolIndex = 0;
     for (let i = members.length; i < targetCount; i += 1) {
-      const index = i + 1;
+      let name = namePool[poolIndex];
+      while (name && usedNames.has(name.toLowerCase())) {
+        poolIndex += 1;
+        name = namePool[poolIndex];
+      }
+      if (name) {
+        usedNames.add(name.toLowerCase());
+        poolIndex += 1;
+      } else {
+        name = `Member ${i + 1}`;
+      }
       members.push({
-        id: `${chatId}-member-${index}`,
-        name: `Member ${index}`,
-        initials: `M${index}`,
-        avatarClass: `av-${(i % 8) + 1}`
+        id: `${chatId}-member-${i + 1}`,
+        name,
+        initials: memberInitials(name),
+        avatarClass: `av-${(i % 8) + 1}`,
+        photo: /^Member \d+$/.test(name) ? undefined : mockMemberPhotoFor(name)
       });
     }
     return members;
@@ -33676,6 +33692,33 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         }
       };
       productMore.onclick = () => showToast('More listing options');
+    } else if (c.isGroup && window._groupCollByChat?.[id] && window._groupCollections?.[window._groupCollByChat[id]]) {
+      const collectionId = window._groupCollByChat[id];
+      const collection = window._groupCollections[collectionId];
+      const paidCount = collection.paid.length;
+      const pendingCount = collection.pending.length;
+      conversationScreen?.classList.remove('has-marketplace-product');
+      productStrip.classList.add('payment-shortcut');
+      productName.textContent = collection.title;
+      productPrice.textContent = '';
+      productStatus.textContent = `${collection.perFmt} per member · ${paidCount} paid, ${pendingCount} pending`;
+      productThumb.removeAttribute('src');
+      productThumb.alt = '';
+      productStrip.classList.add('is-visible');
+      productStrip.setAttribute('aria-hidden', 'false');
+      const openCollectionTracker = () => {
+        populateTrack(collectionId);
+        goTo('track-screen');
+      };
+      productRow.onclick = openCollectionTracker;
+      productRow.onkeydown = event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openCollectionTracker();
+        }
+      };
+      productLink.onclick = openCollectionTracker;
+      productMore.onclick = () => showToast('Collection options');
     } else {
       conversationScreen?.classList.remove('has-marketplace-product');
       productStrip.classList.remove('payment-shortcut');
@@ -33948,15 +33991,14 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       if (!guardChatAction('sendMoney')) return;
       if (isPhoneVerifiedNewAccountMode()) preparePhoneWalletMoneyTarget('send');
       sendMoneySkipContactDefault = true;
-      populateSendMoney(currentChat);
-      goTo('send-money-screen');
+      openSendMoneySheet(currentChat);
     } else {
       if (!guardChatAction('requestMoney')) return;
       if (isPhoneVerifiedNewAccountMode()) preparePhoneWalletMoneyTarget('request');
+      resetRequestMoneyEntryDraft();
       requestMoneyFromDetectedAmount = false;
       requestMoneySkipContactDefault = true;
-      populateRequestMoney(currentChat);
-      goTo('request-money-screen');
+      openRequestMoneySheet(currentChat);
     }
   }
 
@@ -35504,7 +35546,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       return;
     }
 
-    const conversationScreens = ['conversation-screen', 'contact-info-screen', 'group-members-screen', 'shared-content-screen', 'send-money-screen', 'request-money-screen', 'request-qr-screen', 'request-link-screen', 'track-screen', 'transaction-logs-screen', 'transaction-detail-screen'];
+    const conversationScreens = ['conversation-screen', 'contact-info-screen', 'group-members-screen', 'shared-content-screen', 'track-screen', 'transaction-logs-screen', 'transaction-detail-screen'];
     const missingConversation = conversationScreens.includes(routeState.screenId) &&
       routeState.chatId && !conversations[routeState.chatId];
     const missingCommunity = routeState.screenId === 'community-hub-screen' &&
@@ -35573,12 +35615,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     syncUnverifiedSellerActionState();
     if (id === "conversation-screen")  { loadConversation(currentChat); scrollThread(); setupPaymentShortcut(currentChat); }
     if (id === "community-hub-screen") { loadCommunityHub(currentChat); }
-    if (id === "send-money-screen")    { populateSendMoney(currentChat); }
-    if (id === "request-money-screen") {
-      populateRequestMoney(currentChat);
-    }
-    if (id === "request-qr-screen") { renderRequestQrPage(); }
-    if (id === "request-link-screen") { renderRequestLinkPage(); }
     if (id === "request-pay-screen") { renderRequestPaymentPage(); }
     if (id === "contact-info-screen") { renderContactInfo(currentChat); }
     if (id === "group-members-screen") { renderGroupMembersScreen(groupMembersChatId || currentChat); }
@@ -36108,6 +36144,11 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     return entry;
   }
 
+  function escrowOrderReference(entry) {
+    const digits = String(entry.id || '').replace(/[^0-9]/g, '').slice(-8) || '00000000';
+    return `PLZ-${digits}`;
+  }
+
   function bindEscrowBubble(bubble) {
     if (!bubble) return;
     const entry = ensureEscrowEntryFromBubble(bubble);
@@ -36115,14 +36156,22 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     if (bubble.classList.contains('peb-done')) return;
     if (bubble.dataset.bound === 'true' && bubble.querySelector('.peb-body') && !bubble.querySelector('.peb-expandable')) return;
     bubble.classList.remove('peb-action', 'is-expanded');
+    const orderRef = escrowOrderReference(entry);
+    const trackerUrl = `https://track.projectplaza.app/shipment/${orderRef}`;
     bubble.innerHTML = `
       <div class="peb-message">
         <div class="peb-label">Payment received by Plaza</div>
         <div class="peb-body">Confirm once you've received your order to release the payment to the seller.</div>
       </div>
+      <div class="peb-tracking-auto">
+        <div class="peb-tracking-disclaimer">[ This is an automated message, please do not reply ]</div>
+        <div class="peb-tracking-status">The shipping courier has picked up your order. Your package will arrive in a few days — you can directly track the journey of your order below.</div>
+        <div class="peb-tracking-row"><span>Order Reference</span><strong>${escapeHtml(orderRef)}</strong></div>
+        <a class="peb-tracking-external" href="${escapeHtml(trackerUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(trackerUrl)}</a>
+      </div>
       <div class="peb-actions">
         <button class="peb-confirm-btn" data-escrow-confirm type="button">Order Received</button>
-        <button class="peb-track-btn" data-escrow-track type="button">Track Order</button>
+        <button class="peb-track-btn" data-escrow-track type="button">View Order Tracking</button>
       </div>`;
     bubble.dataset.bound = 'true';
     bubble.querySelector('[data-escrow-confirm]')?.addEventListener('click', event => {
@@ -36380,7 +36429,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     updateDenimJacketPaymentLog();
     if (trackData['nanay-jocelyn']) {
       Object.assign(trackData['nanay-jocelyn'], {
-        status: 'Order Confirmed',
+        status: 'Confirmed',
         badge: 'done',
         amount: denimJacketPaymentReceipt.amount,
         steps: [
@@ -36424,6 +36473,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         flowId: 'nanay-jocelyn',
         actionKind: 'order',
         title: 'Denim Jacket',
+        hideKicker: true,
         refLabel: 'Order Reference',
         etaLabel: 'Current Status',
         eta: 'Preparing for delivery',
@@ -36468,6 +36518,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
           flowId: currentChat,
           actionKind: 'order',
           title: conversation.marketplaceProduct.name,
+          hideKicker: true,
           refLabel: 'Order Reference',
           etaLabel: 'Latest Update'
         },
@@ -37305,7 +37356,9 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   function moneyEntryMarkup(flow) {
     const safeFlow = escapeHtml(flow);
     return `<div class="money-keypad" aria-label="${safeFlow === 'request' ? 'Request' : 'Send'} money amount keypad">
-      ${['1','2','3','4','5','6','7','8','9','.','0'].map(key => `<button class="money-key" type="button" data-keypad-flow="${safeFlow}" data-keypad-value="${key}">${key}</button>`).join('')}
+      ${['1','2','3','4','5','6','7','8','9'].map(key => `<button class="money-key" type="button" data-keypad-flow="${safeFlow}" data-keypad-value="${key}">${key}</button>`).join('')}
+      <span class="money-key money-key-empty" aria-hidden="true"></span>
+      <button class="money-key" type="button" data-keypad-flow="${safeFlow}" data-keypad-value="0">0</button>
       <button class="money-key money-key-delete" type="button" data-keypad-flow="${safeFlow}" data-keypad-value="delete" aria-label="Delete amount digit">⌫</button>
     </div>`;
   }
@@ -37352,25 +37405,76 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     setMoneyEntryRaw(flow, raw, { notify: false });
   }
 
-  function captureRequestMoneyDraft(panel = requestMoneyReturnPanel || 'main') {
-    requestMoneyDraft = {
-      chatId: currentChat,
-      amount: document.getElementById('rm-amount')?.value || moneyEntryState.request?.raw || '',
-      reason: document.getElementById('rm-reason')?.value || '',
-      panel
-    };
+  function resetRequestMoneyEntryDraft() {
+    if (moneyEntryState.request) moneyEntryState.request.raw = '';
   }
 
-  function showRequestMoneyPanel(panel = 'main') {
-    const shell = document.getElementById('rm-flow-shell');
-    if (!shell) return;
-    const showOptions = panel === 'options';
-    shell.classList.toggle('is-options', showOptions);
-    shell.dataset.page = showOptions ? 'options' : 'main';
-    requestMoneyReturnPanel = showOptions ? 'options' : 'main';
-    captureRequestMoneyDraft(requestMoneyReturnPanel);
+
+  // ── Send / Request Money: bottom sheet open + close ──
+  function openSendMoneySheet(chatId) {
+    const overlay = document.getElementById('send-money-sheet-overlay');
+    if (!overlay) return;
+    populateSendMoney(chatId || currentChat);
+    overlay.classList.remove('closing');
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
   }
 
+  function closeSendMoneySheet() {
+    const overlay = document.getElementById('send-money-sheet-overlay');
+    if (!overlay || !overlay.classList.contains('open')) return;
+    overlay.classList.remove('open');
+    overlay.classList.add('closing');
+    overlay.setAttribute('aria-hidden', 'true');
+    window.setTimeout(() => overlay.classList.remove('closing'), 220);
+  }
+
+  const REQUEST_MONEY_SHEET_PAGES = {
+    main: { content: 'rm-content', title: 'Request Money' },
+    methods: { content: 'request-methods-content', title: 'Other Payment Options' },
+    qr: { content: 'request-qr-content', title: 'Request via QR' },
+    link: { content: 'request-link-content', title: 'Request via Payment Link' }
+  };
+
+  function showRequestMoneySheetPage(page) {
+    const def = REQUEST_MONEY_SHEET_PAGES[page] || REQUEST_MONEY_SHEET_PAGES.main;
+    Object.values(REQUEST_MONEY_SHEET_PAGES).forEach(p => {
+      const el = document.getElementById(p.content);
+      if (el) el.hidden = (p !== def);
+    });
+    const titleEl = document.getElementById('request-money-sheet-title');
+    if (titleEl) titleEl.textContent = def.title;
+    const backBtn = document.getElementById('request-money-sheet-back');
+    if (backBtn) backBtn.hidden = (page === 'main');
+    requestMoneySheetPage = page;
+  }
+
+  function requestMoneySheetGoBack() {
+    if (requestMoneySheetPage === 'qr' || requestMoneySheetPage === 'link') {
+      showRequestMoneySheetPage('methods');
+    } else if (requestMoneySheetPage === 'methods') {
+      showRequestMoneySheetPage('main');
+    }
+  }
+
+  function openRequestMoneySheet(chatId) {
+    const overlay = document.getElementById('request-money-sheet-overlay');
+    if (!overlay) return;
+    populateRequestMoney(chatId || currentChat);
+    showRequestMoneySheetPage('main');
+    overlay.classList.remove('closing');
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeRequestMoneySheet() {
+    const overlay = document.getElementById('request-money-sheet-overlay');
+    if (!overlay || !overlay.classList.contains('open')) return;
+    overlay.classList.remove('open');
+    overlay.classList.add('closing');
+    overlay.setAttribute('aria-hidden', 'true');
+    window.setTimeout(() => overlay.classList.remove('closing'), 220);
+  }
 
   // ── Send Money: populate + flow ──────────────────────
   function populateSendMoney(chatId) {
@@ -37437,11 +37541,14 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       }
     }
 
-    // Contact is only changeable in "select a contact" mode (Wallet/mascot entry).
-    // When Send Money was opened from inside a chat, the recipient is fixed to that
-    // conversation — no chevron, no picker.
+    // The contact row only appears in "select a contact" mode (Wallet/mascot entry).
+    // Opened from inside a chat, the recipient is already visible on screen behind
+    // the sheet, so the row is hidden entirely rather than shown read-only.
     const contactField = document.getElementById('sm-contact-field');
-    if (contactField) contactField.disabled = false;
+    if (contactField) {
+      contactField.hidden = !showContactPlaceholder;
+      contactField.disabled = false;
+    }
     const chevron = document.getElementById('sm-contact-chevron');
     if (chevron) chevron.hidden = false;
 
@@ -37514,6 +37621,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     // Navigate back immediately
     currentChat = chatId;
     window.currentChat = chatId;
+    closeSendMoneySheet();
     goTo('conversation-screen');
 
       // Inject a lightweight tracking event; the receipt below is the official record.
@@ -38182,6 +38290,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     if (!el) return;
 
     if (c.isGroup) {
+      el.classList.remove('money-entry-content');
       const allMembers  = getGroupMembers(c);
       const memberCount = allMembers.length;
 
@@ -38226,21 +38335,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
           <span class="rm-total-preview-label">Total to Collect</span>
           <span class="rm-total-preview-amount" id="rm-total-amount">₱0</span>
         </div>
+        <button class="rm-other-methods-link" id="rm-other-methods-link" type="button">Other Payment Options</button>
         <button class="primary-btn" id="rm-group-send-btn" style="width:100%;height:52px;font-size:16px;border-radius:14px;margin-top:4px">Request Collection</button>
-        <div class="rm-methods" id="rm-methods">
-          <button class="rm-methods-toggle" id="rm-methods-toggle" type="button" aria-expanded="false" aria-controls="rm-methods-panel">
-            <span>Other payment methods</span>
-            <svg class="rm-methods-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="rm-methods-panel" id="rm-methods-panel">
-            <button class="rm-method-option" id="rm-request-qr-btn" type="button">
-              <span class="rm-method-option-title">Generate QR Code</span>
-            </button>
-            <button class="rm-method-option" id="rm-request-link-btn" type="button">
-              <span class="rm-method-option-title">Generate Payment Link</span>
-            </button>
-          </div>
-        </div>
       `;
 
       // Recipients field → open member sheet
@@ -38257,90 +38353,51 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       _updateRecipientsDisplay();
 
     } else {
+      el.classList.add('money-entry-content');
       el.dataset.mode = 'individual';
       el.dataset.productPreviewDismissed = '';
       const showContactPlaceholder = requestMoneySkipContactDefault;
-      const restoringOptionsPanel = requestMoneyReturnPanel === 'options';
-      const draft = restoringOptionsPanel && requestMoneyDraft?.chatId === id ? requestMoneyDraft : null;
-      const initialAmount = draft?.amount || '';
-      const initialReason = draft?.reason || '';
       const avatarHtml = showContactPlaceholder
         ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6.5 7-6.5s7 2.9 7 6.5"/></svg>'
         : c.photo
           ? `<img src="${c.photo}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block">`
           : (c.initials || '?');
       el.innerHTML = `
-        <div class="rm-flow-shell" id="rm-flow-shell" data-page="main">
-          <div class="rm-flow-track">
-            <div class="rm-flow-page">
-              <button class="tx-recipient request-money-recipient money-entry-contact" id="rm-contact-field" type="button">
-                <div id="rm-avatar" class="avatar ${showContactPlaceholder ? 'av-placeholder' : (c.photo ? 'photo' : (c.av || 'av-1'))}" style="width:48px;height:48px;${c.photo && !showContactPlaceholder ?'overflow:hidden':'font-size:17px'}">${avatarHtml}</div>
-                <div class="tx-recipient-info">
-                  <div id="rm-name" class="tx-recipient-name${showContactPlaceholder ? ' is-placeholder' : ''}">${showContactPlaceholder ? 'Select contact' : escapeHtml(c.name || 'Recipient')}</div>
-                  <div id="rm-contact-sub" class="tx-contact-sub">${showContactPlaceholder ? 'Choose a Plaza contact' : escapeHtml(contactMaskedIdentifier(id, c))}</div>
-                </div>
-                <span class="tx-contact-chevron" aria-hidden="true">›</span>
-              </button>
-              <section class="money-entry-amount-panel" aria-label="Amount to request">
-                <div class="money-entry-eyebrow">Amount</div>
-                <div class="money-entry-amount-display" id="rm-amount-display" data-money-display="request">₱0.00</div>
-                <div class="money-entry-helper" id="rm-amount-help" aria-live="polite"></div>
-                <input class="money-entry-raw-input" id="rm-amount" type="text" inputmode="decimal" value="" aria-hidden="true" tabindex="-1">
-              </section>
-              ${moneyEntryMarkup('request')}
-              <div class="money-entry-field-group">
-                <label class="money-entry-field-label" for="rm-reason">Reason</label>
-                <input class="tx-field money-entry-field" id="rm-reason" type="text" placeholder="Reason (optional)" value="${escapeHtml(initialReason)}">
-              </div>
-              <div class="request-product-preview-form" id="rm-product-preview" hidden aria-live="polite"></div>
-              <button class="rm-options-row" id="rm-options-open" type="button" aria-label="Open other payment options">
-                <span>
-                  <strong>Other Payment Options</strong>
-                  <small>Generate a QR code or payment link</small>
-                </span>
-                <i class="hgi-solid hgi-arrow-right-02 hugeicon" aria-hidden="true"></i>
-              </button>
-              <div class="money-entry-action-bar">
-                <button class="primary-btn" id="rm-send-btn" disabled>Send Request</button>
-              </div>
-            </div>
-            <div class="rm-flow-page" aria-label="Other Payment Options">
-              <div class="rm-options-page-card">
-                <div class="rm-options-header">
-                  <button class="rm-options-back" id="rm-options-back" type="button" aria-label="Back to Request Money">
-                    <i class="hgi-solid hgi-arrow-left-02 hugeicon" aria-hidden="true"></i>
-                  </button>
-                  <div class="rm-options-title">Other Payment Options</div>
-                </div>
-                <button class="rm-option-action" id="rm-request-qr-btn" type="button">
-                  <span>Generate QR Code</span>
-                  <i class="hgi-solid hgi-qr-code hugeicon" aria-hidden="true"></i>
-                </button>
-                <button class="rm-option-action" id="rm-request-link-btn" type="button">
-                  <span>Generate Payment Link</span>
-                  <i class="hgi-solid hgi-link-04 hugeicon" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
+        <button class="tx-recipient request-money-recipient money-entry-contact" id="rm-contact-field" type="button"${showContactPlaceholder ? '' : ' hidden'}>
+          <div id="rm-avatar" class="avatar ${showContactPlaceholder ? 'av-placeholder' : (c.photo ? 'photo' : (c.av || 'av-1'))}" style="width:48px;height:48px;${c.photo && !showContactPlaceholder ?'overflow:hidden':'font-size:17px'}">${avatarHtml}</div>
+          <div class="tx-recipient-info">
+            <div id="rm-name" class="tx-recipient-name${showContactPlaceholder ? ' is-placeholder' : ''}">${showContactPlaceholder ? 'Select contact' : escapeHtml(c.name || 'Recipient')}</div>
+            <div id="rm-contact-sub" class="tx-contact-sub">${showContactPlaceholder ? 'Choose a Plaza contact' : escapeHtml(contactMaskedIdentifier(id, c))}</div>
           </div>
+          <span class="tx-contact-chevron" aria-hidden="true">›</span>
+        </button>
+        <section class="money-entry-amount-panel" aria-label="Amount to request">
+          <div class="money-entry-eyebrow">Amount</div>
+          <div class="money-entry-amount-display" id="rm-amount-display" data-money-display="request">₱0.00</div>
+          <div class="money-entry-helper" id="rm-amount-help" aria-live="polite"></div>
+          <input class="money-entry-raw-input" id="rm-amount" type="text" inputmode="decimal" value="" aria-hidden="true" tabindex="-1">
+        </section>
+        ${moneyEntryMarkup('request')}
+        <button class="rm-other-methods-link" id="rm-other-methods-link" type="button">Other Payment Options</button>
+        <div class="money-entry-field-group">
+          <label class="money-entry-field-label" for="rm-reason">Reason</label>
+          <input class="tx-field money-entry-field" id="rm-reason" type="text" placeholder="Reason (optional)" value="">
+        </div>
+        <div class="request-product-preview-form" id="rm-product-preview" hidden aria-live="polite"></div>
+        <div class="money-entry-action-bar">
+          <button class="primary-btn" id="rm-send-btn" disabled>Send Request</button>
         </div>
       `;
       wireRequestProductPreview(el);
-      if (!draft && detectedRequestProductContext && id === currentChat) {
+      if (detectedRequestProductContext && id === currentChat) {
         const noteInput = el.querySelector('#rm-reason');
         if (noteInput) {
           noteInput.value = detectedRequestProductContext.note || 'For: Saving Sarah';
           noteInput.dispatchEvent(new Event('input', { bubbles: true }));
         }
       }
-      initMoneyEntry('request', initialAmount);
-      el.querySelector('#rm-amount')?.addEventListener('input', () => {
-        updateRequestMoneySendButtonState();
-        captureRequestMoneyDraft(document.getElementById('rm-flow-shell')?.dataset.page || 'main');
-      });
-      el.querySelector('#rm-reason')?.addEventListener('input', () => captureRequestMoneyDraft(document.getElementById('rm-flow-shell')?.dataset.page || 'main'));
-      if (restoringOptionsPanel) showRequestMoneyPanel('options');
-      else requestMoneyReturnPanel = 'main';
+      initMoneyEntry('request', '');
+      el.querySelector('#rm-amount')?.addEventListener('input', updateRequestMoneySendButtonState);
       hydrateHugeicons(el);
       updateRequestMoneySendButtonState();
     }
@@ -38600,16 +38657,24 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     hydrateHugeicons(el);
   }
 
-  function startRequestShare(method) {
-    captureRequestMoneyDraft('options');
-    requestMoneyReturnPanel = 'options';
-    requestShareState = buildRequestShareState(method);
-    requestShareState.walletMode = Number(requestShareState.amount) > 0 || requestShareState.reason ? 'custom' : 'permanent';
-    goTo(method === 'qr' ? 'request-qr-screen' : 'request-link-screen');
+  function openRequestMethodsSheet() {
+    showRequestMoneySheetPage('methods');
   }
 
-  function toggleRequestMethods() {
-    showRequestMoneyPanel('options');
+  function openRequestShareSheet(method) {
+    if (method === 'qr') {
+      renderRequestQrPage();
+      showRequestMoneySheetPage('qr');
+    } else {
+      renderRequestLinkPage();
+      showRequestMoneySheetPage('link');
+    }
+  }
+
+  function startRequestShare(method) {
+    requestShareState = buildRequestShareState(method);
+    requestShareState.walletMode = Number(requestShareState.amount) > 0 || requestShareState.reason ? 'custom' : 'permanent';
+    openRequestShareSheet(method);
   }
 
   function copyRequestLink() {
@@ -38634,20 +38699,10 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       if (!thread) return;
       const c = conversations[state.chatId];
       const time = walletTopUpTime(new Date());
-      const isPermanentWalletLink = state.walletMode === 'permanent';
       const row = document.createElement('div');
       row.className = 'message out link-share-message';
       row.innerHTML = `<div class="bubble-wrap">
-        <article class="qr-share-card">
-          <div class="qr-share-card-brand">Project Plaza</div>
-          <a class="link-share-card-link" href="${escapeHtml(state.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.link)}</a>
-          <div class="qr-share-card-identity">
-            <span class="qr-share-card-name">${escapeHtml(state.requester.name)}</span>
-            <span class="qr-share-card-account">${escapeHtml(state.requester.wallet)}</span>
-            ${isPermanentWalletLink ? '' : `<p class="qr-share-card-amount">${escapeHtml(state.amountText)}</p>`}
-            ${!isPermanentWalletLink && state.reason ? `<p class="qr-share-card-reason">${escapeHtml(state.reason)}</p>` : ''}
-          </div>
-        </article>
+        <div class="bubble"><a class="request-note-link" href="${escapeHtml(state.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.link)}</a></div>
         <span class="time">${escapeHtml(time)}</span>
       </div>`;
       thread.appendChild(row);
@@ -38904,6 +38959,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     const requestHeaderHtml = '<span class="money-request-label">Request Money</span>';
     const requestActionHtml = '<button class="money-request-cancel-btn" id="money-request-cancel-btn" type="button">Cancel Request</button>';
 
+    closeRequestMoneySheet();
     goTo('conversation-screen');
     requestMoneyFromDetectedAmount = false;
 
@@ -38972,6 +39028,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     window._groupCollByChat = window._groupCollByChat || {};
     window._groupCollByChat[currentChat] = collectionId;
 
+    closeRequestMoneySheet();
     goTo('conversation-screen');
     requestMoneyFromDetectedAmount = false;
 
@@ -40535,17 +40592,9 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         );
         return match?.photo || '';
       };
-      const mockPhotoIds = [12, 25, 38, 7, 44, 29, 56, 15, 41, 33, 52, 18, 47, 63, 21, 35, 60, 9, 49, 26, 68, 14, 53, 31, 40, 5, 57, 23, 46, 11];
-      const mockPhotoFor = (name, index) => {
-        const seed = String(name || '')
-          .split('')
-          .reduce((sum, char) => sum + char.charCodeAt(0), Number(index) || 0);
-        const photoId = mockPhotoIds[Math.abs(seed) % mockPhotoIds.length];
-        return `https://i.pravatar.cc/96?img=${photoId}`;
-      };
       const avatarFor = (name, index, dim = false, suppliedPhoto = '') => {
         const initials = initialsFor(name);
-        const photo = suppliedPhoto || photoFor(name) || mockPhotoFor(name, index);
+        const photo = suppliedPhoto || photoFor(name) || mockMemberPhotoFor(name);
         return photo
           ? `<img class="track-member-avatar${dim ? ' is-dim' : ''}" src="${escapeHtml(photo)}" alt="${escapeHtml(name)}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'track-member-avatar avatar av-${(index % 6) + 1}${dim ? ' is-dim' : ''}',textContent:'${escapeHtml(initials)}'}))">`
           : `<span class="track-member-avatar avatar av-${(index % 6) + 1}${dim ? ' is-dim' : ''}" aria-hidden="true">${escapeHtml(initials)}</span>`;
@@ -40870,16 +40919,17 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
     if (action === "verify-phone") { guardChatAction('verifyPhone'); return; }
 
-    // ── Send Money → dedicated screen ────────────────────
-    if (action === "pay" || action === "send-money") { closeAttachSheet(); if (!guardChatAction('sendMoney')) return; sendMoneySkipContactDefault = false; goTo('send-money-screen'); return; }
+    // ── Send Money → bottom sheet ─────────────────────────
+    if (action === "pay" || action === "send-money") { closeAttachSheet(); if (!guardChatAction('sendMoney')) return; sendMoneySkipContactDefault = false; openSendMoneySheet(); return; }
 
-    // ── Request Money → dedicated screen ─────────────────
+    // ── Request Money → bottom sheet ──────────────────────
     if (action === "request" || action === "request-money" || action === "starter-request") {
       closeAttachSheet();
       if (!guardChatAction((conversations[currentChat] || {}).isGroup ? 'groupCollection' : 'requestMoney')) return;
+      resetRequestMoneyEntryDraft();
       requestMoneyFromDetectedAmount = false;
       requestMoneySkipContactDefault = false;
-      goTo('request-money-screen');
+      openRequestMoneySheet();
       return;
     }
 
@@ -41355,9 +41405,9 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       title: 'Entertainment',
       icon: 'Play',
       services: [
-        { name: 'BeetzeePlay', logo: 'BeetzeePlay.jpeg', accent: 'violet', miniAppUrl: 'https://beetzeeplay.com' },
+        { name: 'BeetzeePlay', iconKey: 'playButton', accent: 'violet', miniAppUrl: 'https://beetzeeplay.com' },
         { name: 'Spotify', iconKey: 'music', accent: 'mint', miniAppUrl: 'https://www.spotify.com' },
-        { name: 'Planout', logo: 'Planout.jpeg', accent: 'mint', miniAppUrl: 'https://v2.planout.io' },
+        { name: 'Planout', iconKey: 'triangle', accent: 'mint', miniAppUrl: 'https://v2.planout.io' },
         { name: 'Gaming', iconKey: 'gamepad', accent: 'violet', toast: 'Gaming opened' },
         { name: 'Movies', iconKey: 'film', accent: 'pearl', toast: 'Movies opened' }
       ]
@@ -41367,8 +41417,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       title: 'Travel',
       icon: 'Plane',
       services: [
-        { name: 'Tripket', logo: 'Tripket PH.png', logoFit: 'contain', accent: 'blue', miniAppUrl: 'https://tripket.ph' },
-        { name: 'Xpress', logo: 'Xpress.png', logoFit: 'contain', accent: 'mint', miniAppUrl: 'https://xpress.ph', aliases: ['ride hailing', 'transportation'] },
+        { name: 'Tripket', iconKey: 'ferry', accent: 'blue', miniAppUrl: 'https://tripket.ph' },
+        { name: 'Xpress', iconKey: 'car', accent: 'mint', miniAppUrl: 'https://xpress.ph', aliases: ['ride hailing', 'transportation'] },
         { name: 'Bus Tickets', iconKey: 'bus', accent: 'pearl', toast: 'Bus Tickets opened' }
       ]
     },
@@ -41389,7 +41439,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       title: 'Government',
       icon: 'Gov',
       services: [
-        { name: 'Pag-IBIG', logo: 'Pag-IBIG Fund.avif', logoFit: 'contain', accent: 'blue', miniAppUrl: 'https://www.pagibigfund.gov.ph' },
+        { name: 'Pag-IBIG', iconKey: 'home', accent: 'blue', miniAppUrl: 'https://www.pagibigfund.gov.ph' },
         { name: 'SSS', iconKey: 'bank', accent: 'violet', miniAppUrl: 'https://www.sss.gov.ph' },
         { name: 'PhilHealth', iconKey: 'heart', accent: 'mint', miniAppUrl: 'https://www.philhealth.gov.ph' },
         { name: 'eGovPH', iconKey: 'document', accent: 'blue', miniAppUrl: 'https://egovph.gov.ph' }
@@ -41413,8 +41463,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       title: 'Bills',
       icon: 'Bill',
       services: [
-        { name: 'Water', logo: 'City Water.jpeg', accent: 'mint', toast: 'Water opened' },
-        { name: 'Electricity', logo: 'Prime Electric.avif', logoFit: 'contain', accent: 'blue', toast: 'Electricity opened' },
+        { name: 'Water', iconKey: 'droplet', accent: 'mint', toast: 'Water opened' },
+        { name: 'Electricity', iconKey: 'lightning', accent: 'blue', toast: 'Electricity opened' },
         { name: 'Wi-Fi', iconKey: 'wifi', accent: 'blue', toast: 'Wi-Fi bills opened' },
         { name: 'Mobile Postpaid', iconKey: 'phone', accent: 'violet', toast: 'Mobile Postpaid opened' },
         { name: 'Cable and Internet', iconKey: 'tv', accent: 'pearl', toast: 'Cable and Internet opened' },
@@ -41785,7 +41835,11 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       coins: '<ellipse cx="12" cy="6.5" rx="6" ry="2.5"></ellipse><path d="M6 6.5v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5"></path><path d="M6 11.5v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5"></path>',
       arcade: '<path d="M7 5h10l1.2 14H5.8L7 5Z"></path><path d="M9 9h6"></path><path d="M10 13h.01M14 13h.01"></path>',
       pin: '<path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"></path><circle cx="12" cy="10" r="2"></circle>',
-      sparkle: '<path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"></path><path d="M18 15.5 18.8 18l2.2.8-2.2.8L18 22l-.8-2.4-2.2-.8 2.2-.8.8-2.5Z"></path>'
+      sparkle: '<path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"></path><path d="M18 15.5 18.8 18l2.2.8-2.2.8L18 22l-.8-2.4-2.2-.8 2.2-.8.8-2.5Z"></path>',
+      playButton: '<circle cx="12" cy="12" r="8.5"></circle><path d="m10.3 9.2 5 2.8-5 2.8V9.2Z"></path>',
+      triangle: '<path d="M12 4.5 20 19H4L12 4.5Z"></path>',
+      lightning: '<path d="M13 3 6 14h5l-1 8 8-11h-5l1-8Z"></path>',
+      droplet: '<path d="M12 3c3.2 4.2 6 8 6 11.2a6 6 0 1 1-12 0C6 11 8.8 7.2 12 3Z"></path>'
     };
     return `<svg class="plaza-miniapp-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${icons[key] || icons.sparkle}</svg>`;
   }
@@ -43965,16 +44019,17 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       if (!guardChatAction('sendMoney')) return;
       requestMoneyFromDetectedAmount = false;
       sendMoneySkipContactDefault = false;
-      goTo('send-money-screen');
+      openSendMoneySheet();
       prefillDetectedAmount('sm-amount', amount);
     } else if (action === 'request') {
       if (!guardChatAction('requestMoney')) return;
+      resetRequestMoneyEntryDraft();
       requestMoneyFromDetectedAmount = true;
       requestMoneySkipContactDefault = false;
       detectedRequestProductContext = currentChat === 'kuya-mark' && amount === 250
         ? { note: 'For: Saving Sarah' }
         : null;
-      goTo('request-money-screen');
+      openRequestMoneySheet();
       prefillDetectedAmount('rm-amount', amount);
     }
   });
@@ -44034,8 +44089,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     if (quickAction) {
       closeSupportModal();
       const qa = quickAction.dataset.quickAction;
-      if (qa === 'send-money')       { if (!guardChatAction('sendMoney')) return; if (isPhoneVerifiedNewAccountMode()) preparePhoneWalletMoneyTarget('send'); sendMoneySkipContactDefault = false; populateSendMoney(); goTo('send-money-screen'); }
-      else if (qa === 'request-money') { if (!guardChatAction('requestMoney')) return; if (isPhoneVerifiedNewAccountMode()) preparePhoneWalletMoneyTarget('request'); requestMoneyFromDetectedAmount = false; requestMoneySkipContactDefault = false; populateRequestMoney(); goTo('request-money-screen'); }
+      if (qa === 'send-money')       { if (!guardChatAction('sendMoney')) return; if (isPhoneVerifiedNewAccountMode()) preparePhoneWalletMoneyTarget('send'); sendMoneySkipContactDefault = true; openSendMoneySheet(); }
+      else if (qa === 'request-money') { if (!guardChatAction('requestMoney')) return; if (isPhoneVerifiedNewAccountMode()) preparePhoneWalletMoneyTarget('request'); resetRequestMoneyEntryDraft(); requestMoneyFromDetectedAmount = false; requestMoneySkipContactDefault = true; openRequestMoneySheet(); }
       else if (qa === 'track')        { if (!guardChatAction('viewLogs')) return; goTo('transaction-logs-screen'); }
       else if (qa === 'scan-qr')      { showToast('Camera opening — point at any QR code'); }
       else if (qa === 'claim-remittance') {
@@ -44197,13 +44252,18 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     if (event.target.id === "money-request-pay-btn")   { if (!guardChatAction('paymentCompletion')) return; payMoneyRequest(event.target); return; }
     if (event.target.id === "money-request-cancel-btn") { openRequestCancelDialog(event.target); return; }
     if (event.target.id === "marketplace-request-cancel-btn") { cancelMoneyRequest(event.target); return; }
-    // Send Money screen
+    // Send Money sheet
     if (event.target.id === "sm-continue-btn")    { if (!guardChatAction('sendMoney')) return; smContinue(); return; }
     if (event.target.id === "sm-confirm-btn")     { if (!guardChatAction('sendMoney')) return; smConfirm(); return; }
     if (event.target.id === "sm-cancel-btn")      { populateSendMoney(currentChat); return; }
-    // Request Money screen
+    if (event.target.closest('#sm-sheet-close')) { closeSendMoneySheet(); return; }
+    if (event.target.id === "send-money-sheet-overlay") { closeSendMoneySheet(); return; }
+    // Request Money sheet
+    if (event.target.closest('#rm-sheet-close')) { closeRequestMoneySheet(); return; }
+    if (event.target.id === "request-money-sheet-overlay") { closeRequestMoneySheet(); return; }
+    if (event.target.closest('#request-money-sheet-back')) { requestMoneySheetGoBack(); return; }
     if (event.target.id === "rm-send-btn")        { if (!guardChatAction('requestMoney')) return; rmSend(); return; }
-    if (event.target.closest('#rm-methods-toggle')) { toggleRequestMethods(); return; }
+    if (event.target.closest('#rm-other-methods-link')) { if (!guardChatAction('requestMoney')) return; openRequestMethodsSheet(); return; }
     if (event.target.closest('#rm-request-qr-btn'))  { if (!guardChatAction('requestMoney')) return; startRequestShare('qr'); return; }
     if (event.target.closest('#rm-request-link-btn')) { if (!guardChatAction('requestMoney')) return; startRequestShare('link'); return; }
     if (event.target.id === "rm-group-send-btn")  { if (!guardChatAction('groupCollection')) return; rmGroupSend(); return; }
@@ -44211,7 +44271,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     if (event.target.id === "request-qr-save")    { showToast('QR downloaded'); return; }
     if (event.target.id === "request-link-copy")  { copyRequestLink(); return; }
     if (event.target.id === "request-link-share") { shareRequestLinkToConversation(); return; }
-    if (event.target.closest('[data-request-open-payment]')) { goTo('request-pay-screen'); return; }
+    if (event.target.closest('[data-request-open-payment]')) { closeRequestMoneySheet(); goTo('request-pay-screen'); return; }
     if (event.target.id === "request-pay-now-btn") { if (!guardChatAction('paymentCompletion')) return; completeSharedRequestPayment(); return; }
     // Track Collection controls
     const trackActionsToggle = event.target.closest('[data-track-actions-toggle]');
@@ -44345,14 +44405,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       handleMoneyKeypadPress(moneyKey.dataset.keypadFlow, moneyKey.dataset.keypadValue);
       return;
     }
-    if (event.target.closest('#rm-options-open')) {
-      showRequestMoneyPanel('options');
-      return;
-    }
-    if (event.target.closest('#rm-options-back')) {
-      showRequestMoneyPanel('main');
-      return;
-    }
     if (event.target.closest('#sm-contact-field')) { openContactSheet('send'); return; }
     if (event.target.closest('#rm-contact-field')) { openContactSheet('request'); return; }
     if (event.target.id === 'contact-sheet-close' || event.target.id === 'contact-sheet-overlay') { closeContactSheet(); return; }
@@ -44452,11 +44504,16 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         openMarketplaceList();
         return;
       }
-      if (go.dataset.go === 'request-money-screen' && go.dataset.walletAction === 'request') {
+      if (go.dataset.go === 'request-money-screen') {
+        resetRequestMoneyEntryDraft();
         requestMoneySkipContactDefault = true;
+        openRequestMoneySheet();
+        return;
       }
-      if (go.dataset.go === 'send-money-screen' && go.dataset.walletAction === 'send') {
+      if (go.dataset.go === 'send-money-screen') {
         sendMoneySkipContactDefault = true;
+        openSendMoneySheet();
+        return;
       }
       goTo(go.dataset.go);
       return;
@@ -44816,7 +44873,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         if (Math.abs(dx) < 6 || Math.abs(dx) < Math.abs(dy)) return;
         moved = true;
         event.preventDefault();
-        const resistance = Math.min(Math.abs(dx), 148) + Math.max(0, Math.abs(dx) - 148) * .2;
+        const resistance = Math.min(Math.abs(dx), 160) + Math.max(0, Math.abs(dx) - 160) * .2;
         row.style.transform = `translateX(${dx < 0 ? -resistance : resistance}px)`;
       });
       row.addEventListener('pointerup', event => {
@@ -48643,8 +48700,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
   function sendPendingRequestMoney(request) {
     currentChat = request.chatId;
-    populateSendMoney(request.chatId);
-    goTo('send-money-screen');
+    sendMoneySkipContactDefault = false;
+    openSendMoneySheet(request.chatId);
     window.setTimeout(() => {
       const amount = document.getElementById('sm-amount');
       if (!amount) return;
