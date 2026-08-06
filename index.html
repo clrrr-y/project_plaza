@@ -6325,14 +6325,14 @@ html.prototype-env:has(#chats-screen.is-first-time) .chat-debug-panel { display:
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: linear-gradient(135deg, #FF6FD8 0%, #B388FF 55%, #7AB8FF 100%);
+  background: #EF4444;
   color: #fff;
   font-size: 11px;
   font-weight: 700;
   line-height: 1;
   box-shadow:
-    0 0 14px rgba(255,111,216,0.20),
-    0 5px 12px rgba(123,110,246,0.14);
+    0 0 14px rgba(239,68,68,0.20),
+    0 5px 12px rgba(239,68,68,0.14);
 }
 .me-quick-badge[hidden] {
   display: none !important;
@@ -25839,10 +25839,16 @@ html.plaza-theme-dark :is(.super-service-icon,.plaza-service-icon,.mkt-cat-icon,
   border-color: rgba(179,136,255,0.18) !important;
 }
 
-html.plaza-theme-dark :is(.unread-badge,.me-quick-badge,.wallet-notification-badge,.app-notification-badge,.notification-badge) {
+html.plaza-theme-dark :is(.unread-badge,.wallet-notification-badge,.app-notification-badge,.notification-badge) {
   background: linear-gradient(135deg,#FF4FCF 0%,#9C7BFF 100%) !important;
   color: #FFFFFF !important;
   box-shadow: 0 0 18px rgba(255,79,207,0.24) !important;
+}
+
+html.plaza-theme-dark .me-quick-badge {
+  background: #EF4444 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 14px rgba(239,68,68,0.30) !important;
 }
 
 html.plaza-theme-dark img {
