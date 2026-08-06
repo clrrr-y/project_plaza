@@ -32090,7 +32090,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       row.addEventListener('pointerdown', event => {
         startX = event.clientX;
         startY = event.clientY;
-        row.setPointerCapture?.(event.pointerId);
       });
       row.addEventListener('pointerup', event => {
         const dx = event.clientX - startX;
@@ -44960,13 +44959,13 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         tracking = true;
         moved = false;
         row.style.transition = 'none';
-        row.setPointerCapture?.(event.pointerId);
       });
       row.addEventListener('pointermove', event => {
         if (!tracking) return;
         const dx = event.clientX - startX;
         const dy = event.clientY - startY;
         if (Math.abs(dx) < 6 || Math.abs(dx) < Math.abs(dy)) return;
+        if (!moved) row.setPointerCapture?.(event.pointerId);
         moved = true;
         event.preventDefault();
         const resistance = Math.min(Math.abs(dx), 160) + Math.max(0, Math.abs(dx) - 160) * .2;
