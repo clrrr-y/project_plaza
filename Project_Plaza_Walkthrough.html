@@ -32,6 +32,9 @@
   N           speaker notes                  O                      slide grid
   R           reload the prototype           F                      fullscreen
 
+  On a phone or tablet (no keyboard): swipe left / right on the stage, or
+  tap the ‹ › arrows that appear at the screen edges, to move between slides.
+
   The prototype loads ONCE and stays alive for the whole deck. Slides move it,
   zoom it, and change its route — state you set up on slide 9 is still there on
   slide 27. The only exceptions are slides 3 and 4, which deliberately reload
@@ -219,6 +222,19 @@
   }
   #fileWarn b { font-weight: 700; }
   #fileWarn span { opacity: .72; }
+
+  /* ---------- touch navigation (mobile) ----------------------------------- */
+  .nav-btn {
+    display: none; position: fixed; top: 50%; transform: translateY(-50%);
+    z-index: 35; width: 52px; height: 52px; border-radius: 999px;
+    background: rgba(20,20,20,.55); border: 1px solid rgba(255,255,255,.18);
+    color: #fff; font-size: 26px; line-height: 1; text-align: center;
+    align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent;
+  }
+  html.touch .nav-btn { display: flex; }
+  .nav-prev { left: 14px; }
+  .nav-next { right: 14px; }
+  .nav-btn:active { background: rgba(138,56,245,.65); }
 </style>
 </head>
 <body>
@@ -571,6 +587,9 @@ const CONFIG = {
   </div>
 </div>
 
+<button id="navPrev" class="nav-btn nav-prev" aria-label="Previous slide">‹</button>
+<button id="navNext" class="nav-btn nav-next" aria-label="Next slide">›</button>
+
 <div id="bar">
   <span class="sec" id="secLabel"></span>
   <span class="num" id="count"></span>
@@ -600,6 +619,7 @@ const CONFIG = {
   };
 
   const slides    = CONFIG.slides;
+  const viewport  = document.getElementById("viewport");
   const stage     = document.getElementById("stage");
   const host      = document.getElementById("appHost");
   const frame     = document.getElementById("appFrame");
@@ -937,6 +957,38 @@ const CONFIG = {
       default: if (/^[0-9]$/.test(k)) go(k === "0" ? 9 : +k - 1);
     }
   });
+
+  /* ---------- touch navigation (mobile) ----------------------------------- */
+  // No hardware keyboard on a phone, so give touch users an explicit way to
+  // move between slides: on-screen prev/next buttons, plus a swipe gesture
+  // across the stage. Both defer to the same guards as the keyboard handler
+  // (skip while interacting with the live prototype or with an overlay open).
+  if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
+    document.documentElement.classList.add("touch");
+  }
+
+  const navPrev = document.getElementById("navPrev");
+  const navNext = document.getElementById("navNext");
+  navPrev.addEventListener("click", () => { if (!interactive) go(index - 1); });
+  navNext.addEventListener("click", () => { if (!interactive) go(index + 1); });
+
+  let touchStartX = 0, touchStartY = 0, touchStartT = 0;
+  viewport.addEventListener("touchstart", (e) => {
+    if (e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchStartT = Date.now();
+  }, { passive: true });
+
+  viewport.addEventListener("touchend", (e) => {
+    if (interactive || overlayMode) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    const dt = Date.now() - touchStartT;
+    if (dt > 800) return;                          // too slow to be a swipe
+    if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    dx < 0 ? go(index + 1) : go(index - 1);
+  }, { passive: true });
 
   /* ---------- overlays --------------------------------------------------- */
   function openGrid() { overlayMode = "grid"; renderGrid(); overlay.classList.add("show"); }
