@@ -265,34 +265,34 @@ const CONFIG = {
   slides: [
     {
       layout: "cover",
-      kicker: "Project Plaza",
-      title: "Core product workflow",
-      lede: "A walkthrough of the live prototype — chat, payments, Plaza and Wallet. Every screen in this deck is the working build.",
+      title: "Project Plaza",
+      lede: "A walkthrough of the live prototype.",
       app: false,
       notes: "One sentence on what Plaza is, then set the expectation: <b>this is the real prototype, not screenshots</b> — you can tap into any screen as questions come up. Press <b>I</b> (or click the phone) to take control at any point.",
     },
     {
       layout: "text",
-      kicker: "Agenda",
-      title: "Ten sections",
+      kicker: "Table of Contents",
+      title: "Plaza App Features",
       points: [
-        "1. Access &amp; verification states <em>— what's gated, what's unlocked</em>",
-        "2. Chats — home &amp; starting a conversation",
-        "3. Inside a chat — communication &amp; rich content",
-        "4. Payments inside chat <em>— the core differentiator</em>",
-        "5. Chat &amp; contact management &nbsp;·&nbsp; 6. Group &amp; business use cases",
-        "7. Calls &nbsp;·&nbsp; 8. Plaza — discovery &amp; marketplace",
-        "9. Wallet &nbsp;·&nbsp; 10. Profile &amp; settings",
+        "Access and Verification States",
+        "Chats",
+        "Group Chats",
+        "Business Chats",
+        "Calls Tab",
+        "Plaza",
+        "Wallet",
+        "Profile &amp; Settings",
       ],
       app: false,
       notes: "Recommended running order. Sections 1 and 4 are the ones that carry the argument — the verification ladder frames everything, and payments-inside-chat is the differentiator. Everything else supports those two.",
     },
 
-    /* ── 1. Access & verification states ─────────────────────────────── */
+    /* ── 1. Access & verification states*/
     {
       layout: "split",
-      kicker: "01 · Access &amp; verification",
-      title: "Phone-verified — limited access",
+      kicker: "Access &amp; Verification",
+      title: "Phone-verified (Limited access)",
       chips: [["open", "Chat &amp; messaging"], ["open", "Plaza browsing"], ["locked", "Transactions locked"]],
       points: [
         "Chat list and messaging are fully available",
@@ -300,13 +300,12 @@ const CONFIG = {
         "Transaction entry points are hidden or locked",
       ],
       app: { hash: "#/chats", verification: "phone" },
-      note: "Cold open — what's gated before we show what full access unlocks.",
       notes: "This is the cold open: it frames the whole deck. <b>Sets up why verification matters.</b><br><br>The prototype reloads here to drop to phone-verified level — deliberate, and it only happens on this slide and the next.<br><br>Point at what's <b>missing</b>, not what's there: the send/request entry points aren't dimmed-and-taunting, they're absent.<br><br><span class=\"warn\">Worth knowing:</span> at phone-verified the build treats the account as new, so the chat list comes up as the mascot empty state rather than a populated list. Either lean into it (\"this is a fresh phone-verified account\") or flag it as something to change — but don't be caught out by it mid-sentence.",
     },
     {
       layout: "split",
-      kicker: "01 · Access &amp; verification",
-      title: "Fully-verified — full access",
+      kicker: "Access &amp; Verification",
+      title: "Fully-verified (Full Access)",
       chips: [["open", "Same chat &amp; Plaza"], ["open", "Send / request money"], ["open", "Wallet"]],
       points: [
         "The same chat and Plaza surfaces",
@@ -314,15 +313,14 @@ const CONFIG = {
         "Wallet and every payment entry point unlocked",
       ],
       app: { hash: "#/chats", verification: "identity" },
-      note: "Everything after this slide assumes a fully-verified account.",
       notes: "Same screen, one level up — the surfaces don't change, the <b>capabilities</b> do.<br><br>Say it explicitly: <b>everything after this slide assumes fully-verified.</b> It saves you from being asked \"but could she do that unverified?\" at every step.",
     },
 
-    /* ── 2. Chats — home & starting a conversation ───────────────────── */
+    /* ── 2. Chats (Home) ───────────────────── */
     {
       layout: "split",
-      kicker: "02 · Chats",
-      title: "Chats home",
+      kicker: "Chats",
+      title: "Chats Home",
       points: [
         "Chat list, navbar, filter &amp; search",
         "Pending request cards surface money owed <em>right in the list</em>",
@@ -330,130 +328,87 @@ const CONFIG = {
         "Mascot empty state and micro-interactions",
       ],
       app: { hash: "#/chats" },
-      note: "The primary entry point to messaging — and where money shows up unprompted.",
       notes: "The primary entry point. Two things worth a beat:<br><br>• <b>Pending request cards</b> in the list — money owed is visible before you open anything.<br>• The <b>mascot</b> — it carries the empty state and the micro-interactions. It's the personality of the app; don't skip past it.<br><br>Filters are along the top; tap one live if the audience is engaged.",
     },
     {
       layout: "split",
-      kicker: "02 · Chats",
+      kicker: "Chats",
       title: "Starting a new conversation",
       points: [
         "Create-new-message button",
         "The full create-message flow, contact picker onward",
       ],
       app: { hash: "#/chats", call: "openNewMessageOverlay" },
-      note: "The deck opens the new-message overlay for you.",
       notes: "Short slide — it exists so the audience knows the ordinary path in also works, not just the demo threads.<br><br>The overlay opens automatically when this slide loads. Dismiss it and move on unless someone asks about contact discovery.",
     },
 
     /* ── 3. Inside a chat ────────────────────────────────────────────── */
     {
       layout: "split",
-      kicker: "03 · Inside a chat",
-      title: "Calls &amp; voice from chat",
+      kicker: "Chats",
+      title: "Chat Thread",
       points: [
-        "Maka call and video chat from the thread",
-        "Voice messages",
-        "Quick-action modals",
+        "Call and video chat",
+        "Send voice messages",
+        "Plus Menu",
+        "Contact Info Panel",
       ],
-      app: { hash: "#/chats/_my-baby" },
-      note: "Everything reachable without leaving the conversation.",
+      app: { hash: "#/chats/_ate-joy" },
       notes: "The point of this slide is <b>proximity</b>: call, video and voice all live in the thread, so the conversation is the container for everything.<br><br>Tap the call icons to show the quick-action modals. Keep it brief — this is table stakes, and the audience knows it.",
     },
     {
       layout: "split",
-      kicker: "03 · Inside a chat",
+      kicker: "Chats",
       title: "Rich content in chat",
       points: [
         "Link previews render inline",
         "Plaza AI can summarize a conversation",
       ],
       app: { hash: "#/chats/kuya-mark" },
-      note: "Kuya Mark's thread — the beetzeeplay.com link renders as a preview card in place.",
       notes: "The link preview is already in this thread — <b>beetzeeplay.com/savingsarah</b> renders as a card, not a raw URL.<br><br>For <b>Plaza AI</b>: tap the mascot, then <b>Talk to Plaza AI</b>. Summarizing a long thread is the case worth naming — family and group chats are where it earns its place.<br><br>If the assistant stalls, move on rather than debugging live; the next section is where the value is.",
     },
 
     /* ── 4. Payments inside chat ─────────────────────────────────────── */
     {
       layout: "split",
-      kicker: "04 · Payments inside chat",
+      kicker: "Chats",
       title: "Send money in chat",
       points: [
         "The send-money flow, inside the conversation",
         "Smart detection picks the amount out of the message",
         "No app switch, no copied reference numbers",
       ],
-      app: { hash: "#/chats/kuya-mark", clicks: ['#attach-popup [data-action="pay"]'] },
-      note: "The centrepiece section — the feature set that distinguishes Plaza from a plain chat app.",
-      notes: "<b>Centrepiece flow.</b> The send-money sheet opens over Kuya Mark's thread on its own.<br><br>Say the line: in every other setup, paying someone you're talking to means leaving the conversation, opening a wallet app, retyping an amount, and coming back to confirm.<br><br>For <b>amount smart detection</b>: close the sheet, type <b>250</b> in the composer, and the suggestion card offers to send or request it — the amount is lifted from the conversation. This thread is the ₱250 Saving Sarah ticket, so the number is in context.",
+      app: { hash: "#/chats/_ate-joy", clicks: ['#attach-popup [data-action="pay"]'] },
+      notes: "<b>Centrepiece flow.</b> The send-money sheet opens over Ate Joy's thread on its own.<br><br>Say the line: in every other setup, paying someone you're talking to means leaving the conversation, opening a wallet app, retyping an amount, and coming back to confirm.<br><br>For <b>amount smart detection</b>: close the sheet, type <b>250</b> in the composer, and the suggestion card offers to send or request it — the amount is lifted from the conversation.",
     },
     {
       layout: "split",
-      kicker: "04 · Payments inside chat",
-      title: "Request money — direct",
+      kicker: "Chats",
+      title: "Request money",
       points: [
         "The standard request-money flow",
         "The request lands in the thread as a card, not a message to scroll past",
-      ],
-      app: { hash: "#/chats/kuya-mark", clicks: ['#attach-popup [data-action="request"]'] },
-      notes: "The mirror of the previous slide — the request sheet opens on its own. Keep it quick; the interesting variants are the next two slides.",
-    },
-    {
-      layout: "split",
-      kicker: "04 · Payments inside chat",
-      title: "Request money — via QR or payment link",
-      points: [
         "Request via QR code — for in-person, phone-to-phone",
         "Request via payment link — shareable anywhere",
-      ],
-      app: {
-        hash: "#/chats/kuya-mark",
-        clicks: ['#attach-popup [data-action="request"]', "#rm-request-qr-btn"],
-      },
-      note: "The same request, reshaped for whoever you're collecting from.",
-      notes: "This is the slide that answers <b>\"what if the other person isn't on Plaza yet?\"</b> — the link works outside the app, and it's the acquisition loop.<br><br>QR is the in-person case: market stalls, sari-sari counters, anywhere two phones are in the same room.",
-    },
-    {
-      layout: "split",
-      kicker: "04 · Payments inside chat",
-      title: "Request money — via entered link",
-      points: [
         "Request money by pasting in a link",
-        "Closes the loop from the other side",
       ],
-      app: {
-        hash: "#/chats/kuya-mark",
-        clicks: ['#attach-popup [data-action="request"]', "#rm-request-link-btn"],
-      },
-      notes: "The receiving end of the link flow. Short beat — mention that it's how someone who was <i>sent</i> a link completes it.",
+      app: { hash: "#/chats/_ate-joy", clicks: ['#attach-popup [data-action="request"]'] },
+      notes: "The request sheet opens on its own over Ate Joy's thread.<br><br>This is also the slide that answers <b>\"what if the other person isn't on Plaza yet?\"</b> — take control (press <b>I</b>) and tap <b>QR</b> or <b>Link</b> inside the sheet to show those variants live. QR is the in-person case: market stalls, sari-sari counters, anywhere two phones are in the same room. The link works outside the app, and it's the acquisition loop — pasting one in is how someone who was <i>sent</i> a link completes it.",
     },
     {
       layout: "split",
-      kicker: "04 · Payments inside chat",
+      kicker: "Chats",
       title: "Receiving a money request",
       points: [
         "Someone requesting money <em>from you</em>",
         "It arrives in the thread and on the chat list at once",
       ],
       app: { hash: "#/chats" },
-      note: "Mama's request sits in the chat list itself — ₱500 for grocery.",
       notes: "The incoming request is the card in the list: <b>Mama · ₱500 for grocery · Pay ₱500</b>.<br><br>The argument: a request isn't a notification you dismiss and lose — it's a card that sits in the list until it's settled. Nobody has to remember anything.",
     },
     {
       layout: "split",
-      kicker: "04 · Payments inside chat",
-      title: "Paying a pending request card",
-      points: [
-        "Pay straight from the pending card",
-        "The card updates in place — paid, with a receipt",
-      ],
-      app: { hash: "#/chats", focus: { x: 4, y: 176, w: 385, h: 250 } },
-      note: "Zoomed into the live chat list — same running prototype, magnified.",
-      notes: "The deck is <b>zooming into the live app</b> here, not showing an image — this is the Mama card at ~2.6×.<br><br>Press <b>I</b> and tap <b>Pay ₱500</b> to settle it in front of the room: two taps, from the list, without opening the thread.<br><br>If the card has scrolled out of frame, take control and scroll — the zoom follows the real screen.",
-    },
-    {
-      layout: "split",
-      kicker: "04 · Payments inside chat",
+      kicker: "Chats",
       title: "Paying for a marketplace product in chat",
       points: [
         "Marketplace product payment, in-thread",
@@ -461,54 +416,36 @@ const CONFIG = {
         "Plaza holds the money until the buyer confirms the order",
       ],
       app: { hash: "#/chats/nanay-jocelyn" },
-      note: "Jocelyn · Denim Jacket — ₱350.00. Bridges into the Plaza section.",
       notes: "<b>The strongest moment in the deck.</b> Run it live:<br><br>1. Point at the sticky strip — <b>Denim Jacket · ₱350.00</b> — \"the product rides above the thread, so nobody loses track of what's being bought.\"<br>2. Tap <b>Pay ₱350</b>. Read the escrow sheet aloud, verbatim: <i>\"Your payment will be securely received by Plaza using Trust Escrow. You'll be able to confirm that you've received your order before the funds are released to the seller.\"</i><br>3. <b>Confirm Payment</b> → the card flips to ✓ Paid ₱350, \"Held securely by Plaza\".<br>4. Land it: <i>\"the money is out of her wallet and not in his — it's ours. That gap is the product.\"</i> Then pause.<br>5. <b>Order Received</b> → payment released to the seller.<br><br><span class=\"warn\">Don't tap Track Order</span> (stale mock data) or Download Receipt (toast only). The <b>From</b> row on Transaction Details reads \"Alex Rivera\" on every transaction in this build — don't linger on it.",
-    },
-
-    /* ── 5. Chat & contact management ────────────────────────────────── */
-    {
-      layout: "split",
-      kicker: "05 · Chat &amp; contact management",
-      title: "Contact info panel",
-      points: [
-        "Shared content between you and the contact",
-        "History log of everything transacted",
-        "Per-chat settings",
-      ],
-      app: { hash: "#/chats/nanay-jocelyn/contact" },
-      note: "Shared media, transaction history and settings in one panel.",
-      notes: "The quiet but important slide: because money moves in the thread, the contact panel doubles as a <b>relationship ledger</b> — what you've shared and what you've transacted, in one place.<br><br>Tap through to <b>Shared content</b> if there's interest.",
     },
 
     /* ── 6. Group & business use cases ───────────────────────────────── */
     {
       layout: "split",
-      kicker: "06 · Group &amp; business",
-      title: "Group collection — creating &amp; paying in",
+      kicker: "Group Chats",
+      title: "Group Chats (Collection)",
       points: [
         "Pay button inside the group thread",
         "Money goes into a pool, not to one person",
         "Receipts sent automatically",
       ],
       app: { hash: "#/chats/grade4-parents" },
-      note: "Grade 4 – Mapagmahal · ₱500 per member.",
       notes: "The use case everyone in the room recognises: a class fee, a team gift, a barangay collection.<br><br>The collection card shows <b>₱500</b>, <b>18 paid · 6 pending</b>, bar about three-quarters full. The organiser isn't chasing people over private message and keeping a list — <b>the thread is the list</b>, and receipts go out on their own.",
     },
     {
       layout: "split",
-      kicker: "06 · Group &amp; business",
-      title: "Group collection — tracking",
+      kicker: "Group Chats",
+      title: "Group Chat (Tracking)",
       points: [
         "Track collection progress against the target",
         "Who has paid, who hasn't, without asking",
       ],
       app: { hash: "#/chats/grade4-parents/track" },
-      note: "₱9,000 collected of ₱12,000 · 75%.",
       notes: "Track Collection reads <b>₱9,000 collected of ₱12,000 · 75%</b>.<br><br>The line to say: the awkward part of group money isn't the paying, it's the <b>following up</b>. This screen replaces that entirely.",
     },
     {
       layout: "split",
-      kicker: "06 · Group &amp; business",
+      kicker: "Group Chats",
       title: "Group chat info",
       points: [
         "Chat information",
@@ -519,134 +456,103 @@ const CONFIG = {
     },
     {
       layout: "split",
-      kicker: "06 · Group &amp; business",
-      title: "Business chats",
+      kicker: "Business Chats",
+      title: "Business Chats",
       points: [
         "The business chat flow",
         "Utilities, services and merchants in the same inbox",
       ],
       app: { hash: "#/chats/tripket-ph" },
-      note: "Same inbox, business on the other end.",
       notes: "Business chats matter for the <b>bill-payment and merchant story</b>: the same inbox holds your mother, your neighbour, and your electricity provider.<br><br>If you want a utility rather than a merchant example, Prime Electric, City Water and Pag-IBIG Fund are all live in the chat list.",
     },
 
     /* ── 7. Calls ────────────────────────────────────────────────────── */
     {
       layout: "split",
-      kicker: "07 · Calls",
-      title: "Calls tab",
+      kicker: "Calls",
+      title: "Calls",
       points: [
         "Call log and history",
         "Filter and search across calls",
       ],
       app: { hash: "#/calls" },
-      note: "Open item in the outline — confirm whether this is distinct from the in-chat call actions in section 3.",
       notes: "<span class=\"warn\">Open item from your outline:</span> confirm whether the Calls tab is meant to be a distinct surface or just history for the in-chat call actions from section 3. Right now the deck shows the tab as it stands.<br><br>If it's only history, this slide could fold into section 3 and shorten the deck by one.",
     },
 
     /* ── 8. Plaza — discovery & marketplace ──────────────────────────── */
     {
       layout: "split",
-      kicker: "08 · Plaza",
-      title: "Plaza home",
+      kicker: "Plaza",
+      title: "Plaza Home",
       points: [
         "Search bar",
         "Mini apps",
         "Banners &amp; promotions",
       ],
       app: { hash: "#/plaza" },
-      note: "Discovery — the surface that makes Plaza more than a messenger.",
       notes: "Plaza home is the <b>platform</b> claim: mini apps mean third parties live inside the app without shipping their own.<br><br>Tap into <b>Services</b> if asked what a mini app actually is.",
     },
     {
       layout: "split",
-      kicker: "08 · Plaza",
-      title: "Marketplace browse",
+      kicker: "Plaza",
+      title: "Marketplace",
       points: [
         "For you, saved items, and Sell — one app, both sides",
         "Every listing shows how far away the seller is",
         "Escrow-protected listings are tagged",
       ],
       app: { hash: "#/marketplace" },
-      note: "Neighbourhood commerce — the buyer sets her own radius.",
       notes: "Say <b>\"neighbourhood commerce, not national\"</b> — the radius control is the point.<br><br>Two accuracy guards: the feed order is fixed, so <span class=\"warn\">don't say \"ranked by distance\"</span>; and the radius chip is a visual control in this build, so <span class=\"warn\">don't claim it re-queries the feed.</span><br><br>The <b>Sell</b> chip is the beat that matters: same app, seller side, no separate seller tool to download.",
     },
     {
       layout: "split",
-      kicker: "08 · Plaza",
+      kicker: "Plaza",
       title: "Chat or pay directly from a listing",
       points: [
         "Chat the seller, or pay, straight from the listing",
         "The buy button is a conversation",
       ],
       app: { hash: "#/marketplace/product/denim-jacket-m" },
-      note: "Denim Jacket Size M · ₱350.00, was ₱1,200.00 · 70% OFF · 1.8 km away. Bridges back to the payment flows.",
-      notes: "This closes the loop back to slide 15. Tap <b>Chat Seller</b> and say it: <b>\"the buy button is a conversation.\"</b> That's the whole thesis in one tap.<br><br><span class=\"warn\">Don't tap:</span> Save (toasts only), the share pill, category circles, or the search field — no filter is wired.",
+      notes: "This closes the loop back to slide 12. Tap <b>Chat Seller</b> and say it: <b>\"the buy button is a conversation.\"</b> That's the whole thesis in one tap.<br><br><span class=\"warn\">Don't tap:</span> Save (toasts only), the share pill, category circles, or the search field — no filter is wired.",
     },
 
     /* ── 9. Wallet ───────────────────────────────────────────────────── */
     {
       layout: "split",
-      kicker: "09 · Wallet",
-      title: "Wallet home — transactions",
+      kicker: "Wallet",
+      title: "Wallet",
       points: [
         "View transactions",
-        "Transaction details",
         "Filter",
-      ],
-      app: { hash: "#/wallet/transactions" },
-      note: "Everything that moved, in one ledger.",
-      notes: "The Wallet is the <b>reconciliation</b> surface — chat is where money moves, this is where it's accounted for.<br><br>Open a transaction to show the detail view. Same caveat as before: the <b>From</b> row reads \"Alex Rivera\" throughout this build.",
-    },
-    {
-      layout: "split",
-      kicker: "09 · Wallet",
-      title: "Send / request money from Wallet",
-      points: [
-        "Contact-first, with no chat context",
-        "The same rails, entered from the other end",
+        "Send and request money",
+        "Top-up wallet",
       ],
       app: { hash: "#/wallet" },
-      note: "Contrast with the chat-first flows in section 4.",
-      notes: "Deliberate contrast with section 4: <b>chat-first</b> assumes you're already talking to the person, <b>contact-first</b> is the conventional wallet pattern.<br><br>Worth saying which one you expect to dominate, and why — it's a product-conviction question an investor will ask.",
-    },
-    {
-      layout: "split",
-      kicker: "09 · Wallet",
-      title: "Top up wallet",
-      points: [
-        "The top-up flow end to end",
-        "Processing, success and failure states are all built",
-      ],
-      app: { hash: "#/wallet/topup" },
-      note: "The unglamorous flow that has to be right.",
-      notes: "Mention that <b>processing, success and failure</b> states all exist — unhappy paths being built is a credibility signal for a prototype at this stage.",
+      notes: "The Wallet is the <b>reconciliation</b> surface — chat is where money moves, this is where it's accounted for.<br><br>Open a transaction to show the detail view. Same caveat as before: the <b>From</b> row reads \"Alex Rivera\" throughout this build.<br><br>Send and request money from here is <b>contact-first</b>, with no chat context — the same rails as before, entered from the other end, and the conventional wallet pattern in contrast to the chat-first flows earlier in the deck. Worth saying which one you expect to dominate, and why — it's a product-conviction question an investor will ask.<br><br>For top-up: mention that <b>processing, success and failure</b> states all exist — unhappy paths being built is a credibility signal for a prototype at this stage.",
     },
 
     /* ── 10. Profile & settings ──────────────────────────────────────── */
     {
       layout: "split",
-      kicker: "10 · Profile &amp; settings",
-      title: "Profile &amp; settings",
+      kicker: "Profile &amp; settings",
+      title: "Profile &amp; Settings",
       points: [
         "Account-level controls",
         "Security, chats, notifications, appearance, storage",
       ],
       app: { hash: "#/profile" },
-      note: "Closing section — account-level controls. Frames still open in the outline.",
       notes: "<span class=\"warn\">Open item from your outline:</span> no frames were specified for this section yet, so the deck shows the profile screen as built.<br><br>Closing section — keep it short and move to the recap.",
     },
     {
       layout: "text",
       kicker: "Recap",
-      title: "Covered — and still open",
+      title: "Recap",
       points: [
         "<b>Covered:</b> verification states, chat and in-chat payments, group collections, business chats, Plaza discovery and marketplace, Wallet",
-        "<b>Still need frames:</b> Calls tab — a dedicated log, if it's distinct from the in-chat call actions",
-        "<b>Still need frames:</b> Profile &amp; settings screens",
+        "<b>Missing:</b> Login page",
+        "<b>Missing:</b> Onboarding page",
       ],
       app: false,
-      note: "The prototype stays open — press O for the slide grid to jump anywhere questions go.",
       notes: "End on the two open items rather than a summary — it reads as command of the work.<br><br>Then press <b>O</b> for the slide grid and let the questions drive. The prototype is still live and still holds whatever state you built up.",
     },
   ],
@@ -686,8 +592,8 @@ const CONFIG = {
 
   /* Where the phone sits, per layout, in stage coordinates. */
   const SLOTS = {
-    split: { x: 1120, y: 114, w: 660, h: 852 },
-    left:  { x: 140,  y: 114, w: 660, h: 852 },
+    split: { x: 1080, y: 60,  w: 700, h: 960 },
+    left:  { x: 140,  y: 60,  w: 700, h: 960 },
     zoom:  { x: 780,  y: 90,  w: 1000, h: 900 },
     text:  null,
     cover: null,
