@@ -87,7 +87,12 @@
   .slide.left  .col { left: 880px;  width: 860px; }
   .slide.zoom  .col { left: 140px;  width: 560px; }
   .slide.cover .col,
-  .slide.text  .col { left: 140px;  width: 1400px; }
+  .slide.text  .col { left: 150px;  width: 1400px; }
+
+  .cover-mascot {
+    position: absolute; top: 50%; right: 100px; transform: translateY(-60%);
+    width: 675px; height: auto; pointer-events: none;
+  }
 
   .kicker {
     display: flex; align-items: center; gap: 14px;
@@ -283,6 +288,7 @@ const CONFIG = {
       layout: "cover",
       title: "Project Plaza",
       lede: "A walkthrough of the live prototype.",
+      image: "./mascot-bounce.gif",
       app: false,
       notes: "One sentence on what Plaza is, then set the expectation: <b>this is the real prototype, not screenshots</b> — you can tap into any screen as questions come up. Press <b>I</b> (or click the phone) to take control at any point.",
     },
@@ -672,6 +678,7 @@ const CONFIG = {
       if (s.points) b.push(`<ul class="points">${s.points.map(p => `<li>${p}</li>`).join("")}</ul>`);
       return `<section class="slide ${s.layout || "text"}" data-i="${i}">
                 <div class="col">${b.join("")}</div>
+                ${s.image ? `<img class="cover-mascot" src="${s.image}" alt="" />` : ""}
                 ${s.note ? `<div class="note">${s.note}</div>` : ""}
                 <div class="slide-no">${String(i + 1).padStart(2, "0")} / ${slides.length}</div>
               </section>`;
