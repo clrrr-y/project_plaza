@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -133,8 +133,8 @@
   .slide.text  .col { left: 140px;  width: 1400px; }
 
   .cover-mascot {
-    position: absolute; top: 50%; right: 240px; transform: translateY(-50%);
-    width: 420px; height: auto; pointer-events: none;
+    position: absolute; top: 50%; right: 150px; transform: translateY(-60%);
+    width: 635px; height: auto; pointer-events: none;
   }
 
   .kicker {
@@ -144,11 +144,12 @@
   }
   .kicker i { width: 12px; height: 12px; background: var(--accent-bullet); flex: 0 0 12px; }
 
-  h1 { font-size: 96px; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; margin: 0 0 28px; color: var(--ink); }
+  h1 { font-size: 96px; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; margin: 0 0 8px; color: var(--ink); }
   h2 { font-size: 60px; line-height: 1.2; letter-spacing: -.022em; font-weight: 700; margin: 0 0 34px; color: var(--ink); }
   .slide.zoom h2 { font-size: 48px; letter-spacing: -.02em; }
   .lede { font-size: 30px; line-height: 1.36; letter-spacing: -.01em; color: var(--body-text); margin: 0; max-width: 30ch; }
   .slide.cover .lede { max-width: none; white-space: nowrap; }
+  .sublede { font-size: 20px; line-height: 1.5; letter-spacing: -.005em; color: var(--body-text); margin: 40px 0 0; max-width: 640px; }
 
   ul.points { list-style: none; margin: 0; padding: 0; }
   ul.points li {
@@ -178,7 +179,7 @@
   .slide.zoom .note { width: 560px; bottom: 120px; }
 
   .slide-no {
-    position: absolute; right: 140px; bottom: 78px;
+    position: absolute; right: 16px; bottom: 16px;
     font-size: 20px; color: var(--slideno-text); font-variant-numeric: tabular-nums; letter-spacing: .04em;
   }
 
@@ -263,6 +264,65 @@
   .keys .row b { min-width: 210px; font-family: ui-monospace, Menlo, monospace; font-weight: 400; color: var(--purple); }
   .keys .row span { color: #9a9a9a; }
 
+  /* first-load hint, top-right: confirms the build and the shortcut */
+  #hint {
+    position: fixed; top: 18px; right: 20px; z-index: 70;
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(20,20,24,.94); color: #f4f4f5;
+    border: 1px solid #33333a; border-radius: 12px;
+    padding: 12px 16px; font-size: 14px; line-height: 1.35;
+    opacity: 0; transition: opacity .3s ease; pointer-events: none;
+  }
+  #hint.show { opacity: 1; pointer-events: auto; }
+  #hint a { color: #c4b5fd; text-decoration: underline; }
+  #hint .v { color: #7c7c85; font-variant-numeric: tabular-nums; }
+  #hint button { font: inherit; color: #9a9aa2; background: none; border: 0; cursor: pointer; padding: 0 2px; }
+
+  /* ---------- presenter view (?view=notes) -------------------------------- */
+  body.presenter { overflow: auto; background: #0b0b0c; color: #f4f4f5; }
+  body.presenter #viewport, body.presenter #bar, body.presenter #notes,
+  body.presenter #overlay, body.presenter #fileWarn, body.presenter #hint { display: none !important; }
+
+  #pv { display: none; min-height: 100vh; grid-template-rows: auto 1fr auto auto; }
+  body.presenter #pv { display: grid; }
+  #pvTop { display: flex; align-items: baseline; gap: 22px; flex-wrap: wrap;
+           padding: 22px 30px 18px; border-bottom: 1px solid #26262a; }
+  #pvTop .num { font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: #8a8a92; font-variant-numeric: tabular-nums; }
+  #pvTop .kicker2 { font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: #a78bfa; }
+  #pvTop h2 { font-size: 34px; margin: 0; line-height: 1.15; letter-spacing: -.02em; flex: 1 1 100%; color: #f4f4f5; }
+  #pvTop .route { font-family: ui-monospace, Menlo, monospace; font-size: 14px; color: #8a8a92; }
+  #pvClock { margin-left: auto; font-size: 30px; font-variant-numeric: tabular-nums; color: #f4f4f5; }
+  #pvNotes { color: #e8e8ec; padding: 26px 30px; font-size: 24px; line-height: 1.62; overflow: auto; max-width: 95ch; }
+  #pvNotes b { color: #fff; }
+  #pvNotes .warn { color: #fbbf24; }
+  #pvNotes .empty { color: #6b6b73; font-style: italic; }
+  #pvBottom { display: flex; align-items: center; gap: 18px; padding: 16px 30px 22px;
+              border-top: 1px solid #26262a; background: #101013; }
+  #pvBottom .next { color: #8a8a92; font-size: 17px; flex: 1; }
+  #pvBottom .next b { color: #d4d4d8; font-weight: 600; }
+  #pvBottom button { font: inherit; font-size: 17px; color: #f4f4f5; background: #1d1d22;
+                     border: 1px solid #33333a; border-radius: 10px; padding: 10px 22px; cursor: pointer; }
+  #pvBottom button:hover { border-color: #6b6b73; }
+  #pvHint { font-size: 14px; color: #6b6b73; padding: 0 30px 18px; }
+
+  /* editable notes: the panel itself is the editor, so what you rehearse
+     against is what you type into. Only ever on in the presenter window. */
+  #pvNotes[contenteditable="true"] {
+    outline: 2px solid #6d5bd0; outline-offset: 8px; border-radius: 6px;
+    background: #101018; caret-color: #c4b5fd;
+  }
+  #pvNotes[contenteditable="true"]:focus { outline-color: #8b7cf0; }
+  #pvEditBar { display: flex; align-items: center; gap: 12px; padding: 2px 30px 12px; font-size: 14px; }
+  #pvEditBar .dot { width: 8px; height: 8px; border-radius: 50%; background: #34343c; flex: none; }
+  #pvEditBar.dirty .dot { background: var(--yellow); }
+  #pvEditBar .state { flex: 1; color: #8a8a92; }
+  #pvEditBar.dirty .state { color: #d4d4d8; }
+  #pvEditBar button { font: inherit; font-size: 14px; color: #cfcfd6; background: #1d1d22;
+                      border: 1px solid #33333a; border-radius: 8px; padding: 7px 14px; cursor: pointer; }
+  #pvEditBar button:hover { border-color: #6b6b73; color: #fff; }
+  #pvEditBar button.on { border-color: #8b7cf0; color: #fff; }
+  #pvEditBar input[type="file"] { display: none; }
+
   /* shown only when the deck is opened straight off the disk */
   #fileWarn {
     position: fixed; top: 0; left: 0; right: 0; z-index: 80;
@@ -333,7 +393,8 @@ const CONFIG = {
       layout: "cover",
       title: "Project Plaza",
       lede: "Chat, connect, and transact in one place.",
-      image: "./mascot-bounce.gif",
+      sublede: "Project Plaza is a chat-first app that brings conversations, buying and selling, money transfers, group collections, identity, and partner services together in one place—so users can manage everyday interactions and transactions without switching between multiple apps.",
+      image: "./mascot_bounce_transparent.gif",
       app: false,
       notes: "One sentence on what Plaza is, then set the expectation: <b>this is the real prototype, not screenshots</b> — you can tap into any screen as questions come up. Press <b>I</b> (or click the phone) to take control at any point.",
     },
@@ -394,7 +455,7 @@ const CONFIG = {
         "Swipe actions, edit mode, settings",
         "Mascot empty state and micro-interactions",
       ],
-      app: { hash: "#/chats" },
+      app: { hash: "#/chats", verification: "identity" },
       notes: "The primary entry point. Two things worth a beat:<br><br>• <b>Pending request cards</b> in the list — money owed is visible before you open anything.<br>• The <b>mascot</b> — it carries the empty state and the micro-interactions. It's the personality of the app; don't skip past it.<br><br>Filters are along the top; tap one live if the audience is engaged.",
     },
     {
@@ -420,7 +481,7 @@ const CONFIG = {
         "Plus Menu",
         "Contact Info Panel",
       ],
-      app: { hash: "#/chats/_ate-joy" },
+      app: { hash: "#/chats/ate-joy" },
       notes: "The point of this slide is <b>proximity</b>: call, video and voice all live in the thread, so the conversation is the container for everything.<br><br>Tap the call icons to show the quick-action modals. Keep it brief — this is table stakes, and the audience knows it.",
     },
     {
@@ -445,7 +506,7 @@ const CONFIG = {
         "Smart detection picks the amount out of the message",
         "No app switch, no copied reference numbers",
       ],
-      app: { hash: "#/chats/_ate-joy", clicks: ['#attach-popup [data-action="pay"]'] },
+      app: { hash: "#/chats/ate-joy", clicks: ['#attach-popup [data-action="pay"]'] },
       notes: "<b>Centrepiece flow.</b> The send-money sheet opens over Ate Joy's thread on its own.<br><br>Say the line: in every other setup, paying someone you're talking to means leaving the conversation, opening a wallet app, retyping an amount, and coming back to confirm.<br><br>For <b>amount smart detection</b>: close the sheet, type <b>250</b> in the composer, and the suggestion card offers to send or request it — the amount is lifted from the conversation.",
     },
     {
@@ -459,7 +520,7 @@ const CONFIG = {
         "Request via payment link — shareable anywhere",
         "Request money by pasting in a link",
       ],
-      app: { hash: "#/chats/_ate-joy", clicks: ['#attach-popup [data-action="request"]'] },
+      app: { hash: "#/chats/ate-joy", clicks: ['#attach-popup [data-action="request"]'] },
       notes: "The request sheet opens on its own over Ate Joy's thread.<br><br>This is also the slide that answers <b>\"what if the other person isn't on Plaza yet?\"</b> — take control (press <b>I</b>) and tap <b>QR</b> or <b>Link</b> inside the sheet to show those variants live. QR is the in-person case: market stalls, sari-sari counters, anywhere two phones are in the same room. The link works outside the app, and it's the acquisition loop — pasting one in is how someone who was <i>sent</i> a link completes it.",
     },
     {
@@ -647,8 +708,43 @@ const CONFIG = {
   <span class="num" id="clock"></span>
   <button id="btnLive">Interact</button>
   <button id="btnGrid">Slides</button>
-  <button id="btnTheme" title="Debug: compare against the original dark theme">Dark</button>
+  <button id="btnPresenter" title="Speaker notes in a second window (P)">Present</button>
+  <button id="btnTheme" class="live" title="Debug: compare against the original dark theme">Light</button>
   <button id="btnHelp">?</button>
+</div>
+
+<div id="hint">
+  <span><b>P</b> opens presenter notes ·
+    <a id="hintLink" href="#" target="plaza-presenter">open now</a></span>
+  <span class="v">build 07 Aug · presenter</span>
+  <button id="hintClose" aria-label="Dismiss">✕</button>
+</div>
+
+<div id="pv">
+  <div id="pvTop">
+    <span class="num" id="pvNum"></span>
+    <span class="kicker2" id="pvKicker"></span>
+    <span class="route" id="pvRoute"></span>
+    <span id="pvClock">00:00</span>
+    <h2 id="pvTitle"></h2>
+  </div>
+  <div id="pvNotes"></div>
+  <div id="pvBottom">
+    <div class="next" id="pvNext"></div>
+    <button id="pvPrev">‹ Back</button>
+    <button id="pvNextBtn">Next ›</button>
+  </div>
+  <div id="pvEditBar">
+    <span class="dot"></span>
+    <span class="state" id="pvState"></span>
+    <button id="pvEdit">Edit notes</button>
+    <button id="pvRevert">Revert this slide</button>
+    <button id="pvBackup">Download backup</button>
+    <button id="pvRestoreBtn">Restore backup…</button>
+    <input type="file" id="pvFile" accept=".json,application/json">
+  </div>
+  <div id="pvHint">Arrow keys work here or on the slide window — both stay in sync.
+    Double-click the notes (or press <b>E</b>) to edit them; <b>Esc</b> when done. Edits save as you type.</div>
 </div>
 
 <div id="notes"><h4>Speaker notes</h4><div class="body" id="notesBody"></div></div>
@@ -659,6 +755,13 @@ const CONFIG = {
   "use strict";
 
   const STAGE = { w: 1920, h: 1080 };
+
+  /* Two windows, one deck: the slide window drives the prototype, the presenter
+     window shows notes. They stay in step over a BroadcastChannel — same origin,
+     so this needs the served copy (the launcher), not file://. */
+  const IS_PRESENTER = new URLSearchParams(location.search).get("view") === "notes";
+  const chan = (() => { try { return new BroadcastChannel("plaza-deck"); } catch (_) { return null; } })();
+  const send = (msg) => { try { chan && chan.postMessage(msg); } catch (_) {} };
 
   /* Where the phone sits, per layout, in stage coordinates. */
   const SLOTS = {
@@ -720,6 +823,7 @@ const CONFIG = {
       if (s.title)  b.push(s.layout === "cover" ? `<h1>${s.title}</h1>` : `<h2>${s.title}</h2>`);
       if (s.chips)  b.push(`<div class="chips">${s.chips.map(([k, t]) => `<span class="chip ${k}">${t}</span>`).join("")}</div>`);
       if (s.lede)   b.push(`<p class="lede">${s.lede}</p>`);
+      if (s.sublede) b.push(`<p class="sublede">${s.sublede}</p>`);
       if (s.points) b.push(`<ul class="points">${s.points.map(p => `<li>${p}</li>`).join("")}</ul>`);
       return `<section class="slide ${s.layout || "text"}" data-i="${i}">
                 <div class="col">${b.join("")}</div>
@@ -784,6 +888,7 @@ const CONFIG = {
         frame.contentWindow.document.addEventListener("keydown", (e) => {
           if (e.key === "Escape") setInteractive(false);
         });
+        bindPresenterKey(frame.contentWindow.document);
       } catch (_) { sameOrigin = false; }
 
       const slide = slides[pendingSlide != null ? pendingSlide : index];
@@ -809,10 +914,30 @@ const CONFIG = {
     }, 8000);
   }
 
-  /* Verification level is read at boot, so changing it means one reload. */
+  /* Preferred path: the prototype exposes setCurrentSimulationLevel(), which
+     switches level in place. Going up to identity it also calls
+     restoreIdentityVerifiedPopulatedState(), which is what repopulates the
+     chat list after the phone-verified slides put it in new-account mode.
+     No reload, so nothing else on the slide is disturbed. */
+  function setVerificationLive(want) {
+    if (!want || !sameOrigin || !frameLoaded) return false;
+    try {
+      const w = frame.contentWindow;
+      if (typeof w.setCurrentSimulationLevel !== "function") return false;
+      w.localStorage.setItem(CONFIG.verificationKeys.version, CONFIG.verificationKeys.versionValue);
+      w.setCurrentSimulationLevel(want);
+      if (typeof w.applyChatVerificationState === "function") w.applyChatVerificationState();
+      log("verification:live", want);
+      return true;
+    } catch (_) { return false; }
+  }
+
+  /* Fallback for builds without that function: the level is read at boot, so
+     changing it there means one reload. */
   function needsVerificationReload(slide) {
     const want = slide.app && slide.app.verification;
     if (!want || !sameOrigin || !frameLoaded) return false;
+    if (setVerificationLive(want)) return false;
     try {
       const ls = frame.contentWindow.localStorage;
       const cur = JSON.parse(ls.getItem(CONFIG.verificationKeys.state) || "null");
@@ -943,7 +1068,25 @@ const CONFIG = {
   });
 
   /* ---------- navigation ------------------------------------------------- */
-  function go(i, fromHash) {
+  /* ---------- editable speaker notes ------------------------------------
+     Notes you type in the presenter window are kept per slide in this
+     browser's localStorage and broadcast to the slide window, so the N panel
+     and the presenter panel never disagree. The slide definitions above are
+     never rewritten — "Revert this slide" just drops the draft. */
+  const DRAFT_KEY = "plaza-deck:notes";
+  let drafts = (() => {
+    try { const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}"); return (d && typeof d === "object") ? d : {}; }
+    catch (_) { return {}; }
+  })();
+  let editing = false, saveT = 0, pending = null;
+
+  const baseNote = (i) => String((slides[i] || {}).notes || "");
+  const noteFor  = (i) => (typeof drafts[i] === "string" ? drafts[i] : baseNote(i));
+  const isEdited = (i) => typeof drafts[i] === "string";
+  function persistDrafts() { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(drafts)); } catch (_) {} }
+
+  function go(i, fromHash, fromChannel) {
+    if (pending) flushNote();          // don't lose a half-typed edit on nav
     index = Math.max(0, Math.min(slides.length - 1, i));
     recoveredFor = -1;
     const s = slides[index];
@@ -954,7 +1097,7 @@ const CONFIG = {
     secLabel.innerHTML = (s.kicker || "").replace(/&amp;/g, "&");
     countEl.textContent = `${index + 1} / ${slides.length}`;
     railFill.style.width = ((index + 1) / slides.length * 100) + "%";
-    notesBody.innerHTML = s.notes || "—";
+    notesBody.innerHTML = noteFor(index) || "—";
 
     setInteractive(false);
     const closed = dismissOverlays();
@@ -972,6 +1115,8 @@ const CONFIG = {
       applyAppState(s, false);
     }
 
+    if (IS_PRESENTER) renderPresenter();
+    if (!fromChannel) send({ type: "slide", index });
     if (overlayMode === "grid") renderGrid();
     if (!fromHash) location.hash = "#" + (index + 1);
   }
@@ -984,6 +1129,11 @@ const CONFIG = {
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const k = e.key;
+    // While the notes are being typed into, the keyboard belongs to the editor.
+    if (editing || (e.target && e.target.isContentEditable)) {
+      if (k === "Escape") { setEditing(false); e.preventDefault(); }
+      return;
+    }
     if (k === "Escape") {
       if (overlayMode) { closeOverlay(); e.preventDefault(); return; }
       if (interactive) { setInteractive(false); e.preventDefault(); return; }
@@ -998,6 +1148,8 @@ const CONFIG = {
       case "Home": go(0); break;
       case "End": go(slides.length - 1); break;
       case "n": case "N": notesEl.classList.toggle("show"); break;
+      case "p": case "P": if (!IS_PRESENTER) openPresenter(); break;
+      case "e": case "E": if (IS_PRESENTER) { setEditing(true); e.preventDefault(); } break;
       case "o": case "O": overlayMode === "grid" ? closeOverlay() : openGrid(); break;
       case "?": case "/": overlayMode === "help" ? closeOverlay() : openHelp(); break;
       case "i": case "I": setInteractive(true); e.preventDefault(); break;
@@ -1077,6 +1229,7 @@ const CONFIG = {
       ["→ ↓ Space", "Next slide"], ["← ↑", "Previous slide"], ["1–9, 0", "Jump to slide"],
       ["I  or click the phone", "Take control of the prototype"],
       ["Esc", "Hand control back to the deck"], ["N", "Speaker notes"],
+      ["E  (presenter window)", "Edit this slide's speaker notes"],
       ["O", "Slide grid"], ["R", "Reload the prototype at this slide's screen"], ["F", "Fullscreen"],
       ["T", "Debug: toggle light / dark background"],
     ];
@@ -1084,8 +1237,180 @@ const CONFIG = {
       rows.map(([k, v]) => `<div class="row"><b>${k}</b><span>${v}</span></div>`).join("")}</div>`;
   }
 
+  document.getElementById("btnPresenter").addEventListener("click", openPresenter);
   document.getElementById("btnGrid").addEventListener("click", () => overlayMode === "grid" ? closeOverlay() : openGrid());
   document.getElementById("btnHelp").addEventListener("click", () => overlayMode === "help" ? closeOverlay() : openHelp());
+
+  /* ---------- presenter view --------------------------------------------- */
+  function renderPresenter() {
+    const s = slides[index], nxt = slides[index + 1];
+    const t = (x) => String(x == null ? "" : x).replace(/&amp;/g, "&");
+    document.getElementById("pvNum").textContent = String(index + 1).padStart(2, "0") + " / " + slides.length;
+    document.getElementById("pvKicker").innerHTML = s.kicker || "";
+    document.getElementById("pvTitle").innerHTML = s.title || "";
+    document.getElementById("pvRoute").textContent = s.app === false ? "no phone" : ((s.app && s.app.hash) || "");
+    const nEl = document.getElementById("pvNotes");
+    nEl.innerHTML = noteFor(index) || '<span class="empty">No notes on this slide.</span>';
+    setEditing(false);
+    updateEditBar();
+    document.getElementById("pvNext").innerHTML = nxt ? "Next — <b>" + t(nxt.title) + "</b>"
+                                                     : "<b>Last slide.</b> Questions from here.";
+    document.getElementById("pvNotes").scrollTop = 0;
+  }
+
+  function flushNote() {
+    clearTimeout(saveT);
+    if (!pending) return;
+    const { i, html } = pending;
+    pending = null;
+    const clean = html.replace(/<br\s*\/?>\s*$/i, "").trim();
+    const bare  = clean.replace(/<[^>]*>/g, "").trim();
+    if (!bare || clean === baseNote(i).trim()) delete drafts[i];
+    else drafts[i] = clean;
+    persistDrafts();
+    send({ type: "notes", index: i, html: isEdited(i) ? drafts[i] : null });
+    updateEditBar();
+  }
+
+  function setEditing(on) {
+    if (!IS_PRESENTER) return;
+    const nEl = document.getElementById("pvNotes");
+    if (on && nEl.querySelector(".empty")) nEl.innerHTML = "";
+    editing = !!on;
+    nEl.setAttribute("contenteditable", editing ? "true" : "false");
+    nEl.setAttribute("spellcheck", "true");
+    if (editing) nEl.focus();
+    else { nEl.blur(); flushNote(); }
+    const btn = document.getElementById("pvEdit");
+    if (btn) { btn.classList.toggle("on", editing); btn.textContent = editing ? "Done" : "Edit notes"; }
+    updateEditBar();
+  }
+
+  function updateEditBar() {
+    const bar = document.getElementById("pvEditBar");
+    if (!bar) return;
+    const edited = isEdited(index), n = Object.keys(drafts).length;
+    bar.classList.toggle("dirty", edited);
+    document.getElementById("pvState").textContent = editing
+      ? "Editing this slide — Esc when done"
+      : edited ? "Edited" + (n > 1 ? " · " + n + " slides changed" : "")
+               : n ? n + (n === 1 ? " slide" : " slides") + " edited elsewhere"
+                   : "Double-click the notes to edit";
+    document.getElementById("pvRevert").style.display = edited ? "" : "none";
+    document.getElementById("pvBackup").style.display = n ? "" : "none";
+  }
+
+  function revertSlide() {
+    clearTimeout(saveT); pending = null;
+    delete drafts[index];
+    persistDrafts();
+    send({ type: "notes", index, html: null });
+    renderPresenter();
+  }
+
+  function backupNotes() {
+    const payload = { app: "project-plaza-deck", kind: "speaker-notes", slides: slides.length, notes: {} };
+    Object.keys(drafts).forEach(i => { payload.notes[i] = { title: strip(slides[i] && slides[i].title), html: drafts[i] }; });
+    const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" }));
+    const a = document.createElement("a");
+    a.href = url; a.download = "Plaza presenter notes.json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }
+
+  function restoreNotes(file) {
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const d = JSON.parse(r.result);
+        const src = (d && d.notes) || {};
+        let n = 0;
+        Object.keys(src).forEach(k => {
+          const html = typeof src[k] === "string" ? src[k] : (src[k] && src[k].html);
+          if (typeof html === "string") { drafts[k] = html; n++; send({ type: "notes", index: +k, html }); }
+        });
+        persistDrafts();
+        renderPresenter();
+        document.getElementById("pvState").textContent = "Restored " + n + (n === 1 ? " slide" : " slides");
+      } catch (_) {
+        document.getElementById("pvState").textContent = "That file isn't a notes backup";
+      }
+    };
+    r.readAsText(file);
+  }
+
+  function presenterURL() { return location.origin + location.pathname + "?view=notes#" + (index + 1); }
+  function openPresenter() {
+    const w = window.open(presenterURL(), "plaza-presenter", "width=1100,height=800");
+    if (!w) showHint(true);          // no dialogs — fall back to a clickable link
+  }
+  function showHint(persist) {
+    const h = document.getElementById("hint");
+    if (!h) return;
+    document.getElementById("hintLink").setAttribute("href", presenterURL());
+    h.classList.add("show");
+    if (!persist) setTimeout(() => h.classList.remove("show"), 7000);
+  }
+
+  /* The prototype runs in an iframe; once it has focus, key events never reach
+     this document. Catch P at window level and inside the frame too. */
+  function bindPresenterKey(doc) {
+    if (!doc || doc.__pvBound) return;
+    doc.__pvBound = true;
+    doc.addEventListener("keydown", (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.target && e.target.isContentEditable) return;
+      if ((e.key === "p" || e.key === "P") && !IS_PRESENTER) { openPresenter(); e.preventDefault(); }
+    }, true);
+  }
+  bindPresenterKey(document);
+
+  if (chan) {
+    chan.onmessage = (e) => {
+      const m = e.data || {};
+      if (m.type === "slide" && m.index !== index) go(m.index, true, true);
+      if (m.type === "nav") go(m.index, false, false);
+      if (m.type === "notes") {
+        if (m.html == null) delete drafts[m.index]; else drafts[m.index] = m.html;
+        persistDrafts();
+        if (m.index === index && !editing) {
+          notesBody.innerHTML = noteFor(index) || "—";
+          if (IS_PRESENTER) renderPresenter();
+        }
+        if (IS_PRESENTER) updateEditBar();
+      }
+      if (m.type === "hello") send({ type: "slide", index });
+    };
+  }
+
+  if (IS_PRESENTER) {
+    document.body.classList.add("presenter");
+    document.title = "Presenter notes — Project Plaza";
+    const nEl = document.getElementById("pvNotes");
+    nEl.addEventListener("dblclick", () => setEditing(true));
+    nEl.addEventListener("input", () => {
+      pending = { i: index, html: nEl.innerHTML };
+      clearTimeout(saveT);
+      saveT = setTimeout(flushNote, 400);
+    });
+    nEl.addEventListener("blur", () => { if (editing) setEditing(false); });
+    document.getElementById("pvEdit").addEventListener("click", () => setEditing(!editing));
+    document.getElementById("pvRevert").addEventListener("click", revertSlide);
+    document.getElementById("pvBackup").addEventListener("click", backupNotes);
+    const fileEl = document.getElementById("pvFile");
+    document.getElementById("pvRestoreBtn").addEventListener("click", () => fileEl.click());
+    fileEl.addEventListener("change", () => { if (fileEl.files[0]) restoreNotes(fileEl.files[0]); fileEl.value = ""; });
+    window.addEventListener("beforeunload", flushNote);
+    document.getElementById("pvPrev").addEventListener("click", () => go(index - 1));
+    document.getElementById("pvNextBtn").addEventListener("click", () => go(index + 1));
+    const t0 = Date.now();
+    setInterval(() => {
+      const sec = Math.floor((Date.now() - t0) / 1000);
+      document.getElementById("pvClock").textContent =
+        String(Math.floor(sec / 60)).padStart(2, "0") + ":" + String(sec % 60).padStart(2, "0");
+    }, 1000);
+    send({ type: "hello" });
+  }
 
   /* ---------- bar + timer ------------------------------------------------ */
   let hideT;
@@ -1116,11 +1441,20 @@ const CONFIG = {
 
   /* ---------- go --------------------------------------------------------- */
   fitStage();
+  if (IS_PRESENTER) document.body.classList.add("presenter");
   checkProtocol();
   renderSlides();
-  bootFrame();
+  if (!IS_PRESENTER) bootFrame();   // the prototype lives in the slide window only
   const start = parseInt(location.hash.slice(1), 10);
   go(isNaN(start) ? 0 : start - 1, true);
+
+  if (!IS_PRESENTER) {
+    const hc = document.getElementById("hintClose");
+    if (hc) hc.addEventListener("click", () => document.getElementById("hint").classList.remove("show"));
+    const hl = document.getElementById("hintLink");
+    if (hl) hl.addEventListener("click", () => hl.setAttribute("href", presenterURL()));
+    setTimeout(() => showHint(false), 900);
+  }
 
   window.__deck = {
     get index() { return index; }, get loadCount() { return loadCount; },
