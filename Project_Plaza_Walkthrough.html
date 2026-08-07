@@ -31,6 +31,7 @@
   1–9 / 0     jump                           Esc                    hand control back
   N           speaker notes                  O                      slide grid
   R           reload the prototype           F                      fullscreen
+  T           toggle light / dark background (debug tool, not for presenting)
 
   On a phone or tablet (no keyboard): swipe left / right on the stage, or
   tap the ‹ › arrows that appear at the screen edges, to move between slides.
@@ -45,7 +46,7 @@
 -->
 
 <style>
-  /* Figma "Dark slides" template: black ground, white Inter, tight tracking. */
+  /* Figma "Light slides" template: soft gradient ground, near-black Inter, tight tracking. */
   :root {
     --black:      #000000;
     --white:      #ffffff;
@@ -56,15 +57,53 @@
     --green:      #198f51;
     --pink:       #f316b0;
     --yellow:     #f3c11b;
+    --ink:        #0d0d0d;   /* headers */
+    --body-text:  #686868;   /* body copy */
     --stage-w: 1920px;
     --stage-h: 1080px;
+
+    /* theme-switchable values — light mode (default) */
+    --page-bg:       #ffffff;
+    --stage-overlay: rgba(255,255,255,.25);
+    --stage-image:   url('./704d13b1-635f-4255-be45-b331dc9b7fc1.png');
+    --stage-fallback:#ffffff;
+    --accent-bullet: #7B6EF6;
+    --chip-border:   #d6d6d6;
+    --chip-open:     #198f51;
+    --note-text:     #8a8a8a;
+    --slideno-text:  #b0b0b0;
+    --rail-track:    rgba(0,0,0,.08);
+    --host-border:   #d6d6d6;
+    --host-shadow:   rgba(0,0,0,.22);
+    --muted-em:      #9a9a9a;
+  }
+
+  /* DEBUG TOOL — toggled with the T key or the "Dark" bar button. Restores
+     the deck's original dark theme so the two can be compared live. Not
+     meant to be left on while presenting. */
+  html.dark {
+    --page-bg:       var(--black);
+    --stage-overlay: rgba(0,0,0,0);
+    --stage-image:   none;
+    --stage-fallback:var(--black);
+    --ink:           var(--white);
+    --body-text:     var(--light-grey);
+    --accent-bullet: var(--purple);
+    --chip-border:   var(--grey);
+    --chip-open:     #45c583;
+    --note-text:     #8f8f8f;
+    --slideno-text:  #6a6a6a;
+    --rail-track:    #151515;
+    --host-border:   var(--grey);
+    --host-shadow:   rgba(255,255,255,.14);
+    --muted-em:      #a8a8a8;
   }
 
   * { box-sizing: border-box; }
 
   html, body {
     margin: 0; padding: 0; height: 100%; overflow: hidden;
-    background: var(--black); color: var(--white);
+    background: var(--page-bg); color: var(--ink);
     font-family: Inter, ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
@@ -72,7 +111,11 @@
   #viewport { position: fixed; inset: 0; display: grid; place-items: center; }
   #stage {
     position: relative; width: var(--stage-w); height: var(--stage-h);
-    transform-origin: center center; background: var(--black); overflow: hidden;
+    transform-origin: center center; overflow: hidden;
+    background:
+      linear-gradient(var(--stage-overlay), var(--stage-overlay)),
+      var(--stage-image) center / cover no-repeat,
+      var(--stage-fallback);
   }
 
   /* ---------- slides ------------------------------------------------------ */
@@ -87,64 +130,66 @@
   .slide.left  .col { left: 880px;  width: 860px; }
   .slide.zoom  .col { left: 140px;  width: 560px; }
   .slide.cover .col,
-  .slide.text  .col { left: 150px;  width: 1400px; }
+  .slide.text  .col { left: 140px;  width: 1400px; }
 
   .cover-mascot {
-    position: absolute; top: 50%; right: 100px; transform: translateY(-60%);
-    width: 675px; height: auto; pointer-events: none;
+    position: absolute; top: 50%; right: 240px; transform: translateY(-50%);
+    width: 420px; height: auto; pointer-events: none;
   }
 
   .kicker {
     display: flex; align-items: center; gap: 14px;
     font-size: 20px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
-    color: var(--light-grey); margin-bottom: 26px;
+    color: var(--body-text); margin-bottom: 26px;
   }
-  .kicker i { width: 12px; height: 12px; background: var(--purple); flex: 0 0 12px; }
+  .kicker i { width: 12px; height: 12px; background: var(--accent-bullet); flex: 0 0 12px; }
 
-  h1 { font-size: 96px; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; margin: 0 0 28px; }
-  h2 { font-size: 60px; line-height: 1.2; letter-spacing: -.022em; font-weight: 700; margin: 0 0 34px; }
+  h1 { font-size: 96px; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; margin: 0 0 28px; color: var(--ink); }
+  h2 { font-size: 60px; line-height: 1.2; letter-spacing: -.022em; font-weight: 700; margin: 0 0 34px; color: var(--ink); }
   .slide.zoom h2 { font-size: 48px; letter-spacing: -.02em; }
-  .lede { font-size: 30px; line-height: 1.36; letter-spacing: -.01em; color: var(--light-grey); margin: 0; max-width: 30ch; }
+  .lede { font-size: 30px; line-height: 1.36; letter-spacing: -.01em; color: var(--body-text); margin: 0; max-width: 30ch; }
+  .slide.cover .lede { max-width: none; white-space: nowrap; }
 
   ul.points { list-style: none; margin: 0; padding: 0; }
   ul.points li {
     position: relative; padding-left: 34px; margin-bottom: 22px;
-    font-size: 24px; line-height: 1.34; letter-spacing: -.005em; color: var(--white);
+    font-size: 24px; line-height: 1.34; letter-spacing: -.005em; color: var(--body-text);
   }
   ul.points li:last-child { margin-bottom: 0; }
   ul.points li::before {
     content: ""; position: absolute; left: 0; top: .52em;
-    width: 10px; height: 10px; background: var(--purple);
+    width: 10px; height: 10px; background: var(--accent-bullet);
   }
-  ul.points li em { font-style: normal; color: #a8a8a8; }
+  ul.points li b { color: var(--ink); }
+  ul.points li em { font-style: normal; color: var(--muted-em); }
 
   .chips { display: flex; gap: 10px; margin-bottom: 26px; flex-wrap: wrap; }
   .chip {
     font-size: 20px; font-weight: 500; letter-spacing: -.01em;
-    padding: 7px 16px; border: 1px solid var(--grey); color: var(--light-grey);
+    padding: 7px 16px; border: 1px solid var(--chip-border); color: var(--body-text);
   }
   .chip.locked { border-color: var(--pink); color: var(--pink); }
-  .chip.open   { border-color: var(--green); color: #45c583; }
+  .chip.open   { border-color: var(--green); color: var(--chip-open); }
 
   .note {
     position: absolute; left: 140px; bottom: 84px; width: 1180px;
-    font-size: 20px; line-height: 1.4; color: #8f8f8f;
+    font-size: 20px; line-height: 1.4; color: var(--note-text);
   }
   .slide.zoom .note { width: 560px; bottom: 120px; }
 
   .slide-no {
     position: absolute; right: 140px; bottom: 78px;
-    font-size: 20px; color: #6a6a6a; font-variant-numeric: tabular-nums; letter-spacing: .04em;
+    font-size: 20px; color: var(--slideno-text); font-variant-numeric: tabular-nums; letter-spacing: .04em;
   }
 
-  #rail { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #151515; }
+  #rail { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--rail-track); }
   #rail div { height: 100%; width: 0; background: var(--purple); transition: width .3s ease; }
 
   /* ---------- the one, persistent prototype ------------------------------ */
   #appHost {
     position: absolute; overflow: hidden; background: #fff;
-    border-radius: 42px; border: 1px solid var(--grey);
-    box-shadow: 0 50px 120px -40px rgba(255,255,255,.14);
+    border-radius: 42px; border: 1px solid var(--host-border);
+    box-shadow: 0 40px 90px -30px var(--host-shadow);
     transition: left .5s cubic-bezier(.22,.61,.24,1), top .5s cubic-bezier(.22,.61,.24,1),
                 width .5s cubic-bezier(.22,.61,.24,1), height .5s cubic-bezier(.22,.61,.24,1),
                 opacity .25s ease, border-radius .4s ease;
@@ -287,7 +332,7 @@ const CONFIG = {
     {
       layout: "cover",
       title: "Project Plaza",
-      lede: "A walkthrough of the live prototype.",
+      lede: "Chat, connect, and transact in one place.",
       image: "./mascot-bounce.gif",
       app: false,
       notes: "One sentence on what Plaza is, then set the expectation: <b>this is the real prototype, not screenshots</b> — you can tap into any screen as questions come up. Press <b>I</b> (or click the phone) to take control at any point.",
@@ -601,8 +646,8 @@ const CONFIG = {
   <span class="num" id="count"></span>
   <span class="num" id="clock"></span>
   <button id="btnLive">Interact</button>
-  <button id="btnNotes">Notes</button>
   <button id="btnGrid">Slides</button>
+  <button id="btnTheme" title="Debug: compare against the original dark theme">Dark</button>
   <button id="btnHelp">?</button>
 </div>
 
@@ -961,9 +1006,22 @@ const CONFIG = {
         document.fullscreenElement ? document.exitFullscreen()
                                    : document.documentElement.requestFullscreen();
         break;
+      case "t": case "T": toggleTheme(); break;
       default: if (/^[0-9]$/.test(k)) go(k === "0" ? 9 : +k - 1);
     }
   });
+
+  /* ---------- debug: light / dark theme toggle --------------------------- */
+  // Not part of the presentation flow — a quick way to flip the deck's
+  // background and text colors back to the original dark theme, live, so
+  // the two can be compared side by side. Nothing here persists on reload.
+  const btnTheme = document.getElementById("btnTheme");
+  function toggleTheme() {
+    const dark = document.documentElement.classList.toggle("dark");
+    btnTheme.textContent = dark ? "Light" : "Dark";
+    btnTheme.classList.toggle("live", dark);
+  }
+  btnTheme.addEventListener("click", toggleTheme);
 
   /* ---------- touch navigation (mobile) ----------------------------------- */
   // No hardware keyboard on a phone, so give touch users an explicit way to
@@ -1020,12 +1078,12 @@ const CONFIG = {
       ["I  or click the phone", "Take control of the prototype"],
       ["Esc", "Hand control back to the deck"], ["N", "Speaker notes"],
       ["O", "Slide grid"], ["R", "Reload the prototype at this slide's screen"], ["F", "Fullscreen"],
+      ["T", "Debug: toggle light / dark background"],
     ];
     overlay.innerHTML = `<h3>Keyboard</h3><div class="keys">${
       rows.map(([k, v]) => `<div class="row"><b>${k}</b><span>${v}</span></div>`).join("")}</div>`;
   }
 
-  document.getElementById("btnNotes").addEventListener("click", () => notesEl.classList.toggle("show"));
   document.getElementById("btnGrid").addEventListener("click", () => overlayMode === "grid" ? closeOverlay() : openGrid());
   document.getElementById("btnHelp").addEventListener("click", () => overlayMode === "help" ? closeOverlay() : openHelp());
 

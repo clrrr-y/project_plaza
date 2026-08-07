@@ -6,7 +6,7 @@ All text currently in `Project_Plaza_Walkthrough.html`, pulled out slide by slid
 
 ## Slide 1 — Cover
 - **Title:** Project Plaza
-- **Lede:** A walkthrough of the live prototype.
+- **Lede:** Chat, connect, and transact in one place.
 - **Image:** Bouncing mascot GIF, right side, vertically centered with the text
 - **Speaker notes:** One sentence on what Plaza is, then set the expectation: <b>this is the real prototype, not screenshots</b> — you can tap into any screen as questions come up. Press <b>I</b> (or click the phone) to take control at any point.
 
