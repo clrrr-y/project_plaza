@@ -7,7 +7,7 @@
 <script>
   try {
     document.documentElement.classList.add('prototype-env');
-    const plazaSavedTheme = localStorage.getItem('project-plaza:theme') || 'System';
+    const plazaSavedTheme = localStorage.getItem('project-plaza:theme') || 'Light Mode';
     const plazaSystemDark = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches || false;
     const plazaUseDark = plazaSavedTheme === 'Dark Mode' || (plazaSavedTheme === 'System' && plazaSystemDark);
     document.documentElement.classList.toggle('plaza-theme-dark', plazaUseDark);
@@ -353,16 +353,15 @@ html.route-restoring .phone {
 .chat-mascot-splash::before {
   content: "";
   position: absolute;
-  inset: -12%;
+  inset: -18%;
   background:
-    radial-gradient(circle at 22% 30%, rgba(255,111,216,.30), transparent 34%),
-    radial-gradient(circle at 76% 34%, rgba(122,184,255,.34), transparent 37%),
-    radial-gradient(circle at 52% 82%, rgba(116,245,230,.28), transparent 38%),
-    linear-gradient(135deg, #F8F7FF 0%, #F1ECFF 42%, #EAF7FF 100%);
-  filter: blur(22px);
+    radial-gradient(ellipse at 24% 28%, rgba(255,111,216,0.13), transparent 28%),
+    radial-gradient(ellipse at 76% 42%, rgba(122,184,255,0.16), transparent 32%),
+    radial-gradient(ellipse at 54% 82%, rgba(116,245,230,0.11), transparent 32%);
+  filter: blur(18px);
   opacity: 0;
-  transform: scale(.94);
-  transition: opacity 900ms ease, transform 900ms ease;
+  transition: opacity 900ms ease;
+  animation: authAuroraDrift 18s ease-in-out infinite alternate;
 }
 .chat-mascot-splash.is-open {
   opacity: 1;
@@ -371,8 +370,7 @@ html.route-restoring .phone {
   transition-delay: 0s;
 }
 .chat-mascot-splash.is-complete::before {
-  opacity: 1;
-  transform: scale(1);
+  opacity: .34;
 }
 .chat-mascot-splash-mascot {
   position: absolute;
@@ -381,10 +379,6 @@ html.route-restoring .phone {
   top: 50%;
   width: min(82vw, 320px);
   height: min(82vw, 320px);
-  display: block;
-  object-fit: contain;
-  user-select: none;
-  -webkit-user-drag: none;
   opacity: 0;
   will-change: transform, opacity;
   transform-origin: 50% 58%;
@@ -395,6 +389,22 @@ html.route-restoring .phone {
 .chat-mascot-splash.is-complete .chat-mascot-splash-mascot {
   opacity: 0;
 }
+.chat-mascot-splash-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  opacity: 0;
+}
+.chat-mascot-splash.is-playing .chat-mascot-splash-face-shy     { animation: mascotFaceShy 7s ease both; }
+.chat-mascot-splash.is-playing .chat-mascot-splash-face-curious { animation: mascotFaceCurious 7s ease both; }
+.chat-mascot-splash.is-playing .chat-mascot-splash-face-neutral { animation: mascotFaceNeutral 7s ease both; }
+.chat-mascot-splash.is-playing .chat-mascot-splash-face-wave    { animation: mascotFaceWave 7s ease both; }
+.chat-mascot-splash.is-playing .chat-mascot-splash-face-happy   { animation: mascotFaceHappy 7s ease both; }
 .chat-mascot-splash-caption {
   position: absolute;
   z-index: 2;
@@ -414,21 +424,40 @@ html.route-restoring .phone {
   transform: translateY(0);
 }
 @keyframes chatMascotJourney {
-  0% { opacity: 0; transform: translate(-50%, -50%) translateX(-78%) translateY(8%) rotate(-23deg) scale(.74); }
-  8% { opacity: 1; transform: translate(-50%, -50%) translateX(-56%) translateY(2%) rotate(-20deg) scale(.80); }
-  15% { opacity: 1; transform: translate(-50%, -50%) translateX(-36%) translateY(-2%) rotate(-12deg) scale(.86); }
-  21% { opacity: 1; transform: translate(-50%, -50%) translateX(-10%) translateY(-9%) rotate(-2deg) scale(1.04,.95); }
-  25% { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(-16px) rotate(0) scale(.96,1.04); }
-  29% { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(2px) rotate(0) scale(1.02,.98); }
-  34%, 48% { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(0) scale(1); }
-  52% { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(-5px) rotate(-2deg) scale(1.01,.99); }
-  58% { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(1px) rotate(2deg) scale(.99,1.01); }
-  64% { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(-4px) rotate(-1deg) scale(1.02,.98); }
-  70% { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(0) scale(1); }
-  78% { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(-5px) rotate(0) scale(1.07,.95); }
-  88% { opacity: .92; transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(0) scale(1.72); }
-  96% { opacity: .18; transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(0) scale(2.55); }
-  100% { opacity: 0; transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(0) scale(2.72); }
+  0%   { opacity: 0; transform: translate(-50%, -50%) translateX(-78%) translateY(3%) scale(.74); }
+  10%  { opacity: 1; transform: translate(-50%, -50%) translateX(-52%) translateY(1%) scale(.82); }
+  20%  { opacity: 1; transform: translate(-50%, -50%) translateX(-26%) translateY(-3%) scale(.90); }
+  30%  { opacity: 1; transform: translate(-50%, -50%) translateX(-6%) translateY(-8px) scale(.97); }
+  38%  { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(4px) scale(1.015); }
+  46%, 60% { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(0) scale(1); }
+  68%  { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(-6px) scale(1.02); }
+  76%  { opacity: 1; transform: translate(-50%, -50%) translateX(0) translateY(0) scale(1); }
+  88%  { opacity: .92; transform: translate(-50%, -50%) translateX(0) translateY(0) scale(1.6); }
+  96%  { opacity: .18; transform: translate(-50%, -50%) translateX(0) translateY(0) scale(2.3); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translateX(0) translateY(0) scale(2.45); }
+}
+@keyframes mascotFaceShy {
+  0%, 17% { opacity: 1; }
+  23%, 100% { opacity: 0; }
+}
+@keyframes mascotFaceCurious {
+  0%, 12% { opacity: 0; }
+  18%, 27% { opacity: 1; }
+  33%, 100% { opacity: 0; }
+}
+@keyframes mascotFaceNeutral {
+  0%, 27% { opacity: 0; }
+  33%, 41% { opacity: 1; }
+  47%, 100% { opacity: 0; }
+}
+@keyframes mascotFaceWave {
+  0%, 41% { opacity: 0; }
+  47%, 56% { opacity: 1; }
+  62%, 100% { opacity: 0; }
+}
+@keyframes mascotFaceHappy {
+  0%, 56% { opacity: 0; }
+  62%, 100% { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .chat-mascot-splash,
@@ -438,6 +467,13 @@ html.route-restoring .phone {
     animation: none;
     opacity: 1;
     transform: translate(-50%, -50%);
+  }
+  .chat-mascot-splash.is-playing .chat-mascot-splash-face {
+    animation: none;
+    opacity: 0;
+  }
+  .chat-mascot-splash.is-playing .chat-mascot-splash-face-happy {
+    opacity: 1;
   }
 }
 
@@ -1478,9 +1514,12 @@ html.route-restoring .phone {
   text-align: center;
 }
 .first-time-illustration {
-  width: 240px;
-  height: 240px;
-  margin: 0 auto 24px;
+  width: 380px;
+  aspect-ratio: 302 / 224;
+  margin: 0 auto 8px;
+  overflow: hidden;
+  transform:
+translateX(-24px)
 }
 .first-time-illustration img {
   display: block;
@@ -26616,9 +26655,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   ════════════════════════════════════════════════════ -->
   <section class="screen login-screen" id="login-screen" aria-label="Project Plaza login">
     <div class="login-content">
-      <div class="splash-mark">Project Plaza</div>
-      <h1 class="login-title">Welcome to Plaza</h1>
-      <p class="login-copy">Where chats and cash flow together.</p>
+      <h1 class="login-title">Welcome to Plaza!</h1>
+      <p class="login-copy">Where you can chat, connect, and transact in one place.</p>
       <div class="login-form" aria-label="Sign in with mobile number">
         <div class="login-auth-panel" id="login-phone-panel">
           <label class="login-phone-field" for="login-phone-input">
@@ -26657,7 +26695,13 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   </section>
 
   <div class="chat-mascot-splash" id="chat-mascot-splash" aria-hidden="true" hidden>
-    <img class="chat-mascot-splash-mascot" id="chat-mascot-splash-mascot" src="mascot-05-shy.png" alt="">
+    <div class="chat-mascot-splash-mascot" id="chat-mascot-splash-mascot">
+      <img class="chat-mascot-splash-face chat-mascot-splash-face-shy" src="mascot-05-shy.png" alt="">
+      <img class="chat-mascot-splash-face chat-mascot-splash-face-curious" src="mascot-04-curious.png" alt="">
+      <img class="chat-mascot-splash-face chat-mascot-splash-face-neutral" src="mascot-01-neutral.png" alt="">
+      <img class="chat-mascot-splash-face chat-mascot-splash-face-wave" src="mascot-02-wave.png" alt="">
+      <img class="chat-mascot-splash-face chat-mascot-splash-face-happy" src="mascot-03-happy-wink.png" alt="">
+    </div>
     <div class="chat-mascot-splash-caption">Welcome to Plaza</div>
   </div>
 
@@ -26783,10 +26827,10 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       <section class="first-time-chats" id="first-time-chats" aria-label="First-time Chats setup">
         <section class="first-time-empty-card" aria-label="Empty conversations">
           <div class="first-time-illustration" aria-hidden="true">
-            <img src="empty state chats.png" alt="">
+            <img src="chat empty state.svg" alt="">
           </div>
           <h2>Your conversations will appear here</h2>
-          <p>Start with a simple hello. Chat with people, discover Plaza, and keep everything in one place.</p>
+          <p>Chat with people, discover Plaza, and keep everything in one place.</p>
           <div class="first-time-cta-row">
             <button class="first-time-primary" type="button" data-first-time-start>
               <span>Start a Conversation</span>
@@ -42998,7 +43042,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       id: 'appearance',
       title: 'Appearance',
       rows: [
-        { label: 'Theme', value: 'System', description: 'Choose how Plaza follows your display preference.', icon: 'palette', type: 'selector', options: ['Light Mode', 'Dark Mode', 'System'], toast: 'Theme updated' },
+        { label: 'Theme', value: 'Light Mode', description: 'Choose how Plaza follows your display preference.', icon: 'palette', type: 'selector', options: ['Light Mode', 'Dark Mode', 'System'], toast: 'Theme updated' },
         { label: 'Animations', icon: 'motion', type: 'switch', on: true },
         { label: 'Haptic Feedback', icon: 'touch', type: 'switch', on: true }
       ]
@@ -43165,7 +43209,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       const savedTheme = localStorage.getItem(PLAZA_THEME_STORAGE_KEY);
       if (PLAZA_THEME_OPTIONS.includes(savedTheme)) return savedTheme;
     } catch (_) {}
-    return appearanceThemeRow()?.value || 'System';
+    return appearanceThemeRow()?.value || 'Light Mode';
   }
 
   function plazaPrefersDarkTheme(value = readPlazaThemePreference()) {
@@ -43173,7 +43217,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   }
 
   function applyPlazaTheme(value = readPlazaThemePreference(), options = {}) {
-    const theme = PLAZA_THEME_OPTIONS.includes(value) ? value : 'System';
+    const theme = PLAZA_THEME_OPTIONS.includes(value) ? value : 'Light Mode';
     const row = appearanceThemeRow();
     if (row) row.value = theme;
     if (options.persist) {
@@ -44023,7 +44067,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     chatMascotSplashTimers = [];
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    mascot.src = 'mascot-05-shy.png';
     overlay.hidden = false;
     overlay.setAttribute('aria-hidden', 'false');
     overlay.classList.remove('is-complete', 'is-playing');
@@ -44035,17 +44078,9 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       return;
     }
 
-    const expressionSwaps = [
-      [1000, 'mascot-04-curious.png'],
-      [2050, 'mascot-01-neutral.png'],
-      [3100, 'mascot-02-wave.png'],
-      [4200, 'mascot-03-happy-wink.png']
-    ];
-    expressionSwaps.forEach(([delay, source]) => {
-      chatMascotSplashTimers.push(window.setTimeout(() => {
-        if (overlay.classList.contains('is-playing')) mascot.src = source;
-      }, delay));
-    });
+    // Expression crossfades are handled entirely by CSS (see mascotFace* keyframes),
+    // synced to the same 7s timeline as the mascot's flight-in animation — no JS
+    // src-swapping, so the face changes read as a smooth blend, not cut frames.
     chatMascotSplashTimers.push(window.setTimeout(() => overlay.classList.add('is-complete'), 6100));
     chatMascotSplashTimers.push(window.setTimeout(() => closeChatMascotSplash(destination), 7000));
   }
@@ -44743,7 +44778,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       screen.classList.add('edit-mode');
       editBtn.setAttribute('aria-label', 'Done editing');
       setEditButtonLabel('Done');
-      if (newMessageBtn) newMessageBtn.style.visibility = 'hidden';
+      if (newMessageBtn) newMessageBtn.style.display = 'none';
       updateActionBar();
     }
 
@@ -44753,7 +44788,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       screen.querySelectorAll('.chat-row.selected').forEach(r => r.classList.remove('selected'));
       editBtn.setAttribute('aria-label', 'Edit chats');
       setEditButtonLabel('Edit');
-      if (newMessageBtn) newMessageBtn.style.visibility = '';
+      if (newMessageBtn) newMessageBtn.style.display = '';
     }
 
     editBtn.addEventListener('click', () => {
