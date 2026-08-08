@@ -393,8 +393,8 @@ const CONFIG = {
       layout: "cover",
       title: "Project Plaza",
       lede: "Chat, connect, and transact in one place.",
-      sublede: "Project Plaza is a chat-first app that brings conversations, buying and selling, money transfers, group collections, identity, and partner services together in one place—so users can manage everyday interactions and transactions without switching between multiple apps.",
-      image: "./mascot_bounce_transparent.gif",
+      sublede: "Project Plaza is a chat-first app that brings conversations, buying and selling, money transfers, group collections, identity, and partner services together in one place, so users can manage everyday interactions and transactions without switching between multiple apps.",
+      image: "./mascot-bounce.webp",   // 0.9 MB; falls back to the .gif if absent
       app: false,
       notes: "One sentence on what Plaza is, then set the expectation: <b>this is the real prototype, not screenshots</b> — you can tap into any screen as questions come up. Press <b>I</b> (or click the phone) to take control at any point.",
     },
@@ -423,12 +423,13 @@ const CONFIG = {
       title: "Phone-verified (Limited access)",
       chips: [["open", "Chat &amp; messaging"], ["open", "Plaza browsing"], ["locked", "Transactions locked"]],
       points: [
-        "Chat list and messaging are fully available",
-        "Plaza browsing is fully available",
-        "Transaction entry points are hidden or locked",
+        "Start a conversation and explore Plaza freely",
+        "Not allowed to make transactions",
+        "Every transaction entry point is hidden or locked",
+        "A verification sheet appears if a transaction is attempted",
       ],
       app: { hash: "#/chats", verification: "phone" },
-      notes: "This is the cold open: it frames the whole deck. <b>Sets up why verification matters.</b><br><br>The prototype reloads here to drop to phone-verified level — deliberate, and it only happens on this slide and the next.<br><br>Point at what's <b>missing</b>, not what's there: the send/request entry points aren't dimmed-and-taunting, they're absent.<br><br><span class=\"warn\">Worth knowing:</span> at phone-verified the build treats the account as new, so the chat list comes up as the mascot empty state rather than a populated list. Either lean into it (\"this is a fresh phone-verified account\") or flag it as something to change — but don't be caught out by it mid-sentence.",
+      notes: "This is the cold open: it frames the whole deck. <b>Sets up why verification matters.</b><br><br>Say it as: they will be able to start a conversation and explore Plaza, but they will not be allowed to make transactions. If they attempt one, a <b>bottom sheet</b> appears asking them to complete verification before they can continue.<br><br>The prototype reloads here to drop to phone-verified level — deliberate, and it only happens on this slide and the next.<br><br>Point at what's <b>missing</b>, not what's there: the send/request entry points aren't dimmed-and-taunting, they're absent.<br><br><span class=\"warn\">Worth knowing:</span> at phone-verified the build treats the account as new, so the chat list comes up as the mascot empty state rather than a populated list. Either lean into it (\"this is a fresh phone-verified account\") or flag it as something to change — but don't be caught out by it mid-sentence.",
     },
     {
       layout: "split",
@@ -436,9 +437,9 @@ const CONFIG = {
       title: "Fully-verified (Full Access)",
       chips: [["open", "Same chat &amp; Plaza"], ["open", "Send / request money"], ["open", "Wallet"]],
       points: [
-        "The same chat and Plaza surfaces",
-        "Send and request money unlocked",
-        "Wallet and every payment entry point unlocked",
+        "The same surfaces and features",
+        "Sending and requesting money unlocked",
+        "Wallet and every payment entry point open",
       ],
       app: { hash: "#/chats", verification: "identity" },
       notes: "Same screen, one level up — the surfaces don't change, the <b>capabilities</b> do.<br><br>Say it explicitly: <b>everything after this slide assumes fully-verified.</b> It saves you from being asked \"but could she do that unverified?\" at every step.",
@@ -450,10 +451,11 @@ const CONFIG = {
       kicker: "Chats",
       title: "Chats Home",
       points: [
-        "Chat list, navbar, filter &amp; search",
+        "Chat list, filters &amp; search, settings, edit and create-new-message",
         "Pending request cards surface money owed <em>right in the list</em>",
-        "Swipe actions, edit mode, settings",
-        "Mascot empty state and micro-interactions",
+        "Swipe actions: mark read/unread, pin, mute/unmute, delete",
+        "Navigation bar and mascot micro-interactions",
+        "Quick actions from any page: balance, notifications, assistant, send &amp; request",
       ],
       app: { hash: "#/chats", verification: "identity" },
       notes: "The primary entry point. Two things worth a beat:<br><br>• <b>Pending request cards</b> in the list — money owed is visible before you open anything.<br>• The <b>mascot</b> — it carries the empty state and the micro-interactions. It's the personality of the app; don't skip past it.<br><br>Filters are along the top; tap one live if the audience is engaged.",
@@ -463,11 +465,14 @@ const CONFIG = {
       kicker: "Chats",
       title: "Starting a new conversation",
       points: [
-        "Create-new-message button",
-        "The full create-message flow, contact picker onward",
+        "Select a contact and start the conversation right away",
+        "Create a group chat by selecting members and naming the group",
+        "Message a number that isn't on Plaza yet",
+        "The recipient gets an SMS to open the app, then the message delivers",
+        "Send a reminder, or add a new contact to the list",
       ],
       app: { hash: "#/chats", call: "openNewMessageOverlay" },
-      notes: "Short slide — it exists so the audience knows the ordinary path in also works, not just the demo threads.<br><br>The overlay opens automatically when this slide loads. Dismiss it and move on unless someone asks about contact discovery.",
+      notes: "Three ways in: pick a contact, create a group chat, or message a number that isn't on Plaza yet.<br><br>The <b>non-user case</b> is the one worth naming. The message does not deliver straight away. The recipient receives an SMS asking them to download and open the app, and once they do, the greyed-out message flips to delivered. A reminder sends the same link again.<br><br>The overlay opens automatically when this slide loads.",
     },
 
     /* ── 3. Inside a chat ────────────────────────────────────────────── */
@@ -478,22 +483,12 @@ const CONFIG = {
       points: [
         "Call and video chat",
         "Send voice messages",
-        "Plus Menu",
-        "Contact Info Panel",
+        "Plus menu: photos, location, audio recordings",
+        "Contact info panel: shared content, history log, transaction details",
+        "Send and request money without leaving the thread",
       ],
       app: { hash: "#/chats/ate-joy" },
       notes: "The point of this slide is <b>proximity</b>: call, video and voice all live in the thread, so the conversation is the container for everything.<br><br>Tap the call icons to show the quick-action modals. Keep it brief — this is table stakes, and the audience knows it.",
-    },
-    {
-      layout: "split",
-      kicker: "Chats",
-      title: "Rich content in chat",
-      points: [
-        "Link previews render inline",
-        "Plaza AI can summarize a conversation",
-      ],
-      app: { hash: "#/chats/kuya-mark" },
-      notes: "The link preview is already in this thread — <b>beetzeeplay.com/savingsarah</b> renders as a card, not a raw URL.<br><br>For <b>Plaza AI</b>: tap the mascot, then <b>Talk to Plaza AI</b>. Summarizing a long thread is the case worth naming — family and group chats are where it earns its place.<br><br>If the assistant stalls, move on rather than debugging live; the next section is where the value is.",
     },
 
     /* ── 4. Payments inside chat ─────────────────────────────────────── */
@@ -503,11 +498,10 @@ const CONFIG = {
       title: "Send money in chat",
       points: [
         "The send-money flow, inside the conversation",
-        "Smart detection picks the amount out of the message",
         "No app switch, no copied reference numbers",
       ],
       app: { hash: "#/chats/ate-joy", clicks: ['#attach-popup [data-action="pay"]'] },
-      notes: "<b>Centrepiece flow.</b> The send-money sheet opens over Ate Joy's thread on its own.<br><br>Say the line: in every other setup, paying someone you're talking to means leaving the conversation, opening a wallet app, retyping an amount, and coming back to confirm.<br><br>For <b>amount smart detection</b>: close the sheet, type <b>250</b> in the composer, and the suggestion card offers to send or request it — the amount is lifted from the conversation.",
+      notes: "<b>Centrepiece flow.</b> The send-money sheet opens over Ate Joy's thread on its own.<br><br>Say the line: in every other setup, paying someone you're talking to means leaving the conversation, opening a wallet app, retyping an amount, and coming back to confirm.",
     },
     {
       layout: "split",
@@ -546,12 +540,27 @@ const CONFIG = {
       app: { hash: "#/chats/nanay-jocelyn" },
       notes: "<b>The strongest moment in the deck.</b> Run it live:<br><br>1. Point at the sticky strip — <b>Denim Jacket · ₱350.00</b> — \"the product rides above the thread, so nobody loses track of what's being bought.\"<br>2. Tap <b>Pay ₱350</b>. Read the escrow sheet aloud, verbatim: <i>\"Your payment will be securely received by Plaza using Trust Escrow. You'll be able to confirm that you've received your order before the funds are released to the seller.\"</i><br>3. <b>Confirm Payment</b> → the card flips to ✓ Paid ₱350, \"Held securely by Plaza\".<br>4. Land it: <i>\"the money is out of her wallet and not in his — it's ours. That gap is the product.\"</i> Then pause.<br>5. <b>Order Received</b> → payment released to the seller.<br><br><span class=\"warn\">Don't tap Track Order</span> (stale mock data) or Download Receipt (toast only). The <b>From</b> row on Transaction Details reads \"Alex Rivera\" on every transaction in this build — don't linger on it.",
     },
+    {
+      layout: "split",
+      kicker: "Chats",
+      title: "Smart Assistant &amp; Amount Detection",
+      points: [
+        "Link previews render inline",
+        "Summarize a conversation",
+        "Ask for help with bills, sending or requesting money, and reminders",
+        "Confirm before a money, order, security, or verification action continues",
+        "Recognize amounts in a message",
+        "Offer Send Money or Request Money for that amount",
+      ],
+      app: { hash: "#/chats/kuya-mark" },
+      notes: "The link preview is already in this thread: <b>beetzeeplay.com/savingsarah</b> renders as a card, not a raw URL.<br><br>For the <b>smart assistant</b>: tap the mascot, then <b>Talk to Plaza AI</b>. Summarizing a long thread is the case worth naming, since family and group chats are where it earns its place. It also handles bills, sending and requesting money, and reminders, and it asks for confirmation before anything involving money, an order, security, or verification goes through.<br><br>For <b>amount detection</b>: type <b>250</b> in the composer and the suggestion card offers to send or request it. The amount is lifted straight out of the conversation.<br><br>If the assistant stalls, move on rather than debugging live.",
+    },
 
     /* ── 6. Group & business use cases ───────────────────────────────── */
     {
       layout: "split",
       kicker: "Group Chats",
-      title: "Group Chats (Collection)",
+      title: "Group Chat (Collection)",
       points: [
         "Pay button inside the group thread",
         "Money goes into a pool, not to one person",
@@ -574,7 +583,7 @@ const CONFIG = {
     {
       layout: "split",
       kicker: "Group Chats",
-      title: "Group chat info",
+      title: "Group Chat Info Panel",
       points: [
         "Chat information",
         "Full member list",
@@ -827,12 +836,34 @@ const CONFIG = {
       if (s.points) b.push(`<ul class="points">${s.points.map(p => `<li>${p}</li>`).join("")}</ul>`);
       return `<section class="slide ${s.layout || "text"}" data-i="${i}">
                 <div class="col">${b.join("")}</div>
-                ${s.image ? `<img class="cover-mascot" src="${s.image}" alt="" />` : ""}
+                ${s.image ? `<img class="cover-mascot" src="${s.image}" alt="" onerror="__coverFallback(this)" />` : ""}
                 ${s.note ? `<div class="note">${s.note}</div>` : ""}
                 <div class="slide-no">${String(i + 1).padStart(2, "0")} / ${slides.length}</div>
               </section>`;
     }).join("");
   }
+
+  /* The mascot has shipped under more than one filename, and a static host
+     (Vercel, GitHub Pages) is case-sensitive and only serves what was actually
+     committed. Try each candidate in turn, and hide the image rather than
+     leave a broken-image icon on the cover slide if none of them resolve. */
+  const IMAGE_FALLBACKS = [
+    "./mascot-bounce.webp",              // 0.9 MB, same picture — prefer this one
+    "./mascot_bounce_transparent.gif",
+    "./mascot-bounce.gif",
+  ];
+  window.__coverFallback = function (img) {
+    const tried = (img.dataset.tried || img.getAttribute("src") || "").split("|");
+    const next = IMAGE_FALLBACKS.find(u => tried.indexOf(u) === -1);
+    if (next) {
+      img.dataset.tried = tried.concat(next).join("|");
+      log("cover-image:fallback", next);
+      img.setAttribute("src", next);
+    } else {
+      log("cover-image:none");
+      img.style.display = "none";
+    }
+  };
 
   /* ---------- the persistent prototype ----------------------------------- */
   let reloadTicket = 0;
@@ -874,6 +905,10 @@ const CONFIG = {
       w.localStorage.removeItem("project-plaza:last-location");
       w.localStorage.removeItem("project-plaza:last-route");
       w.sessionStorage.removeItem("project-plaza:last-route");
+      /* Light is the prototype default, but a previous session on this
+         browser can leave Dark Mode saved. Pin it so the deck is
+         deterministic on any machine. */
+      w.localStorage.setItem("project-plaza:theme", "Light Mode");
     } catch (_) {}
   }
 

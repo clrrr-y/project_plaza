@@ -56,10 +56,12 @@ All text currently in `Project_Plaza_Walkthrough.html`, pulled out slide by slid
 - **Kicker:** Chats
 - **Title:** Chats Home
 - **Points:**
-  1. Chat list, navbar, filter & search
-  2. Pending request cards surface money owed <em>right in the list</em>
-  3. Swipe actions, edit mode, settings
-  4. Mascot empty state and micro-interactions
+  1. Filter chats by All, Unread, Groups, or Businesses.
+  2. Review and pay a pending request from the chat list.
+  3. See the latest message, timestamp, and unread count for each chat.
+  4. Identify marketplace chats by the item name beside the contact.
+  5. Swipe actions, edit mode, settings
+  6. Mascot micro-interactions
 - **Speaker notes:** The primary entry point. Two things worth a beat:<br><br>• <b>Pending request cards</b> in the list — money owed is visible before you open anything.<br>• The <b>mascot</b> — it carries the empty state and the micro-interactions. It's the personality of the app; don't skip past it.<br><br>Filters are along the top; tap one live if the audience is engaged.
 
 ---
