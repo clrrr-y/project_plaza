@@ -29,7 +29,7 @@
   ----
   → ← Space   next / previous slide          I or click the phone   take control
   1–9 / 0     jump                           Esc                    hand control back
-  N           speaker notes                  O                      slide grid
+  Cmd+N       speaker notes                  O                      slide grid
   R           reload the prototype           F                      fullscreen
   Cmd/Ctrl+P  speaker notes in a second window (stays in sync with this one)
   T           toggle light / dark background (debug tool, not for presenting)
@@ -1106,7 +1106,7 @@ const CONFIG = {
   /* ---------- navigation ------------------------------------------------- */
   /* ---------- editable speaker notes ------------------------------------
      Notes you type in the presenter window are kept per slide in this
-     browser's localStorage and broadcast to the slide window, so the N panel
+     browser's localStorage and broadcast to the slide window, so the Cmd+N panel
      and the presenter panel never disagree. The slide definitions above are
      never rewritten — "Revert this slide" just drops the draft. */
   const DRAFT_KEY = "plaza-deck:notes";
@@ -1163,8 +1163,15 @@ const CONFIG = {
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
     const k = e.key;
+    if (e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey && (k === "n" || k === "N")) {
+      if (!editing && !(e.target && e.target.isContentEditable) && !interactive) {
+        notesEl.classList.toggle("show");
+      }
+      e.preventDefault();
+      return;
+    }
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
     // While the notes are being typed into, the keyboard belongs to the editor.
     if (editing || (e.target && e.target.isContentEditable)) {
       if (k === "Escape") { setEditing(false); e.preventDefault(); }
@@ -1183,7 +1190,6 @@ const CONFIG = {
         go(index - 1); e.preventDefault(); break;
       case "Home": go(0); break;
       case "End": go(slides.length - 1); break;
-      case "n": case "N": notesEl.classList.toggle("show"); break;
       case "e": case "E": if (IS_PRESENTER) { setEditing(true); e.preventDefault(); } break;
       case "o": case "O": overlayMode === "grid" ? closeOverlay() : openGrid(); break;
       case "?": case "/": overlayMode === "help" ? closeOverlay() : openHelp(); break;
@@ -1263,7 +1269,7 @@ const CONFIG = {
     const rows = [
       ["→ ↓ Space", "Next slide"], ["← ↑", "Previous slide"], ["1–9, 0", "Jump to slide"],
       ["I  or click the phone", "Take control of the prototype"],
-      ["Esc", "Hand control back to the deck"], ["N", "Speaker notes"],
+      ["Esc", "Hand control back to the deck"], ["⌘N", "Speaker notes"],
       ["⌘P / Ctrl+P", "Open speaker notes in a second window"],
       ["E  (presenter window)", "Edit this slide's speaker notes"],
       ["O", "Slide grid"], ["R", "Reload the prototype at this slide's screen"], ["F", "Fullscreen"],
@@ -1378,6 +1384,7 @@ const CONFIG = {
   function presenterURL() { return location.origin + location.pathname + "?view=notes#" + (index + 1); }
   function openPresenter() {
     const w = window.open(presenterURL(), "plaza-presenter", "width=1100,height=800");
+    if (w) startWorkflowTimer();
     if (!w) showHint(true);          // no dialogs — fall back to a clickable link
   }
   function showHint(persist) {
@@ -1389,8 +1396,8 @@ const CONFIG = {
   }
 
   /* The prototype runs in an iframe; once it has focus, key events never reach
-     this document. Catch Cmd/Ctrl+P at window level and inside the frame too.
-     preventDefault stops the browser's own print dialog from opening — this
+     this document. Catch deck-level shortcuts inside the frame too.
+     preventDefault stops the browser's own new-window / print actions — this
      is best-effort; some browsers (notably Safari) can still show it. */
   function bindPresenterKey(doc) {
     if (!doc || doc.__pvBound) return;
@@ -1399,6 +1406,11 @@ const CONFIG = {
       if (e.altKey || e.shiftKey) return;
       if (!(e.metaKey || e.ctrlKey)) return;
       if (e.target && e.target.isContentEditable) return;
+      if (doc !== document && e.metaKey && !e.ctrlKey && (e.key === "n" || e.key === "N")) {
+        if (!editing && !interactive) notesEl.classList.toggle("show");
+        e.preventDefault();
+        return;
+      }
       if ((e.key === "p" || e.key === "P") && !IS_PRESENTER) { openPresenter(); e.preventDefault(); }
     }, true);
   }
@@ -1460,11 +1472,18 @@ const CONFIG = {
   };
   document.addEventListener("mousemove", poke);
   poke();
-  const t0 = Date.now();
-  setInterval(() => {
-    const s = Math.floor((Date.now() - t0) / 1000);
+  let workflowT0 = null, workflowTimer = null;
+  function updateWorkflowClock() {
+    const s = workflowT0 == null ? 0 : Math.floor((Date.now() - workflowT0) / 1000);
     clockEl.textContent = `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
-  }, 1000);
+  }
+  function startWorkflowTimer() {
+    if (IS_PRESENTER || workflowTimer) return;
+    workflowT0 = Date.now();
+    updateWorkflowClock();
+    workflowTimer = setInterval(updateWorkflowClock, 1000);
+  }
+  updateWorkflowClock();
 
   /* Opened by double-clicking the file? Say so, loudly — on file:// the deck
      can't drive the prototype's screens and iframes render unreliably. */
@@ -1491,7 +1510,7 @@ const CONFIG = {
     const hc = document.getElementById("hintClose");
     if (hc) hc.addEventListener("click", () => document.getElementById("hint").classList.remove("show"));
     const hl = document.getElementById("hintLink");
-    if (hl) hl.addEventListener("click", () => hl.setAttribute("href", presenterURL()));
+    if (hl) hl.addEventListener("click", () => { hl.setAttribute("href", presenterURL()); startWorkflowTimer(); });
     setTimeout(() => showHint(false), 900);
   }
 
