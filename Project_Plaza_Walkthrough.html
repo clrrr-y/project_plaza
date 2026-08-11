@@ -32,6 +32,7 @@
   Cmd+N       speaker notes                  O                      slide grid
   R           reload the prototype           F                      fullscreen
   Cmd/Ctrl+P  speaker notes in a second window (stays in sync with this one)
+  Shift+Z     start workflow timer
   T           toggle light / dark background (debug tool, not for presenting)
 
   On a phone or tablet (no keyboard): swipe left / right on the stage, or
@@ -155,7 +156,7 @@
   ul.points { list-style: none; margin: 0; padding: 0; }
   ul.points li {
     position: relative; padding-left: 34px; margin-bottom: 22px;
-    font-size: 24px; line-height: 1.34; letter-spacing: -.005em; color: var(--body-text);
+    font-size: 30px; line-height: 1.34; letter-spacing: -.005em; color: var(--body-text);
   }
   ul.points li:last-child { margin-bottom: 0; }
   ul.points li::before {
@@ -346,6 +347,521 @@
   .nav-prev { left: 14px; }
   .nav-next { right: 14px; }
   .nav-btn:active { background: rgba(138,56,245,.65); }
+
+  /* ========================================================================
+     PRODUCT PROOF OF CONCEPT — vendor evaluation slides
+     ------------------------------------------------------------------------
+     Same type scale, square corners and 1px hairlines as the walkthrough
+     slides above. Every colour goes through the theme variables, so these
+     slides follow the T-key light/dark switch like the rest of the deck.
+
+     layout "section" — the divider that opens the block
+     layout "poc"     — content slides; blocks come from the keys they declare
+                        (cards, columns, tiers, table, code, strip, callout,
+                        names, points, foot) with optional screenshots beside
+     ======================================================================== */
+
+  /* ---- divider ----------------------------------------------------------- */
+  .slide.section .col { left: 140px; width: 1500px; }
+  .slide.section h1 { font-size: 104px; margin-bottom: 28px; }
+  .slide.section .lede { font-size: 32px; max-width: 44ch; }
+  .slide.section .sublede { font-size: 22px; max-width: 1120px; margin-top: 36px; }
+
+  /* ---- content slides ---------------------------------------------------- */
+  /* Dense slides, so the column is a normal top-aligned block rather than the
+     vertically-centred .col the phone slides use. */
+  .slide.poc { padding: 78px 140px 92px; }
+  .slide.poc .col {
+    position: static; transform: none; left: auto; top: auto;
+    width: 1640px; height: 100%; display: flex; flex-direction: column;
+  }
+  .slide.poc .kicker { margin-bottom: 16px; }
+  .slide.poc h2 { font-size: 52px; margin: 0 0 12px; }
+  .slide.poc .lede { font-size: 24px; line-height: 1.34; max-width: 92ch; margin: 0; }
+  .slide.poc .chips { margin: 16px 0 0; }
+
+  .poc-head { flex: 0 0 auto; }
+  /* The blocks fill whatever the header leaves, centred in that band — a
+     lighter slide then reads as deliberately airy rather than as a full slide
+     with a hole in the bottom half. */
+  .poc-main { flex: 1 1 auto; min-width: 0; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: 26px; padding-top: 24px; }
+  /* Blocks keep their intrinsic height rather than shrinking — an over-full
+     slide then visibly breaks its margins instead of quietly clipping a
+     code block or a list halfway through. */
+  .poc-main > * { flex: 0 0 auto; }
+
+  /* A slide carrying screenshots becomes two real tracks: text on the left,
+     shots on the right, sized to whatever the images actually measure. The
+     heading and lede live in the text track, so no amount of copy can run
+     under a screenshot — the grid, not a guessed max-width, guarantees it. */
+  .slide.poc.has-shots .col {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: 56px;
+  }
+  .slide.poc.has-shots .poc-head { grid-area: 1 / 1; }
+  .slide.poc.has-shots .poc-main { grid-area: 2 / 1; }
+  /* Row 2, not spanning both rows: the blocks and the screenshot then centre
+     on the same axis under the heading instead of drifting apart. */
+  .slide.poc.has-shots .poc-side { grid-area: 2 / 2; }
+  .slide.poc.has-pillar-rows .poc-main { justify-content: center; padding-top: 0; }
+  .slide.poc.has-pillar-rows .poc-side { align-self: center; }
+  .slide.poc.has-pillar-rows .shot {
+    border: 0; background: transparent; box-shadow: none; overflow: visible;
+  }
+  .slide.poc.has-pillar-rows .shot img {
+    max-height: 690px; max-width: 440px; border-radius: 0;
+  }
+  .poc-side { display: flex; gap: 26px; align-items: center; }
+
+  /* Screenshots keep their own chrome — a hairline frame and the same lifted
+     shadow as the prototype host, so they read as captured product, not as
+     slide furniture. */
+  .shot {
+    margin: 0; border: 1px solid var(--host-border); background: var(--stage-fallback);
+    overflow: hidden; box-shadow: 0 26px 64px -28px var(--host-shadow); border-radius: 8px;
+  }
+  .shot img { display: block; max-height: 660px; max-width: 560px; width: auto; height: auto; border-radius: 8px; }
+
+  .poc-graphic { margin: 0; display: flex; justify-content: center; }
+  .poc-graphic img {
+    display: block; width: 100%; max-width: 1240px; max-height: 590px;
+    object-fit: contain; border-radius: 8px;
+  }
+
+  .slide.poc.has-pillar-phone { padding-bottom: 0; }
+  .slide.poc.has-pillar-phone .poc-main {
+    position: relative; justify-content: flex-start; padding-top: 18px; overflow: visible;
+  }
+  .pillar-phone-stage {
+    position: relative; width: 100%; min-height: 700px; overflow: visible;
+  }
+  .pillar-labels {
+    position: absolute; top: 420px; width: 390px;
+    display: flex; flex-direction: column; gap: 86px; z-index: 3;
+  }
+  .pillar-labels.left { left: 60px; align-items: flex-start; text-align: left; }
+  .pillar-labels.right { right: -110px; align-items: flex-start; text-align: left; }
+  .pillar-label {
+    display: flex; align-items: flex-start; gap: 16px;
+    font-size: 34px; line-height: 1.22; font-weight: 700; letter-spacing: -.015em;
+    color: var(--ink); text-transform: none;
+  }
+  .pillar-label::before {
+    content: ""; width: 10px; height: 10px; margin-top: .46em;
+    flex: 0 0 10px; background: var(--accent-bullet);
+  }
+  .pillar-phone-crop {
+    position: absolute; left: 50%; bottom: -790px; transform: translateX(-50%);
+    width: 880px; height: 1345px; overflow: hidden; z-index: 2;
+  }
+  .pillar-phone {
+    position: relative; width: 100%; height: 100%;
+  }
+  .pillar-phone-img {
+    position: absolute; inset: 0; width: 100%; height: auto; display: block; z-index: 0;
+  }
+  .pillar-mascot-screen {
+    position: absolute; left: 84px; right: 84px; top: 90px; bottom: 0;
+    overflow: hidden; z-index: 1; pointer-events: none;
+  }
+  .pillar-mascot {
+    position: absolute; left: 50%; top: 430px; width: 560px; max-width: none; height: auto;
+    transform: translate(-50%, -50%); z-index: 1; pointer-events: none;
+  }
+  .pillar-mascot-screen .pillar-mascot {
+    z-index: 1;
+  }
+
+  /* ---- cards ------------------------------------------------------------- */
+  .cardgrid { display: grid; gap: 20px; }
+  .cardgrid.c1 { grid-template-columns: 1fr; gap: 16px; }
+  /* Stacked beside a screenshot, a card reads better as a compact band: the
+     number and label share one line instead of stacking three deep. Two tracks
+     — ordinal, then everything else — hang the description off the label's left
+     edge rather than the number's, so the copy reads as belonging to the title. */
+  .cardgrid.c1 .card {
+    display: grid; grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 14px; align-items: baseline; padding: 20px 26px 22px;
+  }
+  .cardgrid.c1 .card .num { grid-column: 1; margin: 0; }
+  .cardgrid.c1 .card .ch  { grid-column: 2; margin: 0; }
+  .cardgrid.c1 .card p    { grid-column: 2; margin-top: 8px; }
+  .cardgrid.c2 { grid-template-columns: repeat(2, 1fr); }
+  .cardgrid.c3 { grid-template-columns: repeat(3, 1fr); }
+  .cardgrid.c4 { grid-template-columns: repeat(4, 1fr); }
+  .card { border: 1px solid var(--chip-border); padding: 26px 28px 28px; }
+  .card.has-image { min-height: 360px; display: flex; flex-direction: column; }
+  .card .num {
+    display: block; font-size: 18px; font-weight: 600; letter-spacing: .12em;
+    color: var(--accent-bullet); margin-bottom: 10px; font-variant-numeric: tabular-nums;
+  }
+  .card .ch { font-size: 27px; font-weight: 700; letter-spacing: -.015em; color: var(--ink); margin-bottom: 12px; }
+  .card p { font-size: 21px; line-height: 1.42; letter-spacing: -.005em; color: var(--body-text); margin: 0; }
+  .card.has-image p { margin-bottom: 24px; }
+  .card-media {
+    display: block; width: 100%; height: 205px; object-fit: cover;
+    object-position: center top; border-radius: 8px; margin-top: auto; background: #fff;
+  }
+  .slide.poc.has-tall-cards .poc-main { justify-content: flex-start; padding-top: 70px; }
+  .slide.poc.has-tall-cards .cardgrid { align-items: stretch; }
+  .slide.poc.has-tall-cards .card {
+    min-height: 320px; padding: 36px 40px 40px;
+    display: flex; flex-direction: column;
+  }
+  .slide.poc.has-tall-cards .card .ch { font-size: 29px; margin-bottom: 18px; }
+  .slide.poc.has-tall-cards .card p { font-size: 24px; line-height: 1.56; }
+  .slide.poc.has-tall-cards .card p b { color: var(--ink); font-weight: 700; }
+
+  .slide.poc.competitive-advantage .poc-main {
+    justify-content: center; align-items: stretch; padding-top: 58px;
+  }
+  .slide.poc.competitive-advantage .cardgrid {
+    width: 100%; gap: 36px; margin: 0;
+  }
+  .slide.poc.competitive-advantage .card {
+    min-height: 0; height: 260px; padding: 32px 38px;
+    justify-content: flex-start; box-sizing: border-box;
+    display: flex; flex-direction: column;
+  }
+  .slide.poc.competitive-advantage .card .ch {
+    font-size: 30px; margin-bottom: 18px; line-height: 1.2;
+  }
+  .slide.poc.competitive-advantage .card p {
+    font-size: 23px; line-height: 1.36; margin: 0;
+  }
+
+  .slide.poc.technology-strategy .poc-main {
+    justify-content: flex-start; align-items: stretch; padding-top: 236px;
+  }
+  .slide.poc.technology-strategy .cardgrid {
+    width: 100%; gap: 20px; margin: 0;
+  }
+  .slide.poc.technology-strategy .card {
+    height: 286px; min-height: 0; padding: 52px 38px 34px;
+    justify-content: flex-start; box-sizing: border-box;
+  }
+  .slide.poc.technology-strategy .card .ch {
+    font-size: 29px; margin-bottom: 18px;
+  }
+  .slide.poc.technology-strategy .card p {
+    font-size: 23px; line-height: 1.46;
+  }
+
+  .slide.poc.cometchat-intro .poc-main {
+    display: grid; grid-template-columns: minmax(0, 718px) 850px;
+    align-items: center; gap: 72px; padding-top: 46px;
+  }
+  .slide.poc.cometchat-intro .cardgrid {
+    grid-column: 2; grid-row: 1; width: 100%; align-self: center; gap: 20px;
+  }
+  .slide.poc.cometchat-intro .cardgrid.c1 .card {
+    height: 142px; min-height: 0; padding: 22px 28px;
+    align-content: center; box-sizing: border-box;
+  }
+  .slide.poc.cometchat-intro .cardgrid.c1 .card p {
+    margin-top: 8px; line-height: 1.34;
+  }
+  .slide.poc.cometchat-intro .poc-logo-card {
+    grid-column: 1; grid-row: 1; width: 100%; min-height: 0;
+    height: 466px; align-self: center; padding: 24px;
+    box-sizing: border-box;
+  }
+  .slide.poc.cometchat-intro .poc-logo-card img {
+    max-height: 280px;
+  }
+  .slide.poc.boxo-intro .poc-main {
+    display: grid; grid-template-columns: minmax(0, 718px) 850px;
+    align-items: center; gap: 72px; padding-top: 46px;
+  }
+  .slide.poc.boxo-intro .cardgrid {
+    grid-column: 2; grid-row: 1; width: 100%; align-self: center; gap: 20px;
+  }
+  .slide.poc.boxo-intro .cardgrid.c1 .card {
+    height: 142px; min-height: 0; padding: 22px 28px;
+    align-content: center; box-sizing: border-box;
+  }
+  .slide.poc.boxo-intro .cardgrid.c1 .card p {
+    margin-top: 8px; line-height: 1.34;
+  }
+  .slide.poc.boxo-intro .poc-logo-card {
+    grid-column: 1; grid-row: 1; width: 100%; min-height: 0;
+    height: 466px; align-self: center; padding: 24px;
+    box-sizing: border-box;
+  }
+  .slide.poc.boxo-intro .poc-logo-card img {
+    max-height: 280px;
+  }
+  .slide.poc.getstream-intro .poc-main {
+    display: grid; grid-template-columns: minmax(0, 718px) 850px;
+    align-items: center; gap: 72px; padding-top: 46px;
+  }
+  .slide.poc.getstream-intro .cardgrid {
+    grid-column: 2; grid-row: 1; width: 100%; align-self: center; gap: 20px;
+  }
+  .slide.poc.getstream-intro .cardgrid.c1 .card {
+    height: 142px; min-height: 0; padding: 22px 28px;
+    align-content: center; box-sizing: border-box;
+  }
+  .slide.poc.getstream-intro .cardgrid.c1 .card p {
+    margin-top: 8px; line-height: 1.34;
+  }
+  .slide.poc.getstream-intro .poc-logo-card {
+    grid-column: 1; grid-row: 1; width: 100%; min-height: 0;
+    height: 466px; align-self: center; padding: 24px;
+    box-sizing: border-box;
+  }
+  .slide.poc.getstream-intro .poc-logo-card img {
+    max-height: 280px;
+  }
+  .slide.poc.cometchat-feature-shot.has-shots .col {
+    column-gap: 40px;
+  }
+  .slide.poc.cometchat-feature-shot.has-shots .poc-main {
+    justify-content: flex-start; padding-top: 118px;
+  }
+  .slide.poc.cometchat-feature-shot.has-shots .poc-side {
+    transform: translateX(-34px);
+  }
+  .slide.poc.cometchat-payment-feature .poc-head .lede {
+    max-width: 860px;
+  }
+  .slide.poc.cometchat-admin-feature .poc-head .lede {
+    max-width: 920px;
+  }
+  .slide.poc.cometchat-admin-feature.has-shots .poc-main {
+    justify-content: flex-start; padding-top: 218px;
+  }
+  .slide.poc.cometchat-admin-feature ul.points.sm {
+    margin: 0 0 0 100px;
+  }
+  .poc-logo-card {
+    width: 440px; min-height: 300px; padding: 48px;
+    background: #fff; border: 1px solid var(--chip-border); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .poc-logo-card img {
+    display: block; width: 100%; height: 100%; max-height: 210px;
+    object-fit: contain; object-position: center center;
+  }
+
+  .slide.poc.boxo-miniapp-demo .poc-main { gap: 28px; }
+  .slide.poc.boxo-miniapp-demo .cardgrid.c1 .card {
+    display: block; padding: 28px 30px 30px;
+  }
+  .slide.poc.boxo-miniapp-demo .cardgrid.c1 .card .ch {
+    margin: 0 0 12px;
+  }
+  .slide.poc.boxo-miniapp-demo .cardgrid.c1 .card p {
+    margin: 0;
+  }
+  .slide.poc.boxo-sdk .poc-main { gap: 48px; }
+  .slide.poc.boxo-sdk pre.pcode {
+    background: rgba(168, 85, 247, .07);
+  }
+  .slide.poc.getstream-overview .callout,
+  .slide.poc.getstream-pricing .strip {
+    background: rgba(168, 85, 247, .07);
+  }
+
+  .pillar-rows {
+    display: grid; gap: 26px;
+  }
+  .pillar-row {
+    display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 30px;
+    min-height: 112px; padding: 21px 30px;
+    border: 1px solid var(--chip-border); background: transparent;
+    align-items: center;
+  }
+  .pillar-row .rh {
+    font-size: 23px; line-height: 1.18; font-weight: 700; letter-spacing: .02em;
+    text-transform: uppercase; color: var(--accent-bullet);
+  }
+  .pillar-row p {
+    margin: 0; font-size: 21px; line-height: 1.38; letter-spacing: -.005em; color: var(--body-text);
+  }
+
+  /* ---- two-column feature sets ------------------------------------------- */
+  .colset { display: grid; gap: 48px; }
+  .colset.c2 { grid-template-columns: repeat(2, 1fr); }
+  .colset.c3 { grid-template-columns: repeat(3, 1fr); }
+  .cset .csh {
+    display: flex; align-items: baseline; gap: 14px;
+    font-size: 30px; font-weight: 700; letter-spacing: -.015em; color: var(--ink);
+    margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--chip-border);
+  }
+  .cset .csh .num { font-size: 18px; font-weight: 600; color: var(--accent-bullet); font-variant-numeric: tabular-nums; }
+
+  .slide.poc.getstream-feature-containers .poc-main {
+    justify-content: center; padding-top: 58px;
+  }
+  .slide.poc.getstream-feature-containers .colset {
+    gap: 36px; align-items: stretch;
+  }
+  .slide.poc.getstream-feature-containers .cset {
+    min-height: 430px; padding: 34px 38px 36px;
+    border: 1px solid var(--chip-border); box-sizing: border-box;
+    display: flex; flex-direction: column; justify-content: flex-start;
+  }
+  .slide.poc.getstream-feature-containers .cset .csh {
+    margin-bottom: 22px; padding-bottom: 0; border-bottom: 0;
+  }
+  .slide.poc.getstream-feature-containers .cset ul.points.sm {
+    margin: 0;
+  }
+  .slide.poc.getstream-wired-grid .poc-main {
+    justify-content: center;
+    padding-top: 24px;
+  }
+  .slide.poc.getstream-wired-grid .cardgrid {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 204px;
+    gap: 28px;
+    align-items: stretch;
+  }
+  .slide.poc.getstream-wired-grid .card {
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 30px 34px;
+  }
+  .slide.poc.getstream-wired-grid .card .ch {
+    margin-bottom: 12px;
+  }
+  .slide.poc.getstream-wired-grid .card p {
+    line-height: 1.38;
+  }
+
+  .chat-feature-set { display: grid; gap: 48px; }
+  .chat-feature-set.c1 { grid-template-columns: 1fr; }
+  .chat-feature-item {
+    display: grid; gap: 24px;
+  }
+  .chat-feature-head {
+    display: grid; grid-template-columns: 76px minmax(0, 1fr); column-gap: 24px;
+    align-items: center;
+  }
+  .chat-feature-num {
+    width: 76px; height: 76px; border: 1px solid var(--chip-border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-bullet); font-size: 26px; font-weight: 700;
+    letter-spacing: .04em; font-variant-numeric: tabular-nums;
+  }
+  .chat-feature-title {
+    font-size: 30px; line-height: 1.2; font-weight: 700; letter-spacing: -.015em;
+    color: var(--ink); margin: 0; min-width: 0;
+  }
+  .chat-feature-list { margin-left: 100px; min-width: 0; }
+  .chat-feature-list ul.points.sm { margin: 0; }
+
+  ul.points.sm li { font-size: 23px; line-height: 1.36; margin-bottom: 14px; padding-left: 28px; }
+  ul.points.sm li::before { width: 8px; height: 8px; top: .5em; }
+
+  /* ---- pricing tiers ----------------------------------------------------- */
+  .tiers { display: grid; gap: 18px; align-items: stretch; }
+  .tiers.c3 { grid-template-columns: repeat(3, 1fr); }
+  .tiers.c4 { grid-template-columns: repeat(4, 1fr); }
+  .tier { border: 1px solid var(--chip-border); padding: 26px 26px 28px; position: relative; }
+  .tier.flag { border-color: var(--accent-bullet); }
+  .tier .tag {
+    position: absolute; top: -1px; right: -1px; background: var(--accent-bullet); color: #fff;
+    font-size: 14px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 5px 12px;
+  }
+  .tier .tname {
+    font-size: 19px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--body-text); margin-bottom: 12px;
+  }
+  /* min-height holds the one-line and two-line prices to the same depth, so the
+     feature lists start on a shared baseline across the row. */
+  .tier .tprice { font-size: 31px; font-weight: 700; letter-spacing: -.02em; line-height: 1.2; color: var(--ink); min-height: 68px; }
+  .tier .tprice span { display: block; font-size: 22px; font-weight: 600; color: var(--body-text); letter-spacing: -.01em; }
+  .tier .tsub { font-size: 18px; line-height: 1.38; color: var(--muted-em); margin: 12px 0 0; }
+  .tier ul.tlist { margin-top: 16px; }
+
+  ul.tlist { list-style: none; margin: 0; padding: 0; }
+  ul.tlist li {
+    position: relative; padding-left: 22px; margin-bottom: 9px;
+    font-size: 19px; line-height: 1.36; letter-spacing: -.005em; color: var(--body-text);
+  }
+  ul.tlist li:last-child { margin-bottom: 0; }
+  ul.tlist li::before { content: ""; position: absolute; left: 0; top: .52em; width: 7px; height: 7px; background: var(--accent-bullet); }
+  ul.tlist li em { font-style: normal; color: var(--muted-em); }
+
+  /* ---- emphasis blocks --------------------------------------------------- */
+  .strip, .callout { border: 1px solid var(--chip-border); border-left: 4px solid var(--accent-bullet); padding: 22px 28px; }
+  .strip .ch, .callout .ch {
+    font-size: 19px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink); margin-bottom: 9px;
+  }
+  .strip p, .callout p { font-size: 22px; line-height: 1.44; letter-spacing: -.005em; color: var(--body-text); margin: 0; }
+  .strip p b, .callout p b { color: var(--ink); font-weight: 600; }
+
+  /* ---- named references (customers, logos rebuilt as type) --------------- */
+  .namegrid { display: grid; gap: 18px; }
+  .namegrid.c3 { grid-template-columns: repeat(3, 1fr); }
+  .namegrid.c4 { grid-template-columns: repeat(4, 1fr); }
+  .nm { border: 1px solid var(--chip-border); padding: 22px 24px 24px; }
+  .nm .nmlogo-box {
+    height: 86px; width: 100%; padding: 14px 18px; margin: 0 0 18px;
+    background: #fff; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; border-radius: 4px;
+  }
+  .nm .nmlogo {
+    display: block; width: 100%; height: 100%; object-fit: contain;
+    object-position: center center;
+  }
+  .nm .nmlogo[alt="Snaphunt"] {
+    transform: scale(1.36);
+    transform-origin: center center;
+  }
+  .slide.poc.getstream-customers .nm .nmlogo {
+    transform-origin: center center;
+  }
+  .slide.poc.getstream-customers .nm .nmlogo[alt="Subito"] { transform: scale(3.3); }
+  .slide.poc.getstream-customers .nm .nmlogo[alt="Lokal"] { transform: scale(1.22); }
+  .slide.poc.getstream-customers .nm .nmlogo[alt="Furnished Finder"] { transform: scale(3.6); }
+  .slide.poc.getstream-customers .nm .nmlogo[alt="Partiful"] { transform: scale(2.1); }
+  .nm .nmh { font-size: 25px; font-weight: 700; letter-spacing: -.018em; color: var(--ink); }
+  .nm .nmu { font-size: 17px; letter-spacing: -.005em; color: var(--accent-bullet); margin-top: 5px; }
+  .nm .nmu a { color: inherit; text-decoration: none; }
+  .nm .nmu a:hover { text-decoration: underline; }
+  .nm .nmd { font-size: 19px; line-height: 1.36; color: var(--body-text); margin-top: 12px; }
+
+  /* ---- comparison table -------------------------------------------------- */
+  table.ptable { width: 100%; border-collapse: collapse; }
+  table.ptable th, table.ptable td {
+    text-align: left; padding: 21px 18px; font-size: 23px; letter-spacing: -.005em;
+    border-bottom: 1px solid var(--chip-border);
+  }
+  table.ptable th {
+    font-size: 19px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--body-text); padding-bottom: 16px;
+  }
+  table.ptable td { color: var(--body-text); font-variant-numeric: tabular-nums; }
+  table.ptable tbody td:first-child { color: var(--ink); font-weight: 600; }
+  table.ptable th.hi { color: var(--accent-bullet); }
+  table.ptable td.hi { color: var(--ink); font-weight: 700; }
+  table.ptable tbody tr:last-child td { border-bottom: 0; }
+
+  /* ---- code -------------------------------------------------------------- */
+  pre.pcode {
+    margin: 0; border: 1px solid var(--chip-border); border-left: 4px solid var(--accent-bullet);
+    padding: 24px 28px; white-space: pre; overflow: hidden;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 19px; line-height: 1.66; color: var(--body-text);
+  }
+  pre.pcode b { color: var(--ink); font-weight: 600; }
+  pre.pcode i { font-style: normal; color: var(--accent-bullet); }
+
+  /* ---- footnote ---------------------------------------------------------- */
+  .poc-foot { font-size: 19px; line-height: 1.42; color: var(--note-text); margin: 0; }
+  .poc-foot a { color: var(--accent-bullet); text-decoration: none; }
 </style>
 </head>
 <body>
@@ -393,15 +909,139 @@ const CONFIG = {
     {
       layout: "cover",
       title: "Project Plaza",
-      lede: "Chat, connect, and transact in one place.",
+      lede: "Connecting conversations, services, and<br>transactions in one experience.",
       sublede: "Project Plaza is a chat-first app that brings conversations, buying and selling, money transfers, group collections, identity, and partner services together in one place, so users can manage everyday interactions and transactions without switching between multiple apps.",
       image: "./mascot-bounce.webp",   // 0.9 MB; falls back to the .gif if absent
       app: false,
-      notes: "One thing before we start: What we are going to see on the slides is the real prototype, not screenshots. So if a question comes up, we can just go through it by tapping into any of the screens right there.",
+	      notes: "Good afternoon everyone. Today, I will walk you through Project Plaza, a chat-first experience that connects conversations, services, and transactions in one place.<br><br>The main idea is simple: instead of making users jump from a messaging app, to a wallet, to a marketplace, and then to a service provider, Plaza brings those actions into one connected flow.<br><br>As we go through the presentation, keep this in mind: the conversation is not just where people talk. It becomes the place where they can discover services, move money, coordinate with others, and complete everyday transactions.",
     },
-    {
-      layout: "text",
-      kicker: "Table of Contents",
+
+	    /* ── imported opening context from the PowerPoint, restyled to this deck ── */
+	    {
+	      layout: "text",
+	      title: "Agenda",
+	      points: [
+	        "Product Introduction",
+	        "Product Flow &amp; User Experience",
+	        "Technology Strategy (Proof of Concept)",
+	      ],
+	      app: false,
+	      notes: "We will start with the product introduction, then move into the product flow and user experience, and then close with the technology strategy behind the proof of concept.",
+	    },
+	    {
+	      layout: "poc",
+	      title: "Why Project Plaza?",
+	      lede: "Problem: Users switch between multiple apps. (Facebook,<br>Messenger/Viber, GCash, MAYA, Courier, Bank) to complete one<br>transaction.",
+	      cards: [
+	        {
+	          h: "Too many apps",
+	          p: "Every switch interrupts the user's journey, creates distraction, and increases the chance they will abandon the task.",
+	          img: "./walkthrough-assets/p3-too-many-apps.png",
+	        },
+	        {
+	          h: "Repeated logins",
+	          p: "Users forget passwords, enter OTPs repeatedly, or run into expired sessions before they can use the service.",
+	          img: "./walkthrough-assets/p3-repeated-logins.png",
+	        },
+	        {
+	          h: "Fragmented experience",
+	          p: "Users have to remember where each service lives, which app holds the conversation, and where the actual transaction happens.",
+	          img: "./walkthrough-assets/p3-fragmented-user-thumb.png",
+	        },
+	      ],
+	      app: false,
+	      notes: "Project Plaza starts from a simple problem: completing one everyday transaction often means jumping across several apps.<br><br>Each handoff adds friction. Users lose context, re-authenticate, and have to remember which app holds which part of the journey.",
+	    },
+	    {
+	      layout: "poc",
+	      title: "Project Plaza Pillars",
+	      lede: "A focused mobile app designed to simplify daily actions into one clear experience.",
+	      pillarPhone: {
+	        phone: "./phone.png",
+	        mascot: "./mascot_bounce_transparent.gif",
+	        left: ["Social Hub", "Wallet"],
+	        right: ["Marketplace &amp;<br>Plaza Mini-Apps", "Smart Assistant"],
+	      },
+	      app: false,
+		      notes: "Project Plaza is built around four main pillars.<br><br>The first is the Social Hub, where users can chat, call, coordinate, and interact with people and businesses. The second is the Wallet, which handles money movement inside the app.<br><br>On the other side, we have Marketplace and Plaza Mini-Apps, which bring commerce and partner services into the same experience. And finally, we have the Smart Assistant, which helps users complete tasks faster and get support while staying inside the app.<br><br>Together, these pillars show that Plaza is not only a wallet or chat app. It is a connected ecosystem for communication, services, and transactions.",
+	    },
+	    {
+	      layout: "poc",
+	      title: "Strategic Pillars",
+	      pillarRows: [
+	        {
+	          h: "Social hub",
+	          p: "Secure chat, chat-to-pay, and digital aguinaldo, meaning digital cash gifts or vouchers.",
+	        },
+	        {
+	          h: "Wallet",
+	          p: "A secure digital wallet for storing funds, making payments, transferring money, and managing transactions inside the Plaza ecosystem.",
+	        },
+	        {
+	          h: "Marketplace &amp; Plaza mini-app host",
+	          p: "Connects users with local businesses and partner services across shopping, finance, delivery, healthcare, government services, and entertainment.",
+	        },
+	        {
+	          h: "Smart assistant",
+	          p: "An intelligent in-app assistant that improves the experience through real-time support.",
+	        },
+	      ],
+	      shots: ["./walkthrough-assets/p5-superapp-phone-clean.png"],
+	      app: false,
+		      notes: "Here are those same pillars as a product strategy.<br><br>The Social Hub anchors the relationship with the user because conversations are the most natural starting point. The Wallet supports the transaction layer, so payments, transfers, and balances can happen in context.<br><br>The Marketplace and Mini-App Host expands Plaza beyond financial transactions into shopping, delivery, healthcare, government services, entertainment, and other partner flows. The Smart Assistant becomes the support layer that helps users navigate the whole ecosystem.<br><br>So the strategy is to let users start from a conversation or service need, and then complete the action without leaving Plaza.",
+	    },
+	    {
+	      layout: "poc",
+	      className: "competitive-advantage",
+	      title: "Competitive Advantage",
+      lede: "Competitors focus on digital banking. Project Plaza focuses on <b>&ldquo;economic activity&rdquo;</b><br>transactions, and community.",
+	      tallCards: true,
+	      cards: [
+	        {
+	          h: "Physical Accountability",
+	          p: "3,500 branches serve as <b>\"Face-to-Face\"</b> support centers for users wary of digital-only fraud.",
+	        },
+	        {
+	          h: "Cost of Liquidity",
+	          p: "Because we own the branch network, our <b>\"Cash-In\"</b> costs are nearly zero, whereas others (e.g., GCash) pay billions in commissions to 3rd-party partners.",
+	        },
+	      ],
+	      app: false,
+		      notes: "Most competitors focus on digital banking alone. Project Plaza is positioned differently: it focuses on economic activity, transactions, and community.<br><br>The first advantage is physical accountability. Cebuana's 3,500 branches can act as face-to-face support centers for users who may still be cautious about digital-only platforms or fraud.<br><br>The second advantage is cost of liquidity. Because the branch network is owned, cash-in can be supported at much lower cost compared with platforms that rely heavily on third-party partners. This gives Plaza a trust advantage and an operations advantage.",
+	    },
+	    {
+	      layout: "poc",
+	      className: "technology-strategy",
+	      title: "Technology Strategy",
+	      lede: "Proof of concept strategy for the chat, services, and banking layers.",
+	      tallCards: true,
+	      cards: [
+	        {
+	          h: "Messaging engine",
+	          p: "CometChat/GetStream<br>(Customizable Chat-to-Pay).",
+	        },
+	        {
+	          h: "Ecosystem container",
+	          p: "BOXO<br>(WeChat-compatible mini-app environment).",
+	        },
+	        {
+	          h: "Banking rails",
+	          p: "Integrate with Netbank or Cebuana's internal core for InstaPay/QR Ph.",
+	        },
+	      ],
+	      app: false,
+		      notes: "For the proof of concept, we separate the technology into three layers.<br><br>First is the messaging engine, where we compare tools like CometChat and GetStream because the chat experience has to support customized chat-to-pay behavior.<br><br>Second is the ecosystem container. Boxo gives us the mini-app environment, so services can run inside Plaza instead of requiring users to download separate apps.<br><br>Third is the banking rails. This is where Plaza connects to Netbank or Cebuana's internal core for InstaPay and QR Ph. Separating these layers helps us test the product experience while keeping each platform decision clear.",
+	    },
+	    {
+	      layout: "section",
+	      title: "End-to-End User Journey Demo",
+	      lede: "Now we move from product strategy into the live walkthrough of the core Plaza experience.",
+	      app: false,
+			      notes: "Now that we have covered the introduction, the problem, and the strategy, we can move into the actual product workflow.<br><br>From this point, I will walk through the core Plaza experience end to end: verification, chats, in-chat payments, group collections, business chats, calls, Plaza, wallet, and profile settings.<br><br>One thing to note before we start: what we are seeing is the working prototype, not static screenshots. So if questions come up, we can tap through the screens and walk through the flow directly.",
+	    },
+	    {
+	      layout: "text",
+	      kicker: "Table of Contents",
       title: "Plaza App Features",
       points: [
         "Access and Verification States",
@@ -414,7 +1054,7 @@ const CONFIG = {
         "Profile &amp; Settings",
       ],
       app: false,
-      notes: "Here's the running order. We start with access and verification, which covers both phone and identity verification. Then chats and everything we can do inside them, group chats, business chats, the calls tab, Plaza, wallet, and we'll end at profile and settings.",
+	      notes: "Here's the running order. We start with access and verification, which covers both phone and identity verification. Then chats and everything we can do inside them, group chats, business chats, the calls tab, Plaza, wallet, and we'll end at profile and settings.",
     },
 
     /* ── 1. Access & verification states*/
@@ -429,8 +1069,11 @@ const CONFIG = {
         "Every transaction entry point is hidden or locked",
         "A verification sheet appears if a transaction is attempted",
       ],
-      app: { hash: "#/chats", verification: "phone" },
-      notes: "Let's start with a user who has only verified their phone number.<br><br>These users will be able to start a conversation and explore Plaza, but they will not be able to make transactions. They can browse through the app freely, while every transaction entry point remains hidden or locked.<br><br>If the user attempts to make a transaction, a bottom sheet will appear and ask them to complete their verification before they can continue.",
+      /* Wallet, not chats: it is the surface where the locked state is actually
+         legible — ₱0.00, greyed-out Send / Request / Top Up, and the
+         "Verify Identity" prompt all on one screen. */
+      app: { hash: "#/wallet", verification: "phone" },
+	      notes: "Let's start with a user who has only verified their phone number.<br><br>These users will be able to start a conversation and explore Plaza, but they will not be able to make transactions. They can browse through the app freely, while every transaction entry point remains hidden or locked.<br><br>If the user attempts to make a transaction, a bottom sheet will appear and ask them to complete their verification before they can continue.",
     },
     {
       layout: "split",
@@ -443,7 +1086,7 @@ const CONFIG = {
         "Wallet and every payment entry point open",
       ],
       app: { hash: "#/chats", verification: "identity" },
-      notes: "For a fully verified user, the surfaces and features are exactly the same. What's different is that they can now make transactions. Sending and requesting money are unlocked, and the wallet and every payment entry point are now open.<br><br>From this point on, everything we will see is from the point of view of a fully verified user.",
+	      notes: "For a fully verified user, the surfaces and features are exactly the same. What's different is that they can now make transactions. Sending and requesting money are unlocked, and the wallet and every payment entry point are now open.<br><br>Before I proceed, I'd just like to mention from this point on, everything we will see is from the point of view of a fully verified user.",
     },
 
     /* ── 2. Chats (Home) ───────────────────── */
@@ -459,7 +1102,7 @@ const CONFIG = {
         "Quick actions from any page: balance, notifications, assistant, send &amp; request",
       ],
       app: { hash: "#/chats", verification: "identity" },
-      notes: "The Chats Home is the main entry point.<br><br>We have the chat list, with filters and search along the top, and the settings, edit, and create new message buttons.<br><br>We also have the pending request cards. These are money requests, or money you owe or are owed, just pulled out of the chat threads. They sit right in the list as a standing reminder so you see them before you open anything.<br><br>Then we have the swipe actions, where you can mark as read or unread, pin, mute or unmute, and delete.<br><br>And lastly, the navigation bar and the mascot. The mascot carries the micro-interactions, which are quick actions you can reach from any page. You can view your wallet balance, check notifications, talk to the smart assistant, and send or request money. So you can do that in any page since it sits along with the navigation bar.",
+	      notes: "Now let's proceed to the Chats Home.<br><br>This is the main entry point.<br><br>We have the chat list, with filters and search along the top, and the settings, edit, and create new message buttons.<br><br>We also have the pending request cards. These are money requests, or money you owe or are owed pulled directly from our chat threads. They sit right in the list as a standing reminder so we can see them before we open anything.<br><br>Then we have the swipe actions, where we can mark as read or unread, pin, mute or unmute, and delete.<br><br>And of course, the navigation bar and the mascot. The mascot carries the micro-interactions, which are quick actions we can reach from any page. We can view our wallet balance, check notifications, talk to the smart assistant, and request or send money. So we can do any of these in any page since it just sits along with the navigation bar.",
     },
     {
       layout: "split",
@@ -473,7 +1116,7 @@ const CONFIG = {
         "Send a reminder, or add a new contact to the list",
       ],
       app: { hash: "#/chats", call: "openNewMessageOverlay" },
-      notes: "When we start a new conversation, we just click the plus button and we have a few different options.<br><br>First, we can select a contact and start the conversation right away.<br><br>Second, we can create a group chat by selecting members from our contacts and giving the group a name.<br><br>Or third, we can message a number that isn't on Plaza yet. In this case, the message will not be delivered straight away. Instead, the recipient receives an SMS asking them to download and open the app. Once they do, this greyed out message goes through and shows as delivered.<br><br>We can also send them a reminder, which sends another SMS with the same app link.<br><br>And we can add a new contact from here as well, and they will appear in our contact list.",
+	      notes: "Next is starting a new conversation.<br><br>When we start a new conversation, we just click the plus button and we have a few different options.<br><br>First, we can select a contact and start the conversation right away.<br><br>Another one is, we can create a group chat by selecting members from our contacts and giving the group a name.<br><br>Third, we can message a number that isn't on Plaza yet. We just input the number and try messaging it. In this case, the message will not be delivered straight away. Instead, the recipient receives an SMS asking them to download and open the app. Once they do, this greyed out message goes through and shows as delivered.<br><br>We can also send them a reminder, which sends another SMS with the same app link.<br><br>And we can add a new contact from here as well, we just have to input their details and they will appear in our contact list.",
     },
 
     /* ── 3. Inside a chat ────────────────────────────────────────────── */
@@ -489,7 +1132,7 @@ const CONFIG = {
         "Send and request money without leaving the thread",
       ],
       app: { hash: "#/chats/ate-joy" },
-      notes: "Now we're inside a conversation.<br><br>Just like any other chat platform, we can call and video chat from here, send voice messages, and use the plus menu for photos, location, and audio recordings. We also have a contact info panel, which holds shared content, history, and the settings for that chat.<br><br>What sets us apart from other chat platforms is that we can send and request money inside the thread itself, without ever leaving the conversation. We also have a smart assistant we can ask for help. And inside the contact info panel, we can see the history log and the transaction details.<br><br>The point of this slide is proximity. Calling, video, voice, and money all live inside the thread, so the conversation becomes the container for everything.",
+	      notes: "Now we're inside a conversation.<br><br>Just like any other chat platform, we can call and video chat, send voice messages, and use the plus menu for photos, location, and audio recordings. We also have a contact info panel where we can find shared content, chat history, and settings for that conversation.<br><br>What sets us apart from other chat platforms is that we can send and request money inside the thread itself, without ever leaving the conversation. We also have a smart assistant where we can ask for help. And inside the contact info panel, we can see the history log and the transaction details. Later, I’ll show you how all these features work within a chat thread.<br><br>But before I do, I'd like to point out the main idea behind this slide: calling, video, voice message, and money all live inside the thread, so the conversation becomes the central place for everything.",
     },
 
     /* ── 4. Payments inside chat ─────────────────────────────────────── */
@@ -502,7 +1145,7 @@ const CONFIG = {
         "No app switch, no copied reference numbers",
       ],
       app: { hash: "#/chats/ate-joy", clicks: ['#attach-popup [data-action="pay"]'] },
-      notes: "This is the centrepiece.<br><br>The send money flow happens inside the conversation. When we tap the send money button, the sheet opens right over the thread.<br><br>In every other setup, paying someone we're already talking to means leaving the conversation and opening a wallet app. We have to switch apps, retype the amount, screenshot the receipt, then come back to the chat to send the proof. Here, we just enter the amount and confirm, and the receipt is sent automatically without ever leaving the thread.",
+	      notes: "One feature I mentioned is the send money. This is the centrepiece.<br><br>The send money flow happens inside the conversation. When we tap the send money button, the sheet opens right over the thread.<br><br>In every other setup, paying someone we're already talking to means leaving the conversation and opening a wallet app. We have to switch apps, retype the amount, screenshot the receipt, then come back to the chat to send the proof. Here, we just enter the amount, continue and confirm, and after the verification, receipt is sent automatically without ever leaving the thread.",
     },
     {
       layout: "split",
@@ -516,7 +1159,7 @@ const CONFIG = {
         "Request money by pasting in a link",
       ],
       app: { hash: "#/chats/ate-joy", clicks: ['#attach-popup [data-action="request"]'] },
-      notes: "Same rails, other direction.<br><br>This is the standard request money flow.<br><br>When we request money, it lands in the thread as a card, not as a message we scroll past and forget.<br><br>But what if the person we're talking to doesn't have enough balance in their wallet, or is still only phone verified? That's why we have other options. We can request through a QR code, or through a payment link, which is shareable anywhere, even outside the app.<br><br>We can also ask someone to pay for a product by sending them a link. We paste the link here, the product preview comes up, and once we hit send, it appears as a request card with the product details.",
+	      notes: "Another feature is the request money. Same rails, but the other direction.<br><br>This is the standard request money flow.<br><br>When we request money, we input the amount, add an optional note and then it lands in the thread as a card, not just another message we might scroll past and forget.<br><br>This is what it looks like: we can see the amount along with the note, if there is one. And we can also cancel the request if we want to.<br><br>But what if the person we're talking to doesn't have enough balance in their wallet, or is still only phone verified? In that case, we have other payment options. We just click this button, and it gives us the option to request money through a QR code or through a payment link that we can share anywhere, even outside the app. This is what they look like: this one is for the QR code, and this one is for the payment link.<br><br>Aside from that, we can also ask someone to pay for a product by sending them a link. We just paste the link here, and the product preview comes up, and once we hit send, it appears as a request card with the product details.",
     },
     {
       layout: "split",
@@ -527,7 +1170,7 @@ const CONFIG = {
         "It arrives in the thread and on the chat list at once",
       ],
       app: { hash: "#/chats" },
-      notes: "Let's flip sides and see what the other person gets.<br><br>This is how it looks when someone requests money from us.<br><br>It arrives in the thread and in the chat list at the same time. We can see it here, Mama, 500 pesos for grocery. We can pay straight from the button here and after confirming, it gets sent. If we also want a reminder of how it came about, we tap the card and it takes us back to the conversation where they asked for it.",
+	      notes: "Now let's flip sides and see what the other person gets.<br><br>This is what it looks when someone requests money from us.<br><br>It appears in the thread and in the chat list at the same time. As you can see, Mama is requesting 500 pesos for grocery. We can pay directly by tapping the Pay button, and once we confirm, the money is sent. But if we want to be reminded or check why the request was made, we can just tap the card and it will take us back to the conversation where they asked for it.",
     },
     {
       layout: "split",
@@ -539,7 +1182,7 @@ const CONFIG = {
         "Plaza holds the money until the buyer confirms the order",
       ],
       app: { hash: "#/chats/nanay-jocelyn" },
-      notes: "Imagine we are buying a product in the marketplace, so the payment happens inside the thread.<br><br>See this strip at the top. It's a sticky container so the product rides above the conversation the whole time. This is so that when our conversation gets too long, nobody will lose track of what's being bought.<br><br>We tap the pay button and a confirmation sheet comes up. Once we confirm, it runs a verification, and the receipt is sent automatically. From there, we can track the order. To give you a clearer example, let's choose this one.",
+	      notes: "Next is paying for a product in the marketplace.<br><br>Let's say we are buying a product from the marketplace. The payment happens inside the thread.<br><br>We tap the pay button and a confirmation sheet comes up. Once we confirm, it runs a verification, and after that, the receipt is sent automatically. From there, we can track the order by clicking this button and then we can see its progress.<br><br>See this strip at the top? It's a sticky container so the product stays visible above the conversation the whole time. This way, even if the conversation gets too long, no one loses track of what’s being purchased. To give you a clearer example, let’s choose this one.<br><br>As you can see, the conversation is already quite long because I’ve been asking for more details about the product. Once I decide to buy it, I just tap the sticky container, and it takes me back to the payment request card and then make the purchase.",
     },
     {
       layout: "split",
@@ -554,7 +1197,7 @@ const CONFIG = {
         "Offer Send Money or Request Money for that amount",
       ],
       app: { hash: "#/chats/kuya-mark" },
-      notes: "Another feature is the smart assistant and amount detection.<br><br>Link previews render inline. So instead of just seeing the link by itself, we already see the thumbnail, and we get a preview of where it's going.<br><br>Then we have amount detection. When someone sends an amount, the amount glows and a chat bubble pops up with actions to choose from, either send money or request money. And when we pick either one, it goes into the same flow I showed earlier.<br><br>Now what if there are multiple amounts detected? In that case, all the detected amounts glow, and all we have to do is pick whichever one we want. Same thing, the chat bubble comes up.<br><br>The smart assistant can also be found in the plus menu, can summarize our conversation. We just ask and it gives us an answer. We can also ask it to pay or request money for us, and it just needs our confirmation and verification.",
+	      notes: "Another feature is the smart assistant and amount detection.<br><br>First, Link previews appear direcrly in the chat. So instead of seeing just the link by itself, we can already see a thumbnail and get an idea of where the link will take us.<br><br>Then we have amount detection. When someone sends an amount, the amount glows and a small bubble pops up with actions to choose from, either to send money or request money. And once we choose an action, it takes us through the same flow I showed earlier.<br><br>But what if the message has multiple amounts? For example, if I type this. In this case, all the detected amounts glow, and all we have to do is pick the amount we want, and the same bubble appears so we can choose an action.<br><br>We can also find the smart assistant in the plus menu. We just tap “Talk to Plaza AI” and ask it to do something for us. For example, we can ask it to summarize our conversation, and there—we get a response.<br><br>We can also ask it to send or request money for us. Again, we just tell it what we want to do, and it prepares the action. For action requests, we just need to confirm and complete the verification, and then the money is sent or the request is created.",
     },
 
     /* ── 6. Group & business use cases ───────────────────────────────── */
@@ -568,7 +1211,7 @@ const CONFIG = {
         "Receipts sent automatically",
       ],
       app: { hash: "#/chats/grade4-parents" },
-      notes: "For group chat collections, most cases are family members, workmates, a barkada outing, and many more.<br><br>We can request money for a group collection by putting in the name of the collection, the amount per member, and then selecting the members. After that, the request card comes up.<br><br>Now if someone else is hosting the collection? So this is what we see. The name of the collection, the optional note, the amount and the pay button. We can also see the progress of the collection. It's the same flow as send money, so after we tap the pay button, it sends out the receipt.",
+	      notes: "Now that we’re done with individual chat threads, let’s move on to group chats, where multiple people are involved.<br><br>For group chat collections, most cases are family members, workmates, barkada outings, and many more.<br><br>For example, let’s say I’m planning a trip with my friends, but the hotel needs to be paid for in advance. I’ll need to collect money from everyone in the group—or what we call “amot” or “ambagan.”<br><br>To start, we tap the Request Money button, and this form comes up. We enter the name of the collection, the amount per member, and then select who needs to pay. We can choose specific members or select everyone. We can also add an optional note. After that, the request card appears in the group chat.<br><br>Now what if someone else is hosting the collection? So this is what we'll see. We see the name of the collection, the optional note, the amount we have to give and of course, the pay button. We can also see the progress of the collection, including how many members have already paid and how many are still pending.<br><br>From there, it follows the same flow as sending money. Once we tap the Pay button and confirm the payment, the receipt is sent.e",
     },
     {
       layout: "split",
@@ -579,7 +1222,7 @@ const CONFIG = {
         "Who has paid, who hasn't, without asking",
       ],
       app: { hash: "#/chats/grade4-parents/track" },
-      notes: "We can also track the collection. All we have to do is tap the view button.<br><br>From there we can easily see who has paid and who hasn't yet, we can see their receipts and we can send a reminder, which goes straight to their notifications.",
+	      notes: "We can also track the collection. All we have to do is tap the View button.<br><br>From there, we can easily see who has already paid and who hasn’t. We can also view their receipts and send reminders to those who still need to pay—either individually or all at once. And then the reminder goes straight to their notifications.",
     },
     {
       layout: "split",
@@ -590,7 +1233,7 @@ const CONFIG = {
         "Full member list",
       ],
       app: { hash: "#/chats/grade4-parents/members" },
-      notes: "In group chats, we can also see the shared media, the history logs, the settings, and the list of chat members.",
+	      notes: "In group chats, we can also view the shared media, history logs, and settings, just like in individual chat threads. The difference is that here, we can also see the list of group members and add more people. Any new members we add will need to be approved by the group admin or the person who created the group.",
     },
     {
       layout: "split",
@@ -601,7 +1244,7 @@ const CONFIG = {
         "Utilities, services and merchants in the same inbox",
       ],
       app: { hash: "#/chats/beetzeeplay" },
-      notes: "For business chats, this is where the services from Plaza come through. Which means utilities, services, and merchants all sit in the same inbox as everyone else.<br><br>And if we make an inquiry through the Plaza, they send us an automated message right in the thread. We just tap the button and it takes us straight to the deep link, so we never have to leave the app.",
+	      notes: "Now that we’re done with individual and group chats, let’s move on to business chats.<br><br>This is where messages from Plaza services come through. This means utilities, service providers, and merchants all appear in the same inbox as everyone else.<br><br>The chats in this section come from inquiries made through Plaza. Let’s say I subscribe to one of the services. The service provider will send an automated message directly to the thread. If we want to view the details, we just tap the button, and it takes us straight to the linked page so we never have to to leave the app.",
     },
 
     /* ── 7. Calls ────────────────────────────────────────────────────── */
@@ -615,7 +1258,7 @@ const CONFIG = {
         "Filter and search across calls",
       ],
       app: { hash: "#/calls" },
-      notes: "For the calls tab, just like any other platform that has calls, we see the call log and history, the filters, and our contacts. And we can search across all of them.",
+	      notes: "That covers all the features inside the Chat tab.<br><br>Now, let’s move on to the Calls tab.<br><br>I’ll keep this part short since it’s pretty simple. Just like on any other platform with calling features, we can see our call logs and history, use filters, and view our contacts. We can also search across all of them.",
     },
 
     /* ── 8. Plaza — discovery & marketplace ──────────────────────────── */
@@ -629,7 +1272,7 @@ const CONFIG = {
         "Banners &amp; promotions",
       ],
       app: { hash: "#/plaza" },
-      notes: "Plaza is the discovery side.<br><br>Here we have the search bar, the mini apps, and the banners and promotions across the front. The mini apps are the services where third party apps can live inside Plaza, so we never have to leave the app to use them.<br><br>We can also view all services, browse everything, and search from here.",
+	      notes: "Now, we finally reach Plaza. This is the discovery side of the app.<br><br>Here, we have the search bar, mini apps, banners, and promotions. Mini apps are third-party services that live inside Plaza, so we never have to leave the app to use them.<br><br>We can also view all the available services, browse through everything, or search for something specific.",
     },
     {
       layout: "split",
@@ -641,7 +1284,7 @@ const CONFIG = {
         "Escrow-protected listings are tagged",
       ],
       app: { hash: "#/marketplace" },
-      notes: "One of the services in Plaza is the marketplace.<br><br>We have For you, saved items, and Sell.<br><br>We can browse products and look through them, and we can also sell our own items or listings. So the plaza marketplace can serve both the consumer and seller. The items are tagged as escrow-protected, so buyers know before they commit.<br><br>And if we want to sell something, we just go to Sell, fill out the listing form, and publish. We can also see our active listings, our drafts, and the items we've sold.<br><br>Basically, it's like Facebook Marketplace, but more categorized.",
+	      notes: "One of the services available in Plaza is the Marketplace.<br><br>In the Marketplace, we have two sections: For You and Sell. We can also view our saved items and search for specific products.<br><br>We can browse different products and view their details. But it doesn’t end there. We can also create listings and sell our own items. So the point here is, Plaza Marketplace works for both buyers and sellers. Items are also tagged as escrow-protected, so buyers know they’re protected before making a purchase.<br><br>If we want to sell something, we just go to Sell and tap the List an Item button. Then, we fill out the form. After that, we tap Next and it gives us a preview of the listing, and publish it. Once it’s published, it appears under our active items. We can also view our drafts and the items we’ve already sold.<br><br>Basically, it’s like Facebook Marketplace, but more organized into categories.",
     },
     {
       layout: "split",
@@ -652,7 +1295,7 @@ const CONFIG = {
         "The buy button is a conversation",
       ],
       app: { hash: "#/marketplace/product/denim-jacket-m" },
-      notes: "This closes the loop back to what I showed earlier.<br><br>From any listing, we can chat with the seller or pay right away by clicking the pay button. If we chat with the seller, it goes back to what we saw earlier, where we can converse with the seller, and when conversations get too long, there's always the sticky container that helps us go back to the payment card.",
+	      notes: "Next is purchasing a product directly from the Marketplace or through a chat with the seller.<br><br>This closes the loop and brings us back to what I showed earlier.<br><br>From any listing, we can either chat with the seller or pay right away by clicking the Pay button. If we choose to chat with the seller, it takes us to the same flow we saw earlier, where we can ask questions and talk about the product.<br><br>But if we pay directly through the Marketplace, we’ll see an order summary. Once we continue, confirm, and complete the verification, it takes us to the chat thread with the seller. The receipt is already sent, and we’ll also have the option to track the order.",
     },
 
     /* ── 9. Wallet ───────────────────────────────────────────────────── */
@@ -667,7 +1310,7 @@ const CONFIG = {
         "Top-up wallet",
       ],
       app: { hash: "#/wallet" },
-      notes: "The wallet is the reconciliation surface. Chat is where the money moves; this is where it gets accounted for.<br><br>From here, we can view every transaction, open any one for the details, and filter the list down when we need to. We can also send and request money right from the wallet. On top of that, we can top up our balance: pick an amount, confirm the payment method, and once it's verified, it shows up in the balance immediately.<br><br>Since these send and request actions aren't happening inside a chat thread, we first pick which contact we're sending to or requesting from, and from there the flow is exactly the same as what we've already seen.",
+	      notes: "And finally, we’re on the last tab in the navigation bar, which is the Wallet.<br><br>The Wallet is where everything is accounted for. Chat is where the money moves, while the Wallet is where we can keep track of it.<br><br>From here, we can view all our transactions, filter the list, and open any transaction to see its details. We can also send and request money directly from the Wallet.<br><br>On top of that, we can top up our balance. We just choose an amount, select where we’re paying from, and confirm the payment method. Once it’s verified, the money shows up in our balance right away.<br><br>Since the send and request actions aren’t happening inside a chat thread, we first choose the contact we want to send money to or request money from. From there, the flow is exactly the same as what we’ve already seen.",
     },
 
     /* ── 10. Profile & settings ──────────────────────────────────────── */
@@ -680,7 +1323,7 @@ const CONFIG = {
         "Security, chats, notifications, appearance, storage",
       ],
       app: { hash: "#/profile" },
-      notes: "Lastly, the profile and settings. This is where we find our account-level controls: security, chats, notifications, appearance, and storage are all here.",
+	      notes: "Lastly, we have the Profile and Settings. This is where we can find our notifications, history logs, and account-level controls. These include the general settings, Smart Assistant settings, preferences, support, and the options to log out or delete the account.",
     },
     {
       layout: "text",
@@ -691,10 +1334,400 @@ const CONFIG = {
         "<b>Missing:</b> Login page, onboarding page, error states",
       ],
       app: false,
-      notes: "That ends the full workflow of the app. We covered the verification states, chat and in-chat payments, group collections, business chats, the smart assistant, Plaza discovery and marketplace, the wallet, and profile and settings. What's still missing for now are the login page, the onboarding page, and the error states.",
+	      notes: "And that ends the full workflow of the app’s features.<br><br>To give you a quick recap, we covered the different verification states, chats and everything we can do inside them, group collections, business chats, the Smart Assistant, Plaza discovery and Marketplace, the Wallet, and Profile and Settings.<br><br>What’s still missing from the prototype for now are the login and onboarding pages, as well as the different error states.<br><br>Next, two of our developers will walk you through the proof of concept. Thank you.",
     },
-  ],
-};
+
+    /* ══════════════════════════════════════════════════════════════════════
+       PRODUCT PROOF OF CONCEPT
+       Rebuilt from Cometchat.pptx (16 slides) then getStream.io.pptx (7), in
+       this deck's own layouts. Screenshots live in ./poc-assets/; the pricing
+       and comparison tables were rebuilt as type rather than pasted in as
+       light-background captures.
+
+       Order: divider · CometChat · Boxo · GetStream · cost comparison.
+       The comparison closes the block because it scores every vendor at once.
+       ══════════════════════════════════════════════════════════════════════ */
+    {
+      layout: "section",
+      kicker: "Proof of Concept",
+      title: "Product Proof of Concept",
+      /* The breakpoint between the feature walkthrough and the platform
+         question. Nothing but the three names we are about to work through. */
+      points: [
+        "CometChat",
+        "Boxo",
+        "GetStream.io",
+      ],
+      app: false,
+      notes: "Pause here. Everything up to this point was the product — what it does, and how it behaves.<br><br>What follows is a different question: what we put underneath it. Which platform carries the chat layer.<br><br>We start with CometChat, and with Boxo, which is the miniapp layer behind the Plaza services tab. Then GetStream, which is the one actually wired into the POC. And we finish with the two of them side by side on cost.",
+    },
+
+    /* ── CometChat — the first candidate ─────────────────────────────── */
+    {
+      layout: "poc",
+      className: "cometchat-intro",
+      kicker: "CometChat",
+      title: "What is CometChat?",
+      lede: "A communication platform for live text, voice, and video between users — built to drop into an existing website, app, or web app, and to scale from there.",
+      cards: [
+        { n: "01", h: "Text",  p: "Messaging between users, closest in behaviour to SMS." },
+        { n: "02", h: "Voice", p: "Audio calling, as used today in services like WhatsApp." },
+        { n: "03", h: "Video", p: "Video calling and multi-party rooms." },
+      ],
+      cols: 1,
+      logoCard: { src: "./poc-assets/poc logos/Cometchat.webp", alt: "CometChat logo" },
+      app: false,
+      notes: "CometChat is a communication platform that supports live interactions between users, such as instant messaging, group chats, voice calls, and video calls.<br><br>For developers, it gives us the tools to add these features directly to a website, mobile app, or web app. It’s also scalable and easy to integrate.<br><br>First, we have Text, which is basically sending messages to other people, similar to SMS.<br><br>Next is Audio or Voice, which allows users to call each other, just like what we commonly use in apps such as WhatsApp.<br><br>And finally, we have Video, which supports both one-on-one and group video calls.",
+    },
+    {
+      layout: "poc",
+      className: "cometchat-feature-shot",
+      kicker: "CometChat",
+      title: "Chat Features",
+      lede: "Core messaging, covered by the SDK out of the box.",
+      chatColumns: [
+        { n: "01", h: "Text", items: [
+          "Reactions / Emoji",
+          "Mentions",
+          "Threaded Conversations",
+          "Quoted Replies",
+          "Group Chats",
+          "Report Message",
+          "Conversation and Advance Search",
+          "Typing indicators",
+          "Media Sharing",
+        ]},
+      ],
+      shots: ["./poc-assets/cometchat-video-call.png"],
+      app: false,
+      notes: "Starting with text — the core messaging set.<br><br>Reactions and emoji, mentions, threaded conversations, quoted replies, group chats, reporting a message, conversation and advanced search, typing indicators, and media sharing.<br><br>That's parity with what we walked through earlier in the prototype. Nothing on this list is something we'd have to build.",
+    },
+    {
+      layout: "poc",
+      className: "cometchat-feature-shot",
+      kicker: "CometChat",
+      title: "Chat Features",
+      lede: "The engagement layer that sits on top of core messaging.",
+      chatColumns: [
+        { n: "02", h: "User Engagement", items: [
+          "Giphy / GIFs",
+          "Message Translations",
+          "Polls",
+          "Reminders",
+          "Stickers",
+        ]},
+      ],
+      shots: ["./poc-assets/cometchat-group-chat.png"],
+      app: false,
+      notes: "Second, the engagement layer — and this is where CometChat goes further than what we built.<br><br>Giphy and GIFs, message translations, polls, reminders, and stickers.<br><br>Translation is the one worth pausing on. For a Philippine market with mixed English, Tagalog, and Bisaya in the same thread, that's a real feature, not a nice-to-have.",
+    },
+    {
+      layout: "poc",
+      className: "cometchat-feature-shot cometchat-payment-feature",
+      kicker: "CometChat",
+      title: "Chat Integrated Feature",
+      lede: "The one feature we integrated end to end — money moving inside the thread,<br>not in a separate flow.",
+      chatColumns: [
+        { n: "03", h: "Payment Requests", items: [
+          "Send payment requests",
+          "Receive payment requests",
+          "Triggers via keywords",
+          "Auto pin message",
+        ]},
+      ],
+      shots: ["./poc-assets/cometchat-payment-request.png"],
+      app: false,
+      notes: "The feature we’ve successfully integrated so far is Payment Requests, which allows users to send or request money directly within the chat.",
+    },
+    {
+      layout: "poc",
+      className: "cometchat-admin-feature",
+      kicker: "CometChat",
+      title: "Back office and moderation",
+      lede: "A hosted dashboard is where the chat layer gets operated day to day — no admin,<br>surface to build.",
+      points: [
+        "Dashboard with usage against plan limits",
+        "View logs",
+        "Toggle features on and off per app",
+        "Configure settings",
+        "Profanity filter",
+        "Notification engine (push notifications, email, SMS)",
+      ],
+      shots: ["./poc-assets/cometchat-dashboard.png"],
+      app: false,
+      notes: "Something we would otherwise have to build ourselves: the back office.<br><br>CometChat ships a hosted dashboard. We get usage against our plan limits — you can see MAU and peak concurrent chats there on the right — logs, feature toggles per app, and settings.<br><br>Moderation includes a profanity filter, and there's a notification engine covering push, email, and SMS. That last one matters for us, because the SMS invite flow we saw earlier — messaging a number that isn't on Plaza yet — needs exactly that.",
+    },
+    {
+      layout: "poc",
+      kicker: "CometChat",
+      title: "CometChat pricing",
+      lede: "Published plan pricing at 10,000 monthly active users. Every plan is billed on MAU, with concurrency limits above it.",
+      tiers: [
+        { name: "Basic", price: "$373.75/mo",
+          sub: "All the essentials for a feature-rich real-time chat experience.",
+          items: ["Rich in-app chat", "Push notifications", "Basic moderation", "Global EDGE network"] },
+        { name: "Advanced", price: "$498.75/mo", tag: "Most popular",
+          sub: "An advanced suite with built-in notifications, AI moderation, and insights.",
+          items: ["AI rule-based moderation <em>(limited-time offer)</em>", "Email &amp; SMS notifications, templated", "Multi-tenancy", "AI smart replies &amp; summaries", "In-depth insights", "HIPAA / BAA, advanced search", "Message translation"] },
+        { name: "Enterprise", price: "from $1,248.75/mo",
+          sub: "Higher concurrency, zero overages, and top-tier support.",
+          items: ["Zero overages", "OpenAI-powered moderation", "OpenAI-powered insights &amp; enrichment", "10% concurrency included", "SSO — SAML, LDAP", "Custom white-label domain <em>(add-on)</em>"] },
+      ],
+      app: false,
+      notes: "CometChat's pricing, read at ten thousand monthly active users so it will line up with the GetStream numbers later.<br><br>Basic is $373.75 and covers the essentials — chat, push notifications, basic moderation, and their edge network. Advanced is $498.75, and it's the one they push: AI rule-based moderation, email and SMS notifications with templates, multi-tenancy, smart replies and summaries, insights, HIPAA, advanced search, and message translation. Enterprise starts at $1,248.75 and is really about zero overages, OpenAI-powered moderation and insights, SSO, and white-labelling.<br><br>The number to carry forward is $498.75, not $373.75 — because the features we'd actually want, translation and real moderation, sit on Advanced rather than Basic. That matters when we compare against GetStream in a few slides.",
+    },
+    {
+      layout: "poc",
+      kicker: "CometChat",
+      title: "Featured customers",
+      lede: "From CometChat's published customer stories.",
+      names: [
+        { logo: "./poc-assets/logo-snaphunt.png",       h: "Snaphunt",      d: "Recruitment marketplace messaging" },
+        { logo: "./poc-assets/logo-bitdefender.png",    h: "Bitdefender",   d: "Security vendor, in-product support chat" },
+        { logo: "./poc-assets/logo-pangea.png",         h: "Pangea",        d: "Talent platform" },
+        { logo: "./poc-assets/logo-randstad.png",       h: "Randstad",      d: "Global staffing and recruitment" },
+        { logo: "./poc-assets/logo-viral-fission.png",  h: "Viral Fission", d: "Youth community platform" },
+        { logo: "./poc-assets/logo-flicktv.png",        h: "FlickTV",       d: "Streaming and entertainment" },
+        { logo: "./poc-assets/logo-yugalabs.png",       h: "Yuga Labs",     d: "Community chat at consumer scale" },
+      ],
+      cols: 4,
+      foot: "Source: cometchat.com/customer-stories",
+      app: false,
+      notes: "Their reference customers. Randstad and Snaphunt are the recruitment and staffing side, Bitdefender and Pangea the enterprise side, and Viral Fission, FlickTV, and Yuga Labs the consumer-community side.<br><br>Worth saying plainly: this is a strong list, but none of them is a payments-in-chat marketplace. Watch for the same slide on the GetStream side later — coches.net and Peerspace on that list are much closer to what Plaza actually is, and that's a difference pricing alone won't show.",
+    },
+    {
+      layout: "section",
+      title: "Product Demonstration",
+      app: false,
+      notes: "Now we move from the CometChat reference section into the product demonstration layer for Boxo.",
+    },
+    {
+      layout: "poc",
+      className: "boxo-intro",
+      kicker: "Boxo",
+      title: "What is Boxo?",
+      lede: "A miniapp platform that lets Plaza host partner services inside the app, so users can open everyday services without installing each one separately.",
+      cards: [
+        { n: "01", h: "Miniapp platform", p: "Boxo lets lightweight services run inside a host app, turning one product into a broader service ecosystem." },
+        { n: "02", h: "Host app layer", p: "Project Plaza stays the main app while partner services open from inside Plaza as native-feeling experiences." },
+        { n: "03", h: "Service catalogue", p: "New services can be added through the miniapp catalogue instead of building and maintaining every service from scratch." },
+      ],
+      cols: 1,
+      logoCard: { src: "./walkthrough-assets/poc-logo-thumbs/boxo-clean.png", alt: "Boxo logo" },
+      app: false,
+      notes: "Boxo transforms an existing app into a super app by bringing different services together in one place.<br><br>Picture this: instead of asking users to download multiple apps for different needs, we can integrate Boxo into our app and give them access to everything they need without leaving it.",
+    },
+
+    /* ── Boxo — the miniapp layer behind Plaza's services ─────────────── */
+    {
+      layout: "poc",
+      className: "boxo-miniapp-demo",
+      kicker: "BOXO",
+      title: "Turn a simple app into a super app",
+      lede: "Boxo integrates outside services into an app you already own, so users reach everything in one place instead of downloading a separate app per need.",
+      cards: [
+        { h: "The mini app", p: "A small, lightweight application that runs inside a larger <b>host</b> app, giving users a specific capability with nothing to install." },
+        { h: "How it lands in Plaza", p: "Project Plaza is the super app. Under <b>Entertainment</b>, BeetzeePlay runs as a miniapp — opened straight from Plaza rather than downloaded on its own." },
+      ],
+      cols: 1,
+      shots: ["./poc-assets/boxo-plaza-home.png", "./poc-assets/boxo-miniapps.png"],
+      app: false,
+      notes: "A mini app is a small, lightweight application that runs inside a larger host app. It gives users access to a specific service without requiring them to download a separate app.<br><br>For example, Project Plaza is our host app. Under the Entertainment section, users can find the BeetzeePlay mini app. Instead of downloading BeetzeePlay separately, they can open and use it directly within Project Plaza.",
+    },
+    {
+      layout: "poc",
+      className: "boxo-sdk",
+      kicker: "BOXO",
+      title: "Integrate with a single SDK",
+      lede: "One integration brings the whole miniapp catalogue in — adding the next service is configuration, not another integration.",
+      cards: [
+        { h: "Mobile",       p: "Android &middot; iOS &middot; Flutter" },
+        { h: "Cross-platform", p: "React Native &middot; Capacitor &middot; Expo" },
+        { h: "Web",          p: "Web SDK" },
+      ],
+      code: "<i>import</i> AppBoxoSDK\n\n<i>let</i> config = <b>Config</b>(clientId: \"client_id\")\nAppboxo.shared.<b>setConfig</b>(config: config)\n\n<i>let</i> miniapp = Appboxo.shared.<b>getMiniapp</b>(appId: \"app_id\")",
+      app: false,
+      notes: "Integration is a single SDK, and it covers everything we'd need — Android, iOS, and Flutter on mobile, React Native, Capacitor, and Expo for cross-platform, and a web SDK.<br><br>The snippet is the whole shape of it: import the SDK, configure it with a client ID, then ask for a miniapp by app ID. That's the integration. Adding a second or a tenth miniapp after that is configuration, not engineering — which is the part that matters for how fast the Plaza services tab can grow.",
+    },
+    {
+      layout: "poc",
+      kicker: "BOXO",
+      title: "Priced by miniapps, host apps, and sessions",
+      lede: "Small numbers next to the chat layer — and counted on a different axis, so the two costs stack rather than trade off.",
+      tiers: [
+        { name: "Starter",    price: "Free",    items: ["5 miniapps", "2 host apps", "10K monthly sessions"] },
+        { name: "Pro",        price: "$20/mo",  items: ["10 miniapps", "5 host apps", "25K monthly sessions", "5 team members", "Hide &ldquo;Powered by Boxo&rdquo;"] },
+        { name: "Everything", price: "$100/mo", items: ["20 miniapps", "10 host apps", "100K monthly sessions", "20 team members", "Hide &ldquo;Powered by Boxo&rdquo;"] },
+      ],
+      app: false,
+      notes: "Boxo's pricing is small compared to the chat layer. Starter is free and gives us five miniapps, two host apps, and ten thousand monthly sessions — enough to prove the Plaza services tab. Pro is twenty dollars a month for ten miniapps and twenty-five thousand sessions. Everything is a hundred dollars a month for twenty miniapps and a hundred thousand sessions, and it's the first tier that removes the \"Powered by Boxo\" mark — worth noting if we're presenting Plaza as our own product.<br><br>The important bit: Boxo bills on sessions, and the chat platforms bill on monthly active users. These are separate lines, not an either-or. Whichever chat platform we pick, Boxo sits alongside it.",
+    },
+    {
+      layout: "section",
+      title: "Product Demonstration",
+      app: false,
+      notes: "Now we move from Boxo into the GetStream proof of concept.",
+    },
+    {
+      layout: "poc",
+      className: "getstream-intro",
+      kicker: "GetStream.io",
+      title: "What is GetStream.io?",
+      lede: "A managed communication platform for adding realtime chat, voice, video, and moderation without building the underlying infrastructure yourself.",
+      cards: [
+        { n: "01", h: "Chat SDK", p: "Channels, messages, reactions, threads, search, uploads, read receipts, typing state, and chat UI components." },
+        { n: "02", h: "Video SDK", p: "Video calls, audio rooms, livestream experiences, adaptive quality, and participant-minute usage pricing." },
+        { n: "03", h: "Moderation", p: "AI moderation options, audit controls, security certifications, and compliance support for production communication products." },
+      ],
+      cols: 1,
+      logoCard: { src: "./poc-assets/poc logos/getstream.png", alt: "GetStream logo" },
+      app: false,
+      notes: "GetStream is the realtime communication layer.<br><br>It gives us SDKs and managed infrastructure for chat, video and audio, and moderation, so the POC can focus on the Plaza experience instead of first building communication infrastructure from zero.",
+    },
+
+    /* ── GetStream.io — the second candidate, already in the build ────── */
+    {
+      layout: "poc",
+      className: "getstream-overview",
+      kicker: "GetStream.io",
+      title: "Realtime chat and video, without building the infrastructure",
+      lede: "Managed APIs, SDKs, and UI components for realtime communication products — the platform arrives as three SDKs.",
+      cards: [
+        { h: "Chat", p: "Channels, messages, reactions, threads, search, uploads, read receipts, typing state." },
+        { h: "Video &amp; audio", p: "Video calls, audio rooms, live experiences, participant-minute billing, adaptive quality." },
+        { h: "Moderation", p: "AI moderation options, audit and security controls, SOC 2, ISO 27001, HIPAA, GDPR/CCPA support." },
+      ],
+      callout: {
+        h: "Why it matters for a POC",
+        p: "Validate chat, calling, moderation, and miniapp launch flows <b>without first building socket scaling, media routing, token auth, or mobile-ready chat UI from zero</b>.",
+      },
+      app: false,
+      notes: "Now the second platform, and the one we actually built on. GetStream is a managed platform — APIs, SDKs, and ready-made UI components for realtime communication.<br><br>It comes in three parts: chat, video and audio, and moderation. Chat gives us channels, messages, reactions, threads, search, uploads, read receipts, and typing state. Video and audio gives us calls, audio rooms, and live experiences, billed by participant minute. Moderation brings AI options plus the compliance side — SOC 2, ISO 27001, HIPAA, GDPR.<br><br>The reason this matters for a proof of concept is the bottom line here: we can validate the chat, calling, moderation, and miniapp flows without first building socket scaling, media routing, token auth, or a mobile-ready chat UI from scratch.",
+    },
+    {
+      layout: "poc",
+      className: "getstream-feature-containers",
+      kicker: "GetStream.io",
+      title: "Relevant features for TestChat",
+      lede: "The SDKs cover the product behaviours users already expect from modern messaging apps.",
+      columns: [
+        { h: "Chat experience", items: [
+          "Message list, composer, channel list, and channel header components",
+          "Threads, quoted replies, reactions, typing indicators, read state",
+          "Image and file uploads, video playback, mentions, commands, markdown",
+          "Channel types for messaging, AI, livestream, team, and gaming",
+        ]},
+        { h: "Video / audio layer", items: [
+          "Ready-made UI components, or lower-level APIs",
+          "Global edge network and call statistics",
+          "Resolution-based participant-minute pricing",
+          "Optional recording, transcription, RTMP, and noise cancellation",
+        ]},
+      ],
+      app: false,
+      notes: "Mapping that against what we need for TestChat.<br><br>On the chat side, the components come ready: message list, composer, channel list, channel header. Threads, quoted replies, reactions, typing indicators, read state. Uploads, video playback, mentions, slash commands, markdown. And channel types we can pick from, including messaging, AI, livestream, team, and gaming.<br><br>On the video and audio side we can either take their UI components or drop to the lower-level APIs. It runs on a global edge network with call statistics, priced per participant minute by resolution, and recording, transcription, RTMP, and noise cancellation are available as options.",
+    },
+    {
+      layout: "poc",
+      className: "getstream-wired-grid",
+      kicker: "GetStream.io",
+      title: "What we already wired into the project",
+      lede: "The current app is a Stream-backed React chat POC with server-side tokens and a miniapp launch button.",
+      cards: [
+        { h: "Stream Chat React UI", p: "Chat provider, channel list, message flows, member previews, and a theme-aware sidebar." },
+        { h: "Server token flow", p: "Fastify backend signs Stream user and video tokens; auth state is held in the client." },
+        { h: "Video readiness", p: "Stream Video client and context are in place for call UI and token-based joining." },
+        { h: "Custom command", p: "Backend defines a <b>/pay</b> command with payment-request attachments and confirm / decline actions." },
+      ],
+      cols: 2,
+      app: false,
+      notes: "This is the part that already exists, not a plan.<br><br>The app is a Stream-backed React chat POC. The Stream Chat React UI is in — chat provider, channel list, message flows, member previews, and a sidebar that follows the theme.<br><br>Tokens are signed server-side: a Fastify backend issues both Stream user tokens and video tokens, and the client holds the auth state.<br><br>Video isn't wired into a screen yet, but the client and context are present, so call UI and token-based joining are a step away rather than a build.<br><br>And the piece worth pointing at: the backend defines a custom /pay command that carries a payment-request attachment with confirm and decline actions. That's the in-chat payment behaviour from earlier, running on Stream.",
+    },
+    {
+      layout: "poc",
+      kicker: "GetStream.io",
+      className: "getstream-customers",
+      title: "Featured Customers",
+      lede: "Official Stream case studies, with customer website links added for quick reference.",
+      names: [
+        { logo: "./poc-assets/poc logos/getstream/subito.png",             h: "Subito",           u: "<a href=\"https://www.subito.it\" target=\"_blank\" rel=\"noopener\">subito.it</a>",             d: "10M+ user migration; 99.5% of moderation automated" },
+        { logo: "./poc-assets/poc logos/getstream/deputy.png",             h: "Deputy",           u: "<a href=\"https://www.deputy.com\" target=\"_blank\" rel=\"noopener\">deputy.com</a>",           d: "Shift-worker messaging inside workforce management" },
+        { logo: "./poc-assets/poc logos/getstream/cochesnet.png",          h: "coches.net",       u: "<a href=\"https://www.coches.net\" target=\"_blank\" rel=\"noopener\">coches.net</a>",          d: "Buyer-seller messaging for an automotive marketplace" },
+        { logo: "./poc-assets/poc logos/getstream/lokal.png",              h: "Lokal",            u: "<a href=\"https://www.lokalapps.com\" target=\"_blank\" rel=\"noopener\">lokalapps.com</a>",    d: "Chat, video, and audio across a 100M-download ecosystem" },
+        { logo: "./poc-assets/poc logos/getstream/furnished finder.png",   h: "Furnished Finder", u: "<a href=\"https://www.furnishedfinder.com\" target=\"_blank\" rel=\"noopener\">furnishedfinder.com</a>", d: "300K+ listings; 240K landlords; 6M renters annually" },
+        { logo: "./poc-assets/poc logos/getstream/Logo_of_Peerspace.png",  h: "Peerspace",        u: "<a href=\"https://www.peerspace.com\" target=\"_blank\" rel=\"noopener\">peerspace.com</a>",     d: "Marketplace messaging with AI moderation" },
+        { logo: "./poc-assets/poc logos/getstream/partiful.png",           h: "Partiful",         u: "<a href=\"https://www.partiful.com\" target=\"_blank\" rel=\"noopener\">partiful.com</a>",      d: "Doubled retention with chat and AI moderation" },
+      ],
+      cols: 4,
+      app: false,
+      notes: "Who else is running on it, from Stream's own case studies.<br><br>The two closest to us are the marketplaces. coches.net uses it for buyer-seller messaging in automotive, and Peerspace for marketplace messaging with AI moderation — that's the same shape as our Plaza listings.<br><br>Subito is the scale reference: a ten-million-user migration with 99.5 percent of moderation automated. Lokal is chat, video, and audio across a hundred-million-download ecosystem. Furnished Finder is 300,000 listings and 6 million renters a year. Partiful reported doubling retention after adding chat and AI moderation.",
+    },
+    {
+      layout: "poc",
+      className: "getstream-pricing",
+      kicker: "GetStream.io",
+      title: "Latest public pricing to plan the POC",
+      lede: "Prices and limits from Stream's public pricing pages, checked 10 August 2026.",
+      tiers: [
+        { name: "Build",      price: "Free",                                     items: ["1,000 MAU", "100 concurrent", "Community support"] },
+        { name: "Start",      price: "$399/mo <span>annual &middot; $499 monthly</span>", items: ["10,000 MAU", "500 concurrent", "Moderation, edge, export"] },
+        { name: "Elevate",    price: "$599/mo <span>annual &middot; $675 monthly</span>", items: ["10,000 MAU", "500 concurrent", "Teams, search, HIPAA"] },
+        { name: "Enterprise", price: "Custom",                                   items: ["1M+ MAU", "750K+ concurrent", "99.999% SLA + support"] },
+      ],
+      strip: {
+        h: "Video / audio usage",
+        p: "<b>$100 monthly free usage.</b> Per 1,000 participant minutes — Audio $0.30 &middot; SD $0.75 &middot; HD $1.50 &middot; Full HD $3.00 &middot; 2K $6.00 &middot; 4K $12.00",
+      },
+      foot: "Budget note: chat is billed on monthly active users and concurrency; video scales with participant minutes and the resolution actually consumed.",
+      app: false,
+      notes: "Pricing, as published on the tenth of August.<br><br>Build is free and gives us a thousand monthly active users with a hundred concurrent — enough for the POC itself. Start is $399 a month on annual billing, and takes us to ten thousand MAU with moderation, edge, and export. Elevate is $599 and adds teams, search, and HIPAA at the same user ceiling. Enterprise is custom, for a million-plus users with a five-nines SLA.<br><br>Video is billed separately, on usage. There's a hundred dollars of free usage a month, and then it's per thousand participant minutes by resolution — thirty cents for audio, up to twelve dollars for 4K.<br><br>The thing to hold onto for budgeting: chat scales with users, video scales with minutes and resolution. They're two different curves.",
+    },
+
+    /* ── the two, and their rivals, side by side ──────────────────────── */
+    {
+      layout: "poc",
+      kicker: "GetStream.io",
+      title: "Which solution is the most cost effective?",
+      lede: "Published monthly list price at three levels of monthly active users, across the six platforms we looked at.",
+      table: {
+        head: ["MAU", "Sendbird", "Stream", "Agora", "Twilio", "PubNub", "CometChat"],
+        hi: 2,
+        rows: [
+          ["10K", "$749",          "$399",   "$599",   "$475",          "Talk to Sales", "$799"],
+          ["25K", "$1,799",        "$1,049", "$1,349", "Talk to Sales", "Talk to Sales", "$1,249"],
+          ["50K", "Talk to Sales", "$1,849", "$2,599", "Talk to Sales", "Talk to Sales", "$1,999"],
+        ],
+      },
+      foot: "Stream is the lowest published price at every tier shown. CometChat is the only other platform that publishes a 50K figure, and it closes the gap as volume rises.",
+      app: false,
+      notes: "This is the slide that settles the cost question.<br><br>Reading across at ten thousand users: Stream is $399, Twilio $475, Agora $599, Sendbird $749, CometChat $799, and PubNub won't quote publicly.<br><br>At twenty-five thousand, Stream is $1,049 against CometChat's $1,249 and Sendbird's $1,799 — and Twilio has already dropped into talk-to-sales.<br><br>At fifty thousand, only Stream and CometChat still publish a number: $1,849 versus $1,999.<br><br>So Stream is cheapest at every tier we can actually see, but notice the gap narrowing — $400 at ten thousand users, $150 at fifty thousand. If we expect to grow past this table, the pricing difference stops being the deciding factor and the integration work does.",
+    },
+
+    /* ── hand-off to the live demo ─────────────────────────────────────── */
+	    {
+	      layout: "section",
+	      kicker: "Next",
+	      title: "Product Demonstration",
+	      app: false,
+	      notes: "That's the platform question. Now let's go into the product itself.<br><br>Remember the prototype has been live in this deck the whole time — so we can pick up from any screen we've looked at, or start from the top. Press I, or click the phone, to take control.",
+	    },
+	    {
+	      layout: "section",
+	      kicker: "Project Plaza",
+	      title: "Conclusion &amp; Recommendation",
+	      lede: "Project Plaza is more than a wallet. It is a social-commerce ecosystem that combines Cebuana's trusted physical network with a digital platform to redefine how Filipinos connect and transact.",
+	      app: false,
+	      notes: "The recommendation is to treat Project Plaza as more than a wallet.<br><br>It is a social-commerce ecosystem that combines Cebuana's trusted physical network with a digital platform, so Filipinos can connect and transact in one place.",
+	    },
+	    {
+	      layout: "cover",
+	      title: "Thank you!",
+	      image: "./mascot-bounce.webp",
+	      app: false,
+	      notes: "Thank you.",
+	    },
+	  ],
+	};
 </script>
 
 <div id="viewport">
@@ -780,6 +1813,8 @@ const CONFIG = {
     zoom:  { x: 780,  y: 90,  w: 1000, h: 900 },
     text:  null,
     cover: null,
+    section: null,   /* the Product Proof of Concept divider */
+    poc:  null,      /* vendor evaluation slides — no prototype on stage */
   };
 
   const slides    = CONFIG.slides;
@@ -825,17 +1860,84 @@ const CONFIG = {
   addEventListener("load", fitStage);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitStage);
 
+  /* ---------- Product Proof of Concept blocks ----------------------------- */
+  /* One helper per optional key on a "poc" slide, so a POC slide is just the
+     list of blocks it happens to declare. Order below is the render order. */
+  const li = (xs, cls) => `<ul class="${cls}">${xs.map(x => `<li>${x}</li>`).join("")}</ul>`;
+  const POC = {
+    cards: (v, cols) => `<div class="cardgrid c${cols || v.length}">${v.map(c => `<div class="card${c.img ? " has-image" : ""}">${
+      c.n ? `<span class="num">${c.n}</span>` : ""}<div class="ch">${c.h}</div>${
+      c.p ? `<p>${c.p}</p>` : ""}${c.items ? li(c.items, "tlist") : ""}${
+      c.img ? `<img class="card-media" src="${c.img}" alt="${c.h}" loading="lazy" />` : ""}</div>`).join("")}</div>`,
+
+    columns: (v) => `<div class="colset c${v.length}">${v.map(c => `<div class="cset"><div class="csh">${
+      c.n ? `<span class="num">${c.n}</span>` : ""}${c.h}</div>${li(c.items, "points sm")}</div>`).join("")}</div>`,
+
+    chatColumns: (v) => `<div class="chat-feature-set c${v.length}">${v.map(c => `<div class="chat-feature-item"><div class="chat-feature-head">${
+      c.n ? `<div class="chat-feature-num">${c.n}</div>` : ""}<div class="chat-feature-title">${c.h}</div></div><div class="chat-feature-list">${
+      li(c.items, "points sm")}</div></div>`).join("")}</div>`,
+
+    tiers: (v) => `<div class="tiers c${v.length}">${v.map(t => `<div class="tier${t.tag ? " flag" : ""}">${
+      t.tag ? `<span class="tag">${t.tag}</span>` : ""}<div class="tname">${t.name}</div><div class="tprice">${t.price}</div>${
+      t.sub ? `<p class="tsub">${t.sub}</p>` : ""}${t.items ? li(t.items, "tlist") : ""}</div>`).join("")}</div>`,
+
+    names: (v, cols) => `<div class="namegrid c${cols || 4}">${v.map(n => `<div class="nm">${
+      n.logo ? `<div class="nmlogo-box"><img class="nmlogo" src="${n.logo}" alt="${n.h}" loading="lazy" /></div>` : ""}<div class="nmh">${n.h}</div>${
+      n.u ? `<div class="nmu">${n.u}</div>` : ""}${n.d ? `<div class="nmd">${n.d}</div>` : ""}</div>`).join("")}</div>`,
+
+    table: (v) => `<table class="ptable"><thead><tr>${
+      v.head.map((h, j) => `<th${v.hi === j ? ' class="hi"' : ""}>${h}</th>`).join("")}</tr></thead><tbody>${
+      v.rows.map(r => `<tr>${r.map((c, j) => `<td${v.hi === j ? ' class="hi"' : ""}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`,
+
+    code:    (v) => `<pre class="pcode">${v}</pre>`,
+    strip:   (v) => `<div class="strip"><div class="ch">${v.h}</div><p>${v.p}</p></div>`,
+    callout: (v) => `<div class="callout"><div class="ch">${v.h}</div><p>${v.p}</p></div>`,
+    graphic: (v) => `<figure class="poc-graphic"><img src="${v.src || v}" alt="${v.alt || ""}" loading="lazy" /></figure>`,
+    logoCard: (v) => `<div class="poc-logo-card"><img src="${v.src || v}" alt="${v.alt || ""}" loading="lazy" /></div>`,
+    pillarPhone: (v) => `<div class="pillar-phone-stage">
+      <div class="pillar-labels left">${v.left.map(t => `<div class="pillar-label">${t}</div>`).join("")}</div>
+      <div class="pillar-phone-crop"><div class="pillar-phone">
+        <div class="pillar-mascot-screen">
+          <img class="pillar-mascot" src="${v.mascot}" alt="" />
+        </div>
+        <img class="pillar-phone-img" src="${v.phone}" alt="" loading="lazy" />
+      </div></div>
+      <div class="pillar-labels right">${v.right.map(t => `<div class="pillar-label">${t}</div>`).join("")}</div>
+    </div>`,
+    pillarRows: (v) => `<div class="pillar-rows">${v.map(r => `<div class="pillar-row"><div class="rh">${r.h}</div><p>${r.p}</p></div>`).join("")}</div>`,
+    foot:    (v) => `<p class="poc-foot">${v}</p>`,
+  };
+
   /* ---------- slide markup ------------------------------------------------ */
   function renderSlides() {
     document.getElementById("slides").innerHTML = slides.map((s, i) => {
       const b = [];
       if (s.kicker) b.push(`<div class="kicker"><i></i>${s.kicker}</div>`);
-      if (s.title)  b.push(s.layout === "cover" ? `<h1>${s.title}</h1>` : `<h2>${s.title}</h2>`);
+      if (s.title)  b.push(/^(cover|section)$/.test(s.layout) ? `<h1>${s.title}</h1>` : `<h2>${s.title}</h2>`);
       if (s.chips)  b.push(`<div class="chips">${s.chips.map(([k, t]) => `<span class="chip ${k}">${t}</span>`).join("")}</div>`);
       if (s.lede)   b.push(`<p class="lede">${s.lede}</p>`);
       if (s.sublede) b.push(`<p class="sublede">${s.sublede}</p>`);
-      if (s.points) b.push(`<ul class="points">${s.points.map(p => `<li>${p}</li>`).join("")}</ul>`);
-      return `<section class="slide ${s.layout || "text"}" data-i="${i}">
+
+      /* A POC slide is three parts: the heading block, the blocks it declares,
+         and an optional screenshot column. Wrapping the heading is what lets
+         .has-shots put text and shots in separate grid tracks. Every other
+         slide keeps the original single bullet list. */
+      let head = "";
+      if (s.layout === "poc") {
+        head = b.splice(0, b.length).join("");             // kicker / title / chips / lede
+        const m = [];
+        if (s.points) m.push(li(s.points, "points sm"));
+        ["cards", "columns", "chatColumns", "tiers", "names", "table", "code", "strip", "callout", "graphic", "logoCard", "pillarPhone", "pillarRows", "foot"]
+          .forEach(k => { if (s[k]) m.push(POC[k](s[k], s.cols)); });
+        b.push(`<div class="poc-head">${head}</div>`);
+        b.push(`<div class="poc-main">${m.join("")}</div>`);
+        if (s.shots) b.push(`<div class="poc-side">${s.shots.map(p =>
+          `<figure class="shot"><img src="${p}" alt="" loading="lazy" /></figure>`).join("")}</div>`);
+      } else if (s.points) {
+        b.push(`<ul class="points">${s.points.map(p => `<li>${p}</li>`).join("")}</ul>`);
+      }
+
+      return `<section class="slide ${s.layout || "text"}${s.layout === "poc" && s.shots ? " has-shots" : ""}${s.pillarPhone ? " has-pillar-phone" : ""}${s.pillarRows ? " has-pillar-rows" : ""}${s.tallCards ? " has-tall-cards" : ""}${s.className ? ` ${s.className}` : ""}" data-i="${i}">
                 <div class="col">${b.join("")}</div>
                 ${s.image ? `<img class="cover-mascot" src="${s.image}" alt="" onerror="__coverFallback(this)" />` : ""}
                 ${s.note ? `<div class="note">${s.note}</div>` : ""}
@@ -1164,6 +2266,11 @@ const CONFIG = {
 
   document.addEventListener("keydown", (e) => {
     const k = e.key;
+    if (isWorkflowTimerStartKey(e)) {
+      startWorkflowTimer();
+      e.preventDefault();
+      return;
+    }
     if (e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey && (k === "n" || k === "N")) {
       if (!editing && !(e.target && e.target.isContentEditable) && !interactive) {
         notesEl.classList.toggle("show");
@@ -1271,6 +2378,7 @@ const CONFIG = {
       ["I  or click the phone", "Take control of the prototype"],
       ["Esc", "Hand control back to the deck"], ["⌘N", "Speaker notes"],
       ["⌘P / Ctrl+P", "Open speaker notes in a second window"],
+      ["Shift+Z", "Start workflow timer"],
       ["E  (presenter window)", "Edit this slide's speaker notes"],
       ["O", "Slide grid"], ["R", "Reload the prototype at this slide's screen"], ["F", "Fullscreen"],
       ["T", "Debug: toggle light / dark background"],
@@ -1384,7 +2492,6 @@ const CONFIG = {
   function presenterURL() { return location.origin + location.pathname + "?view=notes#" + (index + 1); }
   function openPresenter() {
     const w = window.open(presenterURL(), "plaza-presenter", "width=1100,height=800");
-    if (w) startWorkflowTimer();
     if (!w) showHint(true);          // no dialogs — fall back to a clickable link
   }
   function showHint(persist) {
@@ -1405,6 +2512,11 @@ const CONFIG = {
     doc.addEventListener("keydown", (e) => {
       if (e.altKey || e.shiftKey) return;
       if (!(e.metaKey || e.ctrlKey)) return;
+      if (doc !== document && isWorkflowTimerStartKey(e)) {
+        startWorkflowTimer();
+        e.preventDefault();
+        return;
+      }
       if (e.target && e.target.isContentEditable) return;
       if (doc !== document && e.metaKey && !e.ctrlKey && (e.key === "n" || e.key === "N")) {
         if (!editing && !interactive) notesEl.classList.toggle("show");
@@ -1473,6 +2585,10 @@ const CONFIG = {
   document.addEventListener("mousemove", poke);
   poke();
   let workflowT0 = null, workflowTimer = null;
+  function isWorkflowTimerStartKey(e) {
+    return e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey &&
+      (e.key === "z" || e.key === "Z" || e.code === "KeyZ");
+  }
   function updateWorkflowClock() {
     const s = workflowT0 == null ? 0 : Math.floor((Date.now() - workflowT0) / 1000);
     clockEl.textContent = `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
@@ -1510,7 +2626,7 @@ const CONFIG = {
     const hc = document.getElementById("hintClose");
     if (hc) hc.addEventListener("click", () => document.getElementById("hint").classList.remove("show"));
     const hl = document.getElementById("hintLink");
-    if (hl) hl.addEventListener("click", () => { hl.setAttribute("href", presenterURL()); startWorkflowTimer(); });
+    if (hl) hl.addEventListener("click", () => hl.setAttribute("href", presenterURL()));
     setTimeout(() => showHint(false), 900);
   }
 
