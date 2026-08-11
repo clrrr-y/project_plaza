@@ -405,7 +405,10 @@
   /* Row 2, not spanning both rows: the blocks and the screenshot then centre
      on the same axis under the heading instead of drifting apart. */
   .slide.poc.has-shots .poc-side { grid-area: 2 / 2; }
-  .slide.poc.has-pillar-rows .poc-main { justify-content: center; padding-top: 0; }
+  .slide.poc.has-pillar-rows .poc-main {
+    justify-content: center; justify-self: start;
+    width: 1080px; padding-top: 0;
+  }
   .slide.poc.has-pillar-rows .poc-side { align-self: center; }
   .slide.poc.has-pillar-rows .shot {
     border: 0; background: transparent; box-shadow: none; overflow: visible;
@@ -666,11 +669,11 @@
   }
 
   .pillar-rows {
-    display: grid; gap: 26px;
+    display: grid; gap: 22px; width: 100%;
   }
   .pillar-row {
-    display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 30px;
-    min-height: 112px; padding: 21px 30px;
+    display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 28px;
+    min-height: 104px; padding: 18px 26px; box-sizing: border-box;
     border: 1px solid var(--chip-border); background: transparent;
     align-items: center;
   }
