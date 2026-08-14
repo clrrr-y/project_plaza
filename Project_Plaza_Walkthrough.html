@@ -1040,7 +1040,7 @@ const CONFIG = {
 	      title: "End-to-End User Journey Demo",
 	      lede: "Now we move from product strategy into the live walkthrough of the core Plaza experience.",
 	      app: false,
-			      notes: "Now that we have covered the introduction, the problem, and the strategy, we can move into the actual product workflow.<br><br>From this point, I will walk through the core Plaza experience end to end: verification, chats, in-chat payments, group collections, business chats, calls, Plaza, wallet, and profile settings.<br><br>One thing to note before we start: what we are seeing is the working prototype, not static screenshots. So if questions come up, we can tap through the screens and walk through the flow directly.",
+			      notes: "<b>Good afternoon once again, everyone. Now that we have discussed the introduction and overview, I will be walking you through the workflow of the features of the app.</b><br><br><b>One thing before we start: What we are going to see on the slides is the real prototype, not screenshots. So if any questions come up, we can just tap through the screens and walk through them together.</b>",
 	    },
 	    {
 	      layout: "text",
@@ -1075,7 +1075,7 @@ const CONFIG = {
       /* Wallet, not chats: it is the surface where the locked state is actually
          legible — ₱0.00, greyed-out Send / Request / Top Up, and the
          "Verify Identity" prompt all on one screen. */
-      app: { hash: "#/wallet", verification: "phone" },
+      app: { hash: "#/chats", verification: "phone" },
 	      notes: "Let's start with a user who has only verified their phone number.<br><br>These users will be able to start a conversation and explore Plaza, but they will not be able to make transactions. They can browse through the app freely, while every transaction entry point remains hidden or locked.<br><br>If the user attempts to make a transaction, a bottom sheet will appear and ask them to complete their verification before they can continue.",
     },
     {
@@ -1088,7 +1088,7 @@ const CONFIG = {
         "Sending and requesting money unlocked",
         "Wallet and every payment entry point open",
       ],
-      app: { hash: "#/chats", verification: "identity" },
+      app: { hash: "#/wallet", verification: "identity" },
 	      notes: "For a fully verified user, the surfaces and features are exactly the same. What's different is that they can now make transactions. Sending and requesting money are unlocked, and the wallet and every payment entry point are now open.<br><br>Before I proceed, I'd just like to mention from this point on, everything we will see is from the point of view of a fully verified user.",
     },
 
@@ -1118,7 +1118,7 @@ const CONFIG = {
         "The recipient gets an SMS to open the app, then the message delivers",
         "Send a reminder, or add a new contact to the list",
       ],
-      app: { hash: "#/chats", call: "openNewMessageOverlay" },
+      app: { hash: "#/chats", verification: "identity" },
 	      notes: "Next is starting a new conversation.<br><br>When we start a new conversation, we just click the plus button and we have a few different options.<br><br>First, we can select a contact and start the conversation right away.<br><br>Another one is, we can create a group chat by selecting members from our contacts and giving the group a name.<br><br>Third, we can message a number that isn't on Plaza yet. We just input the number and try messaging it. In this case, the message will not be delivered straight away. Instead, the recipient receives an SMS asking them to download and open the app. Once they do, this greyed out message goes through and shows as delivered.<br><br>We can also send them a reminder, which sends another SMS with the same app link.<br><br>And we can add a new contact from here as well, we just have to input their details and they will appear in our contact list.",
     },
 
@@ -1147,7 +1147,7 @@ const CONFIG = {
         "The send-money flow, inside the conversation",
         "No app switch, no copied reference numbers",
       ],
-      app: { hash: "#/chats/ate-joy", clicks: ['#attach-popup [data-action="pay"]'] },
+      app: { hash: "#/chats/ate-joy", verification: "identity" },
 	      notes: "One feature I mentioned is the send money. This is the centrepiece.<br><br>The send money flow happens inside the conversation. When we tap the send money button, the sheet opens right over the thread.<br><br>In every other setup, paying someone we're already talking to means leaving the conversation and opening a wallet app. We have to switch apps, retype the amount, screenshot the receipt, then come back to the chat to send the proof. Here, we just enter the amount, continue and confirm, and after the verification, receipt is sent automatically without ever leaving the thread.",
     },
     {
@@ -1161,7 +1161,7 @@ const CONFIG = {
         "Request via payment link — shareable anywhere",
         "Request money by pasting in a link",
       ],
-      app: { hash: "#/chats/ate-joy", clicks: ['#attach-popup [data-action="request"]'] },
+      app: { hash: "#/chats/ate-joy", verification: "identity" },
 	      notes: "Another feature is the request money. Same rails, but the other direction.<br><br>This is the standard request money flow.<br><br>When we request money, we input the amount, add an optional note and then it lands in the thread as a card, not just another message we might scroll past and forget.<br><br>This is what it looks like: we can see the amount along with the note, if there is one. And we can also cancel the request if we want to.<br><br>But what if the person we're talking to doesn't have enough balance in their wallet, or is still only phone verified? In that case, we have other payment options. We just click this button, and it gives us the option to request money through a QR code or through a payment link that we can share anywhere, even outside the app. This is what they look like: this one is for the QR code, and this one is for the payment link.<br><br>Aside from that, we can also ask someone to pay for a product by sending them a link. We just paste the link here, and the product preview comes up, and once we hit send, it appears as a request card with the product details.",
     },
     {
@@ -1213,7 +1213,7 @@ const CONFIG = {
         "Money goes into a pool, not to one person",
         "Receipts sent automatically",
       ],
-      app: { hash: "#/chats/grade4-parents" },
+      app: { hash: "#/chats?filter=groups", verification: "identity" },
 	      notes: "Now that we’re done with individual chat threads, let’s move on to group chats, where multiple people are involved.<br><br>For group chat collections, most cases are family members, workmates, barkada outings, and many more.<br><br>For example, let’s say I’m planning a trip with my friends, but the hotel needs to be paid for in advance. I’ll need to collect money from everyone in the group—or what we call “amot” or “ambagan.”<br><br>To start, we tap the Request Money button, and this form comes up. We enter the name of the collection, the amount per member, and then select who needs to pay. We can choose specific members or select everyone. We can also add an optional note. After that, the request card appears in the group chat.<br><br>Now what if someone else is hosting the collection? So this is what we'll see. We see the name of the collection, the optional note, the amount we have to give and of course, the pay button. We can also see the progress of the collection, including how many members have already paid and how many are still pending.<br><br>From there, it follows the same flow as sending money. Once we tap the Pay button and confirm the payment, the receipt is sent.e",
     },
     {
@@ -1224,7 +1224,7 @@ const CONFIG = {
         "Track collection progress against the target",
         "Who has paid, who hasn't, without asking",
       ],
-      app: { hash: "#/chats/grade4-parents/track" },
+      app: { hash: "#/chats/grade4-parents", verification: "identity", call: "deckFocusGrade4CollectionRequest" },
 	      notes: "We can also track the collection. All we have to do is tap the View button.<br><br>From there, we can easily see who has already paid and who hasn’t. We can also view their receipts and send reminders to those who still need to pay—either individually or all at once. And then the reminder goes straight to their notifications.",
     },
     {
@@ -1235,7 +1235,7 @@ const CONFIG = {
         "Chat information",
         "Full member list",
       ],
-      app: { hash: "#/chats/grade4-parents/members" },
+      app: { hash: "#/chats/grade4-parents/contact", verification: "identity" },
 	      notes: "In group chats, we can also view the shared media, history logs, and settings, just like in individual chat threads. The difference is that here, we can also see the list of group members and add more people. Any new members we add will need to be approved by the group admin or the person who created the group.",
     },
     {
@@ -1246,7 +1246,7 @@ const CONFIG = {
         "The business chat flow",
         "Utilities, services and merchants in the same inbox",
       ],
-      app: { hash: "#/chats/beetzeeplay" },
+      app: { hash: "#/chats?filter=businesses", verification: "identity" },
 	      notes: "Now that we’re done with individual and group chats, let’s move on to business chats.<br><br>This is where messages from Plaza services come through. This means utilities, service providers, and merchants all appear in the same inbox as everyone else.<br><br>The chats in this section come from inquiries made through Plaza. Let’s say I subscribe to one of the services. The service provider will send an automated message directly to the thread. If we want to view the details, we just tap the button, and it takes us straight to the linked page so we never have to to leave the app.",
     },
 
@@ -1286,8 +1286,8 @@ const CONFIG = {
         "Every listing shows how far away the seller is",
         "Escrow-protected listings are tagged",
       ],
-      app: { hash: "#/marketplace" },
-	      notes: "One of the services available in Plaza is the Marketplace.<br><br>In the Marketplace, we have two sections: For You and Sell. We can also view our saved items and search for specific products.<br><br>We can browse different products and view their details. But it doesn’t end there. We can also create listings and sell our own items. So the point here is, Plaza Marketplace works for both buyers and sellers. Items are also tagged as escrow-protected, so buyers know they’re protected before making a purchase.<br><br>If we want to sell something, we just go to Sell and tap the List an Item button. Then, we fill out the form. After that, we tap Next and it gives us a preview of the listing, and publish it. Once it’s published, it appears under our active items. We can also view our drafts and the items we’ve already sold.<br><br>Basically, it’s like Facebook Marketplace, but more organized into categories.",
+      app: { hash: "#/plaza", verification: "identity" },
+	      notes: "One of the services available in Plaza is the Marketplace.<br><br>In the Marketplace, we have two sections: For You and Sell. We can also view our saved items and search for specific products.<br><br>We can browse different products by clicking on a specific item and from there, we can view their details. But it doesn’t just end there. We can also create listings and sell our own items. Items are also tagged as escrow-protected, so buyers know they’re protected before making a purchase.<br><br>If we want to sell something, we just go to Sell and tap the List an Item button. Then, we fill out the form. After that, we tap Next and it gives us a preview of the listing, and publish it. Once it’s published, it appears under our active items. We can also view our drafts and the items we’ve already sold.<br><br>So the point here is, Plaza Marketplace works for both buyers and sellers. Basically, it’s like Facebook Marketplace, but more organized into categories.",
     },
     {
       layout: "split",
@@ -1337,7 +1337,7 @@ const CONFIG = {
         "<b>Missing:</b> Login page, onboarding page, error states",
       ],
       app: false,
-	      notes: "And that ends the full workflow of the app’s features.<br><br>To give you a quick recap, we covered the different verification states, chats and everything we can do inside them, group collections, business chats, the Smart Assistant, Plaza discovery and Marketplace, the Wallet, and Profile and Settings.<br><br>What’s still missing from the prototype for now are the login and onboarding pages, as well as the different error states.<br><br>Next, two of our developers will walk you through the proof of concept. Thank you.",
+	      notes: "And that ends the full workflow of the app’s features.<br><br>To give you a quick recap, we covered the different verification states, chats and everything we can do inside them, group collections, business chats, the Smart Assistant, Plaza discovery and Marketplace, the Wallet, and Profile and Settings.<br><br>What’s still missing from the prototype for now are the login and onboarding pages, as well as the different error states.<br><br>Next, two of our developers will walk you through the proof of concept. They’ll show you how the app works and performs across different platforms.",
     },
 
     /* ══════════════════════════════════════════════════════════════════════
@@ -2214,7 +2214,7 @@ const CONFIG = {
      browser's localStorage and broadcast to the slide window, so the Cmd+N panel
      and the presenter panel never disagree. The slide definitions above are
      never rewritten — "Revert this slide" just drops the draft. */
-  const DRAFT_KEY = "plaza-deck:notes";
+  const DRAFT_KEY = "plaza-deck:notes:v3";
   let drafts = (() => {
     try { const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}"); return (d && typeof d === "object") ? d : {}; }
     catch (_) { return {}; }
@@ -2513,13 +2513,13 @@ const CONFIG = {
     if (!doc || doc.__pvBound) return;
     doc.__pvBound = true;
     doc.addEventListener("keydown", (e) => {
-      if (e.altKey || e.shiftKey) return;
-      if (!(e.metaKey || e.ctrlKey)) return;
-      if (doc !== document && isWorkflowTimerStartKey(e)) {
+      if (isWorkflowTimerStartKey(e)) {
         startWorkflowTimer();
         e.preventDefault();
         return;
       }
+      if (e.altKey || e.shiftKey) return;
+      if (!(e.metaKey || e.ctrlKey)) return;
       if (e.target && e.target.isContentEditable) return;
       if (doc !== document && e.metaKey && !e.ctrlKey && (e.key === "n" || e.key === "N")) {
         if (!editing && !interactive) notesEl.classList.toggle("show");
@@ -2545,7 +2545,11 @@ const CONFIG = {
         }
         if (IS_PRESENTER) updateEditBar();
       }
-      if (m.type === "hello") send({ type: "slide", index });
+      if (m.type === "timer-start" && typeof m.t0 === "number") startWorkflowTimer(m.t0, true);
+      if (m.type === "hello") {
+        send({ type: "slide", index });
+        if (workflowT0 != null) send({ type: "timer-start", t0: workflowT0 });
+      }
     };
   }
 
@@ -2569,12 +2573,6 @@ const CONFIG = {
     window.addEventListener("beforeunload", flushNote);
     document.getElementById("pvPrev").addEventListener("click", () => go(index - 1));
     document.getElementById("pvNextBtn").addEventListener("click", () => go(index + 1));
-    const t0 = Date.now();
-    setInterval(() => {
-      const sec = Math.floor((Date.now() - t0) / 1000);
-      document.getElementById("pvClock").textContent =
-        String(Math.floor(sec / 60)).padStart(2, "0") + ":" + String(sec % 60).padStart(2, "0");
-    }, 1000);
     send({ type: "hello" });
   }
 
@@ -2594,13 +2592,17 @@ const CONFIG = {
   }
   function updateWorkflowClock() {
     const s = workflowT0 == null ? 0 : Math.floor((Date.now() - workflowT0) / 1000);
-    clockEl.textContent = `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+    const text = `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+    clockEl.textContent = text;
+    const pvClock = document.getElementById("pvClock");
+    if (pvClock) pvClock.textContent = text;
   }
-  function startWorkflowTimer() {
-    if (IS_PRESENTER || workflowTimer) return;
-    workflowT0 = Date.now();
+  function startWorkflowTimer(t0 = Date.now(), fromChannel = false) {
+    if (workflowTimer) return;
+    workflowT0 = t0;
     updateWorkflowClock();
     workflowTimer = setInterval(updateWorkflowClock, 1000);
+    if (!fromChannel) send({ type: "timer-start", t0: workflowT0 });
   }
   updateWorkflowClock();
 

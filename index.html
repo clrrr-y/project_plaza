@@ -887,9 +887,7 @@ html.route-restoring .phone {
   display: flex;
   align-items: center;
   column-gap: 16px;
-  background: var(--nav-surf);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: transparent;
   border-bottom: 0.5px solid var(--line);
   flex: 0 0 auto;
   position: relative;
@@ -2104,7 +2102,7 @@ html.plaza-theme-dark .first-time-kicker {
     #fbfafc;
 }
 #conversation-screen .status {
-  background: rgba(251,250,252,0.88);
+  background: transparent;
   z-index: 8;
 }
 #conversation-screen .topbar {
@@ -2112,10 +2110,8 @@ html.plaza-theme-dark .first-time-kicker {
   padding: 0 12px;
   grid-template-columns: 40px minmax(0, 1fr) auto;
   column-gap: 8px;
-  background: rgba(255,255,255,0.9);
+  background: transparent;
   border-bottom-color: rgba(226,222,237,0.75);
-  backdrop-filter: blur(18px) saturate(1.18);
-  -webkit-backdrop-filter: blur(18px) saturate(1.18);
   z-index: 8;
 }
 #conversation-screen .topbar-left,
@@ -2240,10 +2236,8 @@ html.plaza-theme-dark .first-time-kicker {
 #contact-info-screen .topbar {
   height: 56px;
   padding: 0 4px;
-  background: rgba(255,255,255,0.92);
+  background: transparent;
   border-bottom-color: rgba(226,222,237,0.75);
-  backdrop-filter: blur(18px) saturate(1.15);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
   z-index: 2;
 }
 #contact-info-screen .topbar-center {
@@ -2489,12 +2483,8 @@ html.plaza-theme-dark .first-time-kicker {
   position: absolute;
 }
 #group-members-screen .topbar {
-  height: 56px;
-  padding: 0 4px;
-  background: rgba(255,255,255,0.94);
+  background: transparent;
   border-bottom-color: rgba(226,222,237,0.75);
-  backdrop-filter: blur(18px) saturate(1.15);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
   z-index: 3;
 }
 #group-members-screen .topbar-center {
@@ -2520,23 +2510,41 @@ html.plaza-theme-dark .first-time-kicker {
   scrollbar-width: none;
 }
 .group-members-content::-webkit-scrollbar { display: none; }
-.group-members-search {
+.group-members-search-field {
   width: 100%;
-  height: 46px;
-  margin-bottom: 18px;
-  padding: 0 14px;
-  border: 1px solid rgba(126,103,255,0.12);
-  border-radius: 15px;
-  background: rgba(255,255,255,0.9);
-  color: #252137;
-  font: inherit;
-  font-size: 14px;
-  outline: 0;
-  box-shadow: 0 6px 18px rgba(42,35,82,0.035);
+  min-height: 44px;
+  margin-bottom: 22px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(220,215,238,0.88);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.82);
+  color: #8B84A3;
+  box-shadow: 0 8px 22px rgba(45,37,71,0.06);
 }
-.group-members-search:focus { border-color: rgba(126,103,255,0.34); }
+.group-members-search-field .hugeicon {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+  font-size: 17px;
+  color: #8B84A3;
+}
+.group-members-search-field input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #8B84A3;
+  font: inherit;
+  font-size: 13px;
+}
+.group-members-search-field input::placeholder { color: #9992AC; }
 .group-members-section-title {
-  margin: 0 4px 8px;
+  margin: 0 4px 10px;
   color: #6f6a86;
   font-size: 13px;
   font-weight: 600;
@@ -2621,7 +2629,66 @@ html.plaza-theme-dark .first-time-kicker {
   font-size: 13px;
   text-align: center;
 }
-.group-members-section + .group-members-section { margin-top: 18px; }
+.group-members-section + .group-members-section { margin-top: 22px; }
+.group-add-members-card { margin-bottom: 22px; border-radius: 14px; }
+.group-add-members-row {
+  min-height: 54px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.group-add-members-icon {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(123,110,246,0.10);
+  color: #7d67f7;
+  font-size: 15px;
+}
+.group-add-members-label { color: #7d67f7; font-size: 14px; font-weight: 600; }
+.group-pending-row { min-height: 62px; }
+.group-pending-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+.group-pending-action {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  font-size: 15px;
+  transition: background 120ms, border-color 120ms, transform 120ms;
+}
+.group-pending-action:active { transform: scale(.92); }
+.group-pending-action.approve {
+  color: #1f8a53;
+  background: rgba(31,138,83,0.08);
+  border-color: rgba(31,138,83,0.16);
+}
+.group-pending-action.approve:active { background: rgba(31,138,83,0.16); border-color: rgba(31,138,83,0.32); }
+.group-pending-action.decline {
+  color: #c1495a;
+  background: rgba(193,73,90,0.08);
+  border-color: rgba(193,73,90,0.16);
+}
+.group-pending-action.decline:active { background: rgba(193,73,90,0.16); border-color: rgba(193,73,90,0.32); }
+.group-pending-status {
+  flex: 0 0 auto;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(143,137,168,0.10);
+  color: #8f89a8;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
 .contact-transaction-list { display: grid; gap: 8px; }
 .contact-transaction-card {
   width: 100%;
@@ -2756,10 +2823,8 @@ html.plaza-theme-dark .first-time-kicker {
 #shared-content-screen .topbar {
   height: 56px;
   padding: 0 4px;
-  background: rgba(255,255,255,0.94);
+  background: transparent;
   border-bottom-color: rgba(226,222,237,0.75);
-  backdrop-filter: blur(18px) saturate(1.15);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
   z-index: 3;
 }
 #shared-content-screen .topbar-center { justify-content: flex-start; align-items: flex-start; min-width: 0; }
@@ -6534,10 +6599,8 @@ html.prototype-env:has(#chats-screen.is-first-time) .chat-debug-panel { display:
   min-height: 72px;
   padding-left: 16px;
   padding-right: 16px;
-  background: rgba(255,255,255,0.92);
+  background: transparent;
   border-bottom: 1px solid rgba(237,234,245,0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
 }
 #settings-screen .topbar-left,
 #settings-screen .topbar-right {
@@ -7485,7 +7548,9 @@ button.account-readonly-field {
 }
 body.settings-active .chat-debug-panel,
 body.track-active .chat-debug-panel,
-body.profile-active .chat-debug-panel {
+body.profile-active .chat-debug-panel,
+body.group-members-active .chat-debug-panel,
+body.create-listing-active .chat-debug-panel {
   display: none !important;
 }
 
@@ -9466,9 +9531,8 @@ body.profile-active .chat-debug-panel {
   height: 60px;
   min-height: 60px;
   padding: 0 14px;
-  background: rgba(255,255,255,0.96);
+  background: transparent;
   border-bottom: 1px solid rgba(226,222,242,0.72);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.86) inset;
 }
 .miniapp-browser-topbar .topbar-left,
 .miniapp-browser-topbar .topbar-right {
@@ -10115,6 +10179,8 @@ body.profile-active .chat-debug-panel {
   position: relative;
   box-sizing: border-box;
 }
+/* Money-request flow reuses the Money Request card's header for consistency */
+.pay-request-card .money-request-header { margin: -12px -12px 10px; }
 /* Opalescent rim */
 .pay-request-card::after {
   content: none;
@@ -13187,6 +13253,73 @@ body.profile-active .chat-debug-panel {
   font-size: 14px;
   text-align: center;
 }
+.listing-location-row-icon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(123,110,246,0.08);
+  color: #7d67f7;
+}
+.listing-location-current-row {
+  width: 100%;
+  min-height: 56px;
+  padding: 9px 20px;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: inherit;
+  text-align: left;
+}
+.listing-location-current-row:active { background: rgba(123,110,246,0.06); }
+.listing-location-current-row:disabled { opacity: 0.6; }
+.listing-location-current-row .listing-location-row-icon {
+  background: var(--aurora);
+  color: #fff;
+}
+.listing-location-current-label {
+  flex: 1;
+  min-width: 0;
+  color: #7d67f7;
+  font-size: 14px;
+  font-weight: 600;
+}
+.listing-location-current-row .hugeicon { color: #9b95ad; font-size: 16px; }
+.listing-location-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(123,110,246,0.25);
+  border-top-color: #7d67f7;
+  border-radius: 50%;
+  animation: listing-location-spin 0.7s linear infinite;
+}
+@keyframes listing-location-spin { to { transform: rotate(360deg); } }
+.listing-location-note {
+  margin: 2px 20px 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(143,137,168,0.08);
+  color: #6f6a86;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+.listing-location-highlight {
+  color: #7d67f7;
+  font-weight: 700;
+}
+.listing-location-name-regular { font-weight: 400; }
+.listing-location-name-medium { font-weight: 500; }
+.contact-sheet-confirm-bar {
+  flex: 0 0 auto;
+  padding: 10px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(226,222,237,0.75);
+  background: rgba(251,249,255,0.98);
+}
+.contact-sheet-confirm-btn { width: 100%; height: 48px; font-size: 15px; }
 
 /* ── Consistent amount field for group collection form ── */
 .rm-amount-field {
@@ -14010,18 +14143,18 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
 .timeline-item {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  padding-bottom: 24px;
+  gap: 14px;
+  padding-bottom: 26px;
   position: relative;
 }
 .timeline-item:last-child { padding-bottom: 0; }
 
-/* Thin connecting line between dots */
+/* Thin connecting line between dots, centered under the 10px dot */
 .timeline-item:not(:last-child)::before {
   content: "";
   position: absolute;
-  left: 4px;     /* horizontal center of 10px dot */
-  top: 18px;     /* just below dot */
+  left: 4px;
+  top: 18px;
   bottom: 0;
   width: 1.5px;
   border-radius: 1px;
@@ -14076,13 +14209,13 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
 }
 .timeline-sub {
   font-size: 12px;
-  color: var(--muted);
-  margin-top: 2px;
+  color: #6F6689;
+  margin-top: 4px;
   line-height: 1.45;
 }
 .timeline-time {
   font-size: 11px;
-  color: var(--muted);
+  color: #857E97;
   margin-top: 4px;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
@@ -16133,7 +16266,7 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
   width: 100%;
   height: 48px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #9C7BFF 0%, #7AB8FF 100%);
+  background: var(--aurora);
   border: none;
   color: #fff;
   font-size: 14px;
@@ -18015,6 +18148,7 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.02em;
+  text-align: center;
 }
 .personal-request-card .pay-request-note {
   display: -webkit-box;
@@ -18025,6 +18159,7 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
   font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
+  text-align: center;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
@@ -18309,7 +18444,8 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
 #transaction-logs-screen > .topbar,
 #transaction-detail-screen > .topbar,
 #nearby-screen > .topbar,
-#community-hub-screen > .topbar {
+#community-hub-screen > .topbar,
+#group-members-screen > .topbar {
   height: 72px;
   min-height: 72px;
   padding-left: 16px;
@@ -19503,10 +19639,7 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
   height: 64px !important;
   min-height: 64px !important;
   padding: 0 18px !important;
-  background:
-    radial-gradient(circle at 92% 0%, rgba(130,242,255,0.14), transparent 32%),
-    radial-gradient(circle at 0% 12%, rgba(232,221,248,0.20), transparent 34%),
-    rgba(255,255,255,0.96);
+  background: transparent;
   border-bottom: 1px solid rgba(237,234,245,0.58);
   align-items: center;
 }
@@ -19867,7 +20000,7 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
   height: 72px;
   min-height: 72px;
   padding: 0 16px;
-  background: rgba(255,255,255,0.94);
+  background: transparent;
   border-bottom: 1px solid rgba(237,234,245,0.58);
 }
 #saved-products-screen .saved-products-topbar .topbar-left,
@@ -20906,10 +21039,8 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
   min-height: 72px;
   padding-left: 16px;
   padding-right: 16px;
-  background: rgba(255, 255, 255, .72);
+  background: transparent;
   border-bottom: 1px solid rgba(216, 210, 238, .34);
-  backdrop-filter: blur(18px) saturate(1.3);
-  -webkit-backdrop-filter: blur(18px) saturate(1.3);
 }
 .wallet-notifications-topbar .topbar-left {
   flex: 1 1 auto;
@@ -21147,10 +21278,8 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
   min-height: 72px;
   padding-left: 16px;
   padding-right: 16px;
-  background: rgba(255,255,255,.74);
+  background: transparent;
   border-bottom: 1px solid rgba(216,210,238,.34);
-  backdrop-filter: blur(18px) saturate(1.25);
-  -webkit-backdrop-filter: blur(18px) saturate(1.25);
 }
 .notifications-topbar .topbar-left {
   flex: 1 1 auto;
@@ -21745,9 +21874,7 @@ html.plaza-theme-dark :is(.request-pay-profile small,.request-pay-detail-row,.re
   min-height: 54px;
   padding: 0 10px;
   border-bottom: 1px solid rgba(125,103,247,0.10);
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: blur(18px) saturate(1.1);
-  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  background: transparent;
 }
 #track-screen > .tx-content {
   gap: 0;
@@ -21992,14 +22119,68 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   padding: 0 14px 0 10px;
   gap: 10px;
   border-bottom: 1px solid rgba(216,210,238,.34);
-  background: rgba(255,255,255,.74);
-  box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+  background: transparent;
 }
 #track-screen > .tx-content {
   gap: 0;
   padding: 14px 16px 132px;
   background: transparent;
 }
+/* ── Track Order (individual order) — standard header + redesigned card ── */
+#track-screen.is-order-track > .topbar {
+  height: 72px;
+  min-height: 72px;
+  padding: 0 16px;
+  gap: 12px;
+  align-items: center;
+}
+#track-screen.is-order-track > .tx-content {
+  padding: 16px 20px 32px;
+}
+/* Identical to .track-summary-card (dimensions, padding, radius, border,
+   shadow, full width) — only the background fill is swapped to solid white. */
+.track-order-card {
+  background: #fff;
+  border: 1px solid rgba(220,216,240,0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(60,48,110,0.06);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+.track-order-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.track-order-card-heading {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+.track-order-card-heading .track-summary-sub { margin-top: 5px; }
+.track-order-badge {
+  flex: 0 0 auto;
+  font-size: 10.5px;
+  padding: 3px 10px;
+  min-height: 0;
+  line-height: 1.4;
+}
+.track-order-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.track-order-card-bottom span:last-child { flex: 0 0 auto; }
 .track-actions-wrap {
   position: relative;
   flex: 0 0 auto;
@@ -23094,277 +23275,10 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
 }
 
 /* Wallet top-up flow */
-.wallet-topup-sheet {
-  position: absolute;
-  inset: 0;
-  z-index: 70;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  pointer-events: none;
-  visibility: hidden;
-}
-.wallet-topup-sheet.is-open {
-  pointer-events: auto;
-  visibility: visible;
-}
-.wallet-topup-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(24, 20, 38, .28);
-  opacity: 0;
-  transition: opacity 220ms ease;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-}
-.wallet-topup-panel {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-height: min(78%, 620px);
-  overflow-y: auto;
-  padding: 10px 20px calc(20px + env(safe-area-inset-bottom));
-  border-radius: 32px 32px 0 0;
-  border: 1px solid rgba(216, 205, 248, .74);
-  background:
-    radial-gradient(circle at 12% 0%, rgba(255,111,216,.10), transparent 38%),
-    radial-gradient(circle at 88% 8%, rgba(130,242,255,.12), transparent 42%),
-    rgba(255,255,255,.96);
-  box-shadow: 0 -18px 50px rgba(42, 33, 70, .16);
-  transform: translateY(100%);
-  transition: transform 260ms ease;
-  scrollbar-width: none;
-}
-.wallet-topup-panel::-webkit-scrollbar { display: none; }
-.wallet-topup-sheet.is-open .wallet-topup-backdrop { opacity: 1; }
-.wallet-topup-sheet.is-open .wallet-topup-panel { transform: translateY(0); }
-.wallet-topup-handle {
-  width: 44px;
-  height: 5px;
-  margin: 0 auto 18px;
-  border-radius: 999px;
-  background: rgba(131, 121, 154, .24);
-}
-.wallet-topup-step { display: none; }
-.wallet-topup-sheet[data-topup-step="amount"] [data-topup-panel="amount"],
-.wallet-topup-sheet[data-topup-step="method"] [data-topup-panel="method"],
-.wallet-topup-sheet[data-topup-step="review"] [data-topup-panel="review"] {
-  display: block;
-}
-.wallet-topup-step-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-.wallet-topup-back {
-  width: 38px;
-  height: 38px;
-  flex: 0 0 38px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(126,103,255,.16);
-  border-radius: 50%;
-  background: rgba(255,255,255,.76);
-  color: #514676;
-  box-shadow: 0 8px 18px rgba(35,30,70,.06), inset 0 1px 0 rgba(255,255,255,.8);
-  cursor: pointer;
-}
-.wallet-topup-back .hugeicon { width: 17px; height: 17px; }
-.wallet-topup-title {
-  margin: 0;
-  color: #292044;
-  font-size: 22px;
-  font-weight: 650;
-  line-height: 1.12;
-}
-.wallet-topup-copy {
-  margin: -8px 0 18px;
-  color: #8A829E;
-  font-size: 14px;
-  line-height: 1.45;
-}
-.wallet-topup-balance-card,
-.wallet-topup-review-card {
-  margin-bottom: 18px;
-  padding: 15px 16px;
-  border: 1px solid rgba(126,103,255,.10);
-  border-radius: 22px;
-  background: rgba(255,255,255,.78);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.92);
-}
-.wallet-topup-balance-label,
-.wallet-topup-field-label,
-.wallet-topup-review-label {
-  display: block;
-  color: #8E86A4;
-  font-size: 12px;
-  font-weight: 400;
-}
-.wallet-topup-balance-value {
-  display: block;
-  margin-top: 3px;
-  color: #292044;
-  font-size: 24px;
-  font-weight: 650;
-}
-.wallet-topup-field {
-  margin-bottom: 16px;
-}
-.wallet-topup-input-wrap {
-  height: 58px;
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 16px;
-  border: 1px solid rgba(126,103,255,.18);
-  border-radius: 18px;
-  background: rgba(255,255,255,.86);
-  color: #292044;
-  transition: border-color 160ms ease, box-shadow 160ms ease;
-}
-.wallet-topup-input-wrap:focus-within {
-  border-color: rgba(126,103,255,.56);
-  box-shadow: 0 0 0 4px rgba(126,103,255,.10), 0 10px 24px rgba(126,103,255,.08);
-}
-.wallet-topup-prefix {
-  color: #8B829F;
-  font-size: 22px;
-  font-weight: 500;
-}
-.wallet-topup-input {
-  min-width: 0;
-  width: 100%;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: #292044;
-  font: 650 24px/1 var(--font, 'Asbir Sans', sans-serif);
-}
-.wallet-topup-input::placeholder { color: rgba(142,134,164,.6); }
-.wallet-topup-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 22px;
-}
-.wallet-topup-chip {
-  height: 36px;
-  padding: 0 14px;
-  border: 1px solid rgba(126,103,255,.17);
-  border-radius: 999px;
-  background: rgba(255,255,255,.78);
-  color: #655D7C;
-  font: 400 13px/1 var(--font, 'Asbir Sans', sans-serif);
-  cursor: pointer;
-  transition: transform 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
-}
-.wallet-topup-chip.is-selected {
-  color: #6F5CFF;
-  border-color: rgba(126,103,255,.48);
-  box-shadow: 0 8px 18px rgba(126,103,255,.12);
-}
-.wallet-topup-chip:active,
-.wallet-topup-method-card:active,
 .wallet-topup-primary:active,
 .wallet-topup-secondary:active,
 .wallet-topup-state-action:active {
   transform: translateY(1px) scale(.985);
-}
-.wallet-topup-method-list {
-  display: grid;
-  gap: 10px;
-  margin-top: 16px;
-}
-.wallet-topup-method-card {
-  width: 100%;
-  min-height: 78px;
-  padding: 13px 14px;
-  display: grid;
-  grid-template-columns: 42px minmax(0,1fr);
-  gap: 12px;
-  align-items: center;
-  border: 1px solid rgba(126,103,255,.12);
-  border-radius: 20px;
-  background: rgba(255,255,255,.80);
-  color: #292044;
-  text-align: left;
-  box-shadow: 0 8px 20px rgba(35,30,70,.045), inset 0 1px 0 rgba(255,255,255,.92);
-  cursor: pointer;
-}
-.wallet-topup-method-card.is-selected {
-  border-color: rgba(126,103,255,.42);
-  box-shadow: 0 10px 24px rgba(126,103,255,.10), inset 0 1px 0 rgba(255,255,255,.95);
-}
-.wallet-topup-method-icon {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  background:
-    radial-gradient(circle at 20% 18%, rgba(255,111,216,.14), transparent 48%),
-    radial-gradient(circle at 80% 82%, rgba(130,242,255,.18), transparent 56%),
-    rgba(248,247,255,.82);
-  color: #7567F7;
-}
-.wallet-topup-method-icon svg {
-  width: 22px;
-  height: 22px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.wallet-topup-method-title {
-  display: block;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.2;
-}
-.wallet-topup-method-desc {
-  display: block;
-  margin-top: 4px;
-  color: #8E86A4;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.35;
-}
-.wallet-topup-review-card {
-  display: grid;
-  gap: 0;
-}
-.wallet-topup-review-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  min-height: 46px;
-  border-bottom: 1px solid rgba(126,103,255,.08);
-}
-.wallet-topup-review-row:last-child { border-bottom: 0; }
-.wallet-topup-review-value {
-  color: #292044;
-  font-size: 15px;
-  font-weight: 500;
-  text-align: right;
-}
-.wallet-topup-review-row.total .wallet-topup-review-label,
-.wallet-topup-review-row.total .wallet-topup-review-value {
-  font-size: 17px;
-  font-weight: 650;
-  color: #292044;
-}
-.wallet-topup-actions {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  margin-top: 20px;
-}
-.wallet-topup-actions.split {
-  grid-template-columns: .8fr 1.2fr;
 }
 .wallet-topup-primary,
 .wallet-topup-secondary {
@@ -23386,7 +23300,7 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   box-shadow: none;
 }
 .wallet-topup-secondary {
-  border-radius: 999px;
+  border-radius: 12px;
   border: 1px solid rgba(126,103,255,.16);
   background: rgba(255,255,255,.78);
   color: #514676;
@@ -23445,27 +23359,73 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   font-size: 14px;
   line-height: 1.45;
 }
-.wallet-topup-success-card {
+/* ── Top-up success screen ────────────────────────────── */
+.wallet-topup-success-content {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 20px 112px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  scrollbar-width: none;
+}
+.wallet-topup-success-content::-webkit-scrollbar { display: none; }
+.wallet-topup-success-icon {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+}
+.wallet-topup-success-title {
+  margin: 0 0 8px;
+  color: #292044;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.wallet-topup-receipt-card {
   width: 100%;
-  margin: 22px 0 8px;
-  padding: 18px;
+  margin-top: 24px;
+  padding: 4px 18px 8px;
   border: 1px solid rgba(126,103,255,.10);
-  border-radius: 24px;
+  border-radius: 20px;
   background: rgba(255,255,255,.82);
   box-shadow: 0 12px 28px rgba(35,30,70,.06), inset 0 1px 0 rgba(255,255,255,.94);
+  text-align: left;
 }
-.wallet-topup-success-label {
+.wallet-topup-receipt-heading {
   display: block;
+  padding-top: 14px;
   color: #8E86A4;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
 }
-.wallet-topup-success-balance {
-  display: block;
-  margin-top: 5px;
+.wallet-topup-receipt-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 0;
+  font-size: 14px;
+}
+.wallet-topup-receipt-row + .wallet-topup-receipt-row {
+  border-top: 1px solid rgba(126,103,255,.10);
+}
+.wallet-topup-receipt-row span {
+  color: #8E86A4;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+.wallet-topup-receipt-row strong {
+  min-width: 0;
   color: #292044;
-  font-size: 30px;
-  font-weight: 700;
+  font-weight: 500;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 .wallet-topup-state-actions {
   width: 100%;
@@ -23512,7 +23472,7 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   height: 72px;
   min-height: 72px;
   padding: 0 16px;
-  background: rgba(255,255,255,.74);
+  background: transparent;
   border-bottom: 1px solid rgba(237,234,245,.72);
   box-shadow: none;
 }
@@ -23665,95 +23625,175 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
 .wallet-topup-sticky-action .wallet-topup-primary {
   width: 100%;
 }
-.wallet-topup-confirm-dialog {
-  position: absolute;
-  inset: 0;
-  z-index: 80;
+/* ── Payment Method bottom sheet ──────────────────────── */
+.wallet-topup-method-list {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  min-height: 0;
+  padding: 4px 4px 8px;
+}
+.wallet-topup-method-list::-webkit-scrollbar { display: none; }
+.wallet-topup-method-row {
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  border-bottom: 1px solid rgba(126,103,255,.10);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 14px;
+}
+.wallet-topup-method-row:last-child { border-bottom: 0; }
+.wallet-topup-method-row.is-selected {
+  background: rgba(126,103,255,.07);
+  box-shadow: inset 0 0 0 1.5px rgba(126,103,255,.32);
+}
+.wallet-topup-method-icon {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: grid;
   place-items: center;
-  padding: 24px;
-  visibility: hidden;
-  pointer-events: none;
+  font-size: 15px;
+  font-weight: 700;
 }
-.wallet-topup-confirm-dialog[aria-hidden="false"] {
-  visibility: visible;
-  pointer-events: auto;
+.wallet-topup-method-info {
+  flex: 1;
+  min-width: 0;
 }
-.wallet-topup-confirm-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(24,20,38,.30);
-  opacity: 0;
-  transition: opacity 180ms ease;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-}
-.wallet-topup-confirm-panel {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  padding: 22px 20px 18px;
-  border: 1px solid rgba(216,205,248,.74);
-  border-radius: 28px;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(255,111,216,.08), transparent 36%),
-    radial-gradient(circle at 90% 0%, rgba(130,242,255,.12), transparent 42%),
-    rgba(255,255,255,.96);
-  box-shadow: 0 22px 54px rgba(35,30,70,.18), inset 0 1px 0 rgba(255,255,255,.96);
-  transform: translateY(10px) scale(.98);
-  opacity: 0;
-  transition: transform 180ms ease, opacity 180ms ease;
-}
-.wallet-topup-confirm-dialog[aria-hidden="false"] .wallet-topup-confirm-backdrop { opacity: 1; }
-.wallet-topup-confirm-dialog[aria-hidden="false"] .wallet-topup-confirm-panel {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-.wallet-topup-confirm-title {
-  margin: 0 0 16px;
+.wallet-topup-method-name {
   color: #292044;
-  font-size: 20px;
-  font-weight: 650;
+  font-size: 15px;
+  font-weight: 400;
+}
+.wallet-topup-method-radio {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(160,154,184,.5);
+  position: relative;
+}
+.wallet-topup-method-row.is-selected .wallet-topup-method-radio {
+  border-color: var(--accent);
+}
+.wallet-topup-method-row.is-selected .wallet-topup-method-radio::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ── Review Top Up ────────────────────────────────────── */
+.wallet-topup-review-amount {
+  text-align: center;
+  color: #21183E;
+  font-size: 40px;
+  font-weight: 750;
+  letter-spacing: -1px;
+  margin: 8px 0 22px;
+}
+
+/* ── Simulated native provider checkout ───────────────── */
+.wallet-native-pay-content {
+  min-height: calc(100% - 96px);
+  padding: 46px 24px calc(34px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
-.wallet-topup-confirm-summary {
+.wallet-native-pay-brand { margin-bottom: 30px; }
+.wallet-native-pay-wordmark {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+.wallet-native-pay-merchant {
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.72;
+}
+.wallet-native-pay-merchant strong { font-weight: 650; }
+.wallet-native-pay-amount {
+  font-size: 44px;
+  font-weight: 750;
+  letter-spacing: -1px;
+  margin: 10px 0 40px;
+}
+.wallet-native-pay-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+.wallet-native-pay-spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid currentColor;
+  border-top-color: transparent;
+  opacity: 0.55;
+  animation: walletNativePaySpin 0.8s linear infinite;
+}
+@keyframes walletNativePaySpin { to { transform: rotate(360deg); } }
+.wallet-native-pay-check {
+  display: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid currentColor;
+}
+.wallet-native-pay-content.is-success .wallet-native-pay-spinner { display: none; }
+.wallet-native-pay-content.is-success .wallet-native-pay-check { display: flex; }
+.wallet-topup-review-card {
   display: grid;
   gap: 0;
-  margin-bottom: 18px;
-  border: 1px solid rgba(126,103,255,.09);
+  border: 1px solid rgba(126,103,255,.14);
   border-radius: 20px;
-  background: rgba(255,255,255,.78);
+  background: rgba(255,255,255,.90);
   overflow: hidden;
 }
-.wallet-topup-confirm-row {
-  min-height: 48px;
-  padding: 0 14px;
+.wallet-topup-review-row {
+  min-height: 52px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  border-bottom: 1px solid rgba(126,103,255,.08);
+  border-bottom: 1px solid rgba(126,103,255,.10);
 }
-.wallet-topup-confirm-row:last-child { border-bottom: 0; }
-.wallet-topup-confirm-row span {
-  color: #8E86A4;
-  font-size: 13px;
-}
-.wallet-topup-confirm-row strong {
-  color: #292044;
-  font-size: 15px;
-  font-weight: 600;
-}
-.wallet-topup-confirm-row.total strong,
-.wallet-topup-confirm-row.total span {
-  color: #292044;
-  font-size: 16px;
-  font-weight: 650;
-}
-.wallet-topup-confirm-actions {
+.wallet-topup-review-row:last-child { border-bottom: 0; }
+.wallet-topup-review-row span { color: #8E86A4; font-size: 13px; }
+.wallet-topup-review-row strong { color: #292044; font-size: 15px; font-weight: 600; text-align: right; }
+.wallet-topup-review-row.total strong,
+.wallet-topup-review-row.total span { color: #292044; font-size: 16px; font-weight: 650; }
+.wallet-topup-sticky-action.split {
   display: grid;
   grid-template-columns: .82fr 1.18fr;
   gap: 10px;
+}
+.wallet-topup-sticky-action.split .wallet-topup-primary,
+.wallet-topup-sticky-action.split .wallet-topup-secondary {
+  width: 100%;
+  font-weight: 500;
+}
+.wallet-topup-sticky-action.split .wallet-topup-primary {
+  font-weight: 650;
 }
 
 /* Wallet Transactions expands Recent Activity into a fuller, filterable view
@@ -24195,6 +24235,67 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   background: transparent;
   box-shadow: none;
 }
+.plaza-assistant-yesno {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: fit-content;
+  max-width: 92%;
+  margin: 0 auto;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.96);
+  border: 1px solid rgba(222,218,232,0.72);
+  box-shadow: 0 3px 12px rgba(19,17,31,0.045);
+}
+.plaza-assistant-yesno-text {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: #17171c;
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.42;
+  letter-spacing: -0.12px;
+  text-align: center;
+}
+.plaza-assistant-yesno-text span { display: block; }
+.plaza-assistant-yesno-highlight {
+  color: #6652C8;
+  font-weight: 600;
+}
+.plaza-assistant-yesno-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.plaza-assistant-yesno-actions button {
+  min-height: 38px;
+  min-width: 80px;
+  padding: 0 18px;
+  border: 1px solid rgba(220,214,236,.88);
+  border-radius: 999px;
+  background: rgba(255,255,255,.82);
+  color: #625B78;
+  font: 600 13.5px/1 var(--font, 'Asbir Sans', sans-serif);
+  cursor: pointer;
+}
+.plaza-assistant-yesno-actions button.primary {
+  border: 0;
+  background: var(--aurora);
+  color: #fff;
+  box-shadow: 0 9px 18px rgba(125,103,247,.18);
+}
+.plaza-assistant-yesno-actions button:disabled {
+  opacity: .54;
+  cursor: default;
+}
+.plaza-assistant-yesno.is-muted { opacity: .72; }
 .plaza-assistant-card {
   position: relative;
   overflow: hidden;
@@ -24372,6 +24473,85 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   background: rgba(248,247,255,.82);
   color: #625B78;
   font-size: 12px;
+}
+.plaza-assistant-money-confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+  width: fit-content;
+  max-width: 92%;
+  margin: 0 auto;
+  padding: 20px 22px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.96);
+  border: 1px solid rgba(222,218,232,0.72);
+  box-shadow: 0 3px 12px rgba(19,17,31,0.045);
+}
+.plaza-assistant-money-confirm-avatar .plaza-assistant-card-logo.circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.92);
+  box-shadow: 0 10px 24px rgba(56,43,94,.12), 0 0 0 1px rgba(216,194,255,.20);
+  font-size: 18px;
+}
+.plaza-assistant-money-confirm-name {
+  margin-top: 8px;
+  color: #2D2547;
+  font-size: 19px;
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -0.15px;
+}
+.plaza-assistant-money-confirm-verified {
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #8C879A;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.plaza-assistant-money-confirm-amount {
+  margin-top: 20px;
+  color: #21183E;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1;
+}
+.plaza-assistant-money-confirm-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.plaza-assistant-money-confirm-actions button {
+  min-height: 40px;
+  min-width: 96px;
+  padding: 0 20px;
+  border: 1px solid rgba(220,214,236,.88);
+  border-radius: 999px;
+  background: rgba(255,255,255,.82);
+  color: #625B78;
+  font: 600 13.5px/1 var(--font, 'Asbir Sans', sans-serif);
+  cursor: pointer;
+}
+.plaza-assistant-money-confirm-actions button.primary {
+  border: 0;
+  background: var(--aurora);
+  color: #fff;
+  box-shadow: 0 9px 18px rgba(125,103,247,.18);
+}
+.plaza-assistant-money-confirm-actions button:disabled {
+  opacity: .54;
+  cursor: default;
 }
 .plaza-assistant-auth-icon {
   width: 32px;
@@ -24575,6 +24755,7 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
 .seller-status-pending { background: rgba(123,110,246,0.10); color: #6652C8; }
 .seller-status-draft { background: rgba(142,132,166,0.12); color: #6F6689; }
 .seller-status-sold { background: rgba(82,134,255,0.10); color: #2D6FC4; }
+.seller-status-inactive { background: rgba(142,132,166,0.12); color: #6F6689; }
 .seller-listing-footer {
   display: flex;
   justify-content: flex-end;
@@ -24600,11 +24781,11 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   height: 72px;
   min-height: 72px;
   padding: 0 16px;
-  background: rgba(255,255,255,0.94);
+  background: transparent;
 }
 .create-listing-content {
   gap: 14px;
-  padding: 14px 16px calc(28px + env(safe-area-inset-bottom));
+  padding: 14px 16px calc(110px + env(safe-area-inset-bottom));
   overflow-y: auto;
 }
 .listing-stepper {
@@ -25014,7 +25195,7 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   height: 72px;
   min-height: 72px;
   padding: 0 16px;
-  background: rgba(255,255,255,0.94);
+  background: transparent;
   border-bottom: 1px solid rgba(232,221,248,0.62);
 }
 .listing-flow-title-row {
@@ -25029,11 +25210,14 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   font-weight: 600 !important;
   letter-spacing: -0.25px;
 }
-.create-listing-content,
-.listing-preview-content,
 .listing-result-content {
   display: block;
   padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+}
+.create-listing-content,
+.listing-preview-content {
+  display: block;
   overflow-y: auto;
 }
 .listing-form {
@@ -25056,6 +25240,44 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   color: #8C84A0;
   font-size: 12.5px;
   line-height: 1.35;
+}
+.listing-status-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(123,110,246,0.06);
+  border: 1px solid rgba(123,110,246,0.16);
+}
+.listing-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.listing-status-copy {
+  display: grid;
+  gap: 2px;
+}
+.listing-status-title {
+  color: #1D1830;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.listing-status-sub {
+  color: #6F6689;
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+.listing-status-note {
+  color: #A3341F;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+#listing-status-toggle:disabled {
+  opacity: 0.55;
 }
 .listing-upload-zone {
   min-height: 156px;
@@ -25193,6 +25415,19 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   border-color: rgba(123,110,246,0.70);
   box-shadow: 0 0 0 3px rgba(123,110,246,0.10);
 }
+.listing-location-field {
+  position: relative;
+  cursor: pointer;
+}
+.listing-location-field input { cursor: pointer; padding-right: 38px !important; pointer-events: none; }
+.listing-location-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8B84A3;
+  pointer-events: none;
+}
 .listing-two-col {
   display: grid;
   grid-template-columns: minmax(0,1fr) minmax(0,1fr);
@@ -25281,17 +25516,18 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
 }
 .create-listing-sticky-actions,
 .listing-preview-sticky-actions {
-  position: sticky;
+  position: fixed;
+  left: 0;
+  right: 0;
   bottom: 0;
   z-index: 6;
   display: grid;
   grid-template-columns: .92fr 1.08fr;
   gap: 10px;
-  margin: 10px -16px calc(-24px - env(safe-area-inset-bottom));
-  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.94) 18%, rgba(255,255,255,0.98));
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  margin: 0;
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+  background: #fff;
+  border-top: 1px solid rgba(226,222,237,0.6);
 }
 .listing-primary-action,
 .listing-secondary-action {
@@ -25316,6 +25552,9 @@ html.plaza-theme-dark .track-member-sheet-receipt.track-member-sheet-receipt .pa
   border: 1px solid rgba(210,205,235,0.82);
   background: rgba(255,255,255,0.90);
   color: #574D70;
+}
+.listing-preview-content {
+  padding: 14px 16px calc(110px + env(safe-area-inset-bottom));
 }
 .listing-preview-shell {
   display: grid;
@@ -25565,12 +25804,11 @@ html.plaza-theme-dark .account-menu-status {
 }
 
 html.plaza-theme-dark :is(.topbar,.mkt-topbar,.settings-topbar,.listing-flow-topbar,.wallet-topup-page-topbar,.wallet-transactions-topbar,.wallet-notifications-topbar,.notifications-topbar,.miniapp-browser-topbar) {
-  background: rgba(18,20,28,0.86) !important;
+  background: transparent !important;
   border-bottom-color: rgba(255,255,255,0.06) !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
 }
 
-html.plaza-theme-dark :is(.topbar-title,.screen-title,.mkt-hd-title,.section-title,.settings-label,.settings-section-title,.wallet-section-heading h2,.wallet-topup-section-title,.wallet-topup-state-title,.history-logs-topbar .topbar-title,.tx-detail-amount,.tx-detail-type,.me-profile-name,.account-kyc-header h3,.account-kyc-step h4,.me-section-title,.me-row-label,.me-quick-card > span:last-child,.listing-section-title,.listing-preview-title,.listing-preview-price,.listing-result-panel h2,.chat-name,.conv-name,.item-title,.listing-title,.listing-price,.seller-listing-title,.seller-listing-price,.plaza-services-title-row strong,.super-service-label,.plaza-featured-title,.mkt-nearby-head .section-title,.settings-faq-question,.account-form-label) {
+html.plaza-theme-dark :is(.topbar-title,.screen-title,.mkt-hd-title,.section-title,.settings-label,.settings-section-title,.wallet-section-heading h2,.wallet-topup-section-title,.wallet-topup-state-title,.wallet-topup-success-title,.history-logs-topbar .topbar-title,.tx-detail-amount,.tx-detail-type,.me-profile-name,.account-kyc-header h3,.account-kyc-step h4,.me-section-title,.me-row-label,.me-quick-card > span:last-child,.listing-section-title,.listing-preview-title,.listing-preview-price,.listing-result-panel h2,.chat-name,.conv-name,.item-title,.listing-title,.listing-price,.seller-listing-title,.seller-listing-price,.plaza-services-title-row strong,.super-service-label,.plaza-featured-title,.mkt-nearby-head .section-title,.settings-faq-question,.account-form-label) {
   color: #FFFFFF !important;
 }
 html.plaza-theme-dark .wallet-verification-lock strong {
@@ -25610,7 +25848,7 @@ html.plaza-theme-dark :is(
   color: #FFFFFF !important;
 }
 
-html.plaza-theme-dark :is(.topbar-sub,.item-sub,.item-meta,.chat-preview,.chat-time,.settings-description,.settings-row-subtitle,.settings-value,.settings-faq-answer,.wallet-hero-label,.wallet-hero-name,.wallet-activity-info small,.wallet-topup-state-copy,.wallet-topup-success-label,.listing-preview-meta,.listing-preview-copy,.listing-preview-list,.listing-result-panel p,.seller-listing-meta,.seller-listing-stats,.seller-listing-updated,.mkt-location-inline,.plaza-services-title-row span,.super-service-sub,.account-field-helper,.account-form-success,.account-kyc-header p,.account-kyc-review,.wallet-verification-lock,.me-profile-status,.me-profile-mobile,.me-verification-helper,.settings-option-description,.settings-storage-label,.settings-storage-value) {
+html.plaza-theme-dark :is(.topbar-sub,.item-sub,.item-meta,.chat-preview,.chat-time,.settings-description,.settings-row-subtitle,.settings-value,.settings-faq-answer,.wallet-hero-label,.wallet-hero-name,.wallet-activity-info small,.wallet-topup-state-copy,.wallet-topup-receipt-heading,.listing-preview-meta,.listing-preview-copy,.listing-preview-list,.listing-result-panel p,.seller-listing-meta,.seller-listing-stats,.seller-listing-updated,.mkt-location-inline,.plaza-services-title-row span,.super-service-sub,.account-field-helper,.account-form-success,.account-kyc-header p,.account-kyc-review,.wallet-verification-lock,.me-profile-status,.me-profile-mobile,.me-verification-helper,.settings-option-description,.settings-storage-label,.settings-storage-value) {
   color: #B6BAC8 !important;
 }
 
@@ -25631,7 +25869,7 @@ html.plaza-theme-dark :is(.icon-btn,.account-menu-trigger,.history-logs-filter-b
   -webkit-backdrop-filter: blur(18px) saturate(1.18);
 }
 
-html.plaza-theme-dark :is(.card,.place-card,.simple-row,.settings-card,.settings-category-row,.settings-row,.settings-faq-item,.account-form-card,.account-kyc-card,.me-card,.me-quick-card,.wallet-action-card,.wallet-verification-lock,.wallet-activity,.wallet-activity-row,.wallet-topup-amount-card,.wallet-topup-custom-field,.wallet-topup-failure-panel,.wallet-topup-success-card,.wallet-topup-confirm-panel,.listing-upload-zone,.listing-photo-tile,.listing-seller-summary,.listing-preview-gallery,.listing-preview-seller,.seller-listing-card,.mkt-cat-tile,.plaza-service-tile,.super-service-card,.plaza-miniapp-card,.payment-receipt-card,.money-request-card,.escrow-card,.pay-request-card,.business-flow-card,.verification-system-card,.send-tracking-bubble,.request-money-card,.settings-storage-summary,.settings-action-button,.wallet-notification-category,.wallet-update-row,.app-notification-row,.notification-actions-panel,.receipt-actions-panel,.settings-option-panel,.settings-edit-panel,.payment-sheet-panel,.pd-checkout-sheet,.pd-checkout-card) {
+html.plaza-theme-dark :is(.card,.place-card,.simple-row,.settings-card,.settings-category-row,.settings-row,.settings-faq-item,.account-form-card,.account-kyc-card,.me-card,.me-quick-card,.wallet-action-card,.wallet-verification-lock,.wallet-activity,.wallet-activity-row,.wallet-topup-amount-card,.wallet-topup-custom-field,.wallet-topup-failure-panel,.wallet-topup-receipt-card,.wallet-topup-confirm-panel,.listing-upload-zone,.listing-photo-tile,.listing-seller-summary,.listing-preview-gallery,.listing-preview-seller,.seller-listing-card,.mkt-cat-tile,.plaza-service-tile,.super-service-card,.plaza-miniapp-card,.payment-receipt-card,.money-request-card,.escrow-card,.pay-request-card,.business-flow-card,.verification-system-card,.send-tracking-bubble,.request-money-card,.settings-storage-summary,.settings-action-button,.wallet-notification-category,.wallet-update-row,.app-notification-row,.notification-actions-panel,.receipt-actions-panel,.settings-option-panel,.settings-edit-panel,.payment-sheet-panel,.pd-checkout-sheet,.pd-checkout-card) {
   background:
     radial-gradient(circle at 10% 0%, rgba(179,136,255,0.08), transparent 34%),
     rgba(23,26,36,0.88) !important;
@@ -26540,9 +26778,8 @@ html.plaza-theme-dark #chats-screen.is-first-time > .topbar.topbar--landing {
 }
 
 html.plaza-theme-dark #chats-screen > .topbar.topbar--landing {
-  background: rgba(18,20,28,0.86) !important;
+  background: transparent !important;
   border-bottom: 1px solid rgba(255,255,255,0.06) !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.18) !important;
 }
 
 html.plaza-theme-dark #chats-screen > .topbar.topbar--landing .topbar-title,
@@ -26911,19 +27148,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
           <div class="chat-aside">
             <span class="chat-time unread">now</span>
             <span class="unread-badge">2</span>
-          </div>
-        </button>
-
-        <!-- Personal: favorite contact -->
-        <button class="chat-row" data-go="conversation-screen" data-chat="_my-baby"
-                data-type="family" data-unread="false">
-          <div class="avatar photo" aria-label="My Baby"><img src="no-profile-avatar.png" alt="My Baby"></div>
-          <div class="chat-body">
-            <div class="chat-name">My Baby</div>
-            <div class="chat-preview">You're now connected. Send a message or start a transaction.</div>
-          </div>
-          <div class="chat-aside">
-            <span class="chat-time">now</span>
           </div>
         </button>
 
@@ -28090,9 +28314,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
             List an Item
           </button>
         </div>
-        <div class="mkt-sell-section-label">Selling</div>
         <div class="filter-row mkt-sell-status-tabs" id="mkt-sell-status-tabs" aria-label="Listing status filters">
-          <button class="filter-chip active" type="button" data-sell-status="active">Active</button>
+          <button class="filter-chip active" type="button" data-sell-status="active">Listings</button>
           <button class="filter-chip" type="button" data-sell-status="draft">Drafts</button>
           <button class="filter-chip" type="button" data-sell-status="sold">Sold</button>
         </div>
@@ -28214,12 +28437,24 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         <button class="icon-btn" id="listing-wizard-back" aria-label="Back to Sell" type="button">
           <i class="hgi-solid hgi-arrow-left-02 hugeicon" aria-hidden="true"></i>
         </button>
-        <span class="topbar-title">Create Listing</span>
+        <span class="topbar-title" id="create-listing-title">Create Listing</span>
       </div>
       <div class="topbar-right"></div>
     </header>
     <div class="content create-listing-content">
       <form id="listing-wizard-form" class="listing-form">
+        <section class="listing-form-section listing-status-section" id="listing-status-section" hidden>
+          <div class="listing-status-card">
+            <div class="listing-status-row">
+              <div class="listing-status-copy">
+                <div class="listing-status-title">Listing active</div>
+                <div class="listing-status-sub" id="listing-status-sub">This listing is visible in Marketplace.</div>
+              </div>
+              <button class="contact-switch is-on" type="button" role="switch" aria-checked="true" id="listing-status-toggle" aria-label="Listing active"></button>
+            </div>
+            <div class="listing-status-note" id="listing-status-sold-note" hidden>Sold listings cannot be reactivated.</div>
+          </div>
+        </section>
         <section class="listing-form-section">
           <h2 class="listing-section-title">Photos</h2>
           <button class="listing-upload-zone" id="listing-upload-zone" type="button">
@@ -28283,7 +28518,13 @@ html.plaza-theme-dark .plaza-special-offer-art img {
           </label>
           <label class="listing-form-field">
             <span>Location</span>
-            <input id="listing-location" type="text" placeholder="Dumaguete City" required>
+            <div class="listing-location-field" id="listing-location-trigger" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Select location">
+              <input id="listing-location" type="text" placeholder="Dumaguete City" required autocomplete="off" readonly tabindex="-1">
+              <svg class="listing-location-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s7-7.58 7-12A7 7 0 0 0 5 10c0 4.42 7 12 7 12Z"/>
+                <circle cx="12" cy="10" r="2.5"/>
+              </svg>
+            </div>
           </label>
         </section>
 
@@ -28337,7 +28578,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         <button class="icon-btn" id="listing-preview-header-back" aria-label="Back to edit" type="button">
           <i class="hgi-solid hgi-arrow-left-02 hugeicon" aria-hidden="true"></i>
         </button>
-        <span class="topbar-title">Preview Listing</span>
+        <span class="topbar-title" id="listing-preview-title">Preview Listing</span>
       </div>
       <div class="topbar-right"></div>
     </header>
@@ -28736,17 +28977,67 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         <input id="wallet-topup-custom-input" type="text" inputmode="decimal" autocomplete="off" placeholder="0" aria-label="Custom top-up amount">
       </label>
 
-      <div class="wallet-topup-failure-panel" id="wallet-topup-failure-panel" hidden>
-        <strong>Payment unsuccessful</strong>
-        <span>No money was added to your wallet. Please try again or choose another payment method.</span>
-        <div class="wallet-topup-failure-actions">
-          <button class="wallet-topup-secondary" type="button" data-wallet-topup-try-again>Try Again</button>
-          <button class="wallet-topup-secondary" type="button" data-wallet-topup-cancel-page>Cancel</button>
-        </div>
-      </div>
     </div>
     <div class="wallet-topup-sticky-action">
       <button class="wallet-topup-primary" type="button" data-wallet-topup-pay disabled>Pay Now</button>
+    </div>
+  </section>
+
+  <section class="screen wallet-topup-page" id="wallet-topup-review-screen" data-nav="wallet">
+    <div class="status"><span>9:41</span></div>
+    <header class="topbar wallet-topup-page-topbar">
+      <div class="topbar-left">
+        <button class="icon-btn" aria-label="Back" data-go="wallet-topup-screen" type="button">
+          <i class="hgi-solid hgi-arrow-left-02 hugeicon" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="topbar-center">
+        <span class="topbar-title">Review Top Up</span>
+      </div>
+      <div class="topbar-right"></div>
+    </header>
+    <div class="content wallet-topup-page-content">
+      <div class="wallet-topup-review-amount" id="wallet-topup-review-amount">₱0.00</div>
+      <div class="wallet-topup-review-card">
+        <div class="wallet-topup-review-row">
+          <span>Payment Method</span>
+          <strong id="wallet-topup-review-method">—</strong>
+        </div>
+        <div class="wallet-topup-review-row" id="wallet-topup-review-fee-row" hidden>
+          <span>Processing Fee</span>
+          <strong id="wallet-topup-review-fee">₱0.00</strong>
+        </div>
+        <div class="wallet-topup-review-row total">
+          <span>Total to Pay</span>
+          <strong id="wallet-topup-review-total">₱0.00</strong>
+        </div>
+        <div class="wallet-topup-review-row">
+          <span>Destination</span>
+          <strong>Plaza Wallet •••• 1842</strong>
+        </div>
+      </div>
+    </div>
+    <div class="wallet-topup-sticky-action split">
+      <button class="wallet-topup-secondary" type="button" data-go="wallet-topup-screen">Back</button>
+      <button class="wallet-topup-primary" type="button" data-wallet-topup-confirm-payment>Confirm and Pay</button>
+    </div>
+  </section>
+
+  <!-- Simulated native provider checkout — deliberately styled apart from
+       the rest of Project Plaza so it reads as a distinct external app. -->
+  <section class="screen wallet-native-pay-screen" id="wallet-native-pay-screen" data-nav="wallet">
+    <div class="status"><span>9:41</span></div>
+    <div class="wallet-native-pay-content" id="wallet-native-pay-content">
+      <div class="wallet-native-pay-brand" id="wallet-native-pay-brand"></div>
+      <div class="wallet-native-pay-merchant">Paying <strong>Project Plaza</strong></div>
+      <div class="wallet-native-pay-amount" id="wallet-native-pay-amount">₱0.00</div>
+      <div class="wallet-native-pay-status">
+        <div class="wallet-native-pay-spinner" id="wallet-native-pay-spinner" aria-hidden="true"></div>
+        <div class="wallet-native-pay-check" id="wallet-native-pay-check" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg>
+        </div>
+        <span id="wallet-native-pay-status-text">Authorizing payment…</span>
+      </div>
     </div>
   </section>
 
@@ -28756,27 +29047,53 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       <div class="wallet-topup-mascot" aria-hidden="true">
         <img src="mascot-02-wave.png" alt="">
       </div>
-      <h1 class="wallet-topup-state-title">Adding money to your Plaza Wallet...</h1>
+      <h1 class="wallet-topup-state-title">Adding money to your wallet…</h1>
       <p class="wallet-topup-state-copy">Please wait while we confirm your payment.</p>
     </div>
   </section>
 
-  <section class="screen wallet-topup-state-screen wallet-topup-success" id="wallet-topup-success-screen" data-nav="wallet">
+  <section class="screen wallet-topup-page wallet-topup-success-screen" id="wallet-topup-success-screen" data-nav="wallet">
     <div class="status"><span>9:41</span></div>
-    <div class="wallet-topup-state-content">
-      <div class="wallet-topup-mascot" aria-hidden="true">
-        <img src="mascot-03-happy-wink.png" alt="">
+    <div class="content wallet-topup-success-content">
+      <svg class="wallet-topup-success-icon" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="walletTopupSuccessStroke" x1="6" y1="10" x2="50" y2="46" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#B893F6"/>
+            <stop offset="50%" stop-color="#F69CC9"/>
+            <stop offset="100%" stop-color="#FFC495"/>
+          </linearGradient>
+          <linearGradient id="walletTopupSuccessCheck" x1="17" y1="20" x2="39" y2="36.5" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#B893F6"/>
+            <stop offset="50%" stop-color="#F69CC9"/>
+            <stop offset="100%" stop-color="#FFC495"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="28" cy="28" rx="25" ry="25" stroke="url(#walletTopupSuccessStroke)" stroke-width="3"/>
+        <path d="M17 29L24.5 36.5L39 20" stroke="url(#walletTopupSuccessCheck)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h1 class="wallet-topup-success-title">Wallet topped up</h1>
+      <div class="wallet-topup-receipt-card" aria-label="Receipt">
+        <span class="wallet-topup-receipt-heading">Receipt</span>
+        <div class="wallet-topup-receipt-row">
+          <span>Amount</span>
+          <strong id="wallet-topup-success-amount-value">₱500.00</strong>
+        </div>
+        <div class="wallet-topup-receipt-row">
+          <span>Payment Method</span>
+          <strong id="wallet-topup-success-method">—</strong>
+        </div>
+        <div class="wallet-topup-receipt-row">
+          <span>Reference No.</span>
+          <strong id="wallet-topup-success-ref">—</strong>
+        </div>
+        <div class="wallet-topup-receipt-row">
+          <span>Date &amp; Time</span>
+          <strong id="wallet-topup-success-datetime">—</strong>
+        </div>
       </div>
-      <h1 class="wallet-topup-state-title">Wallet topped up</h1>
-      <p class="wallet-topup-state-copy"><span id="wallet-topup-success-amount">₱500.00</span> has been added to your Plaza Wallet.</p>
-      <div class="wallet-topup-success-card" aria-label="New wallet balance">
-        <span class="wallet-topup-success-label">New Balance</span>
-        <span class="wallet-topup-success-balance" id="wallet-topup-success-balance">₱1,740.50</span>
-      </div>
-      <div class="wallet-topup-state-actions split">
-        <button class="wallet-topup-state-action secondary" type="button" data-wallet-topup-view-receipt>View Receipt</button>
-        <button class="wallet-topup-state-action primary" type="button" data-wallet-topup-done>Done</button>
-      </div>
+    </div>
+    <div class="wallet-topup-sticky-action">
+      <button class="wallet-topup-primary" type="button" data-wallet-topup-done>Back to Wallet</button>
     </div>
   </section>
 
@@ -29298,7 +29615,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         <button class="plaza-assistant-close" type="button" aria-label="Close assistant" data-plaza-assistant-close>×</button>
       </header>
       <div class="plaza-assistant-messages" id="plaza-assistant-messages">
-        <div class="plaza-assistant-message">Hi, I’m Plaza Smart Assistant. I can help pay bills, send or request money, show smart reminders, and open the right chat or mini-app. I’ll ask before any money, order, security, or verification action continues.</div>
+        <div class="plaza-assistant-message">Hi, I’m Plaza AI! <br><br>I’m here to make things easier. I can help you send or request money, catch up on conversations, and find what you need in Plaza. Just tell me what you’d like to do, and I’ll guide you along the way!</div>
       </div>
       <form class="plaza-assistant-form" id="plaza-assistant-form">
         <input class="plaza-assistant-input" id="plaza-assistant-input" type="text" placeholder="Ask Plaza anything" autocomplete="off">
@@ -29369,26 +29686,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     </div>
   </div>
 
-  <div id="wallet-topup-confirm-dialog" class="wallet-topup-confirm-dialog" aria-hidden="true">
-    <div class="wallet-topup-confirm-backdrop" data-wallet-topup-confirm-cancel></div>
-    <div class="wallet-topup-confirm-panel" role="dialog" aria-modal="true" aria-labelledby="wallet-topup-confirm-title">
-      <h2 class="wallet-topup-confirm-title" id="wallet-topup-confirm-title">Confirm Top Up</h2>
-      <div class="wallet-topup-confirm-summary">
-        <div class="wallet-topup-confirm-row">
-          <span>Amount</span>
-          <strong id="wallet-topup-confirm-amount">₱0.00</strong>
-        </div>
-        <div class="wallet-topup-confirm-row total">
-          <span>Total</span>
-          <strong id="wallet-topup-confirm-total">₱0.00</strong>
-        </div>
-      </div>
-      <div class="wallet-topup-confirm-actions">
-        <button class="wallet-topup-secondary" type="button" data-wallet-topup-confirm-cancel>Cancel</button>
-        <button class="wallet-topup-primary" type="button" data-wallet-topup-confirm-payment>Confirm Payment</button>
-      </div>
-    </div>
-  </div>
 
   <div id="tx-auth-sheet" class="verification-sheet tx-auth-sheet" aria-hidden="true">
     <div class="verification-sheet-backdrop" id="tx-auth-sheet-backdrop"></div>
@@ -29479,6 +29776,30 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       <div class="escrow-confirm-actions">
         <button class="escrow-confirm-cancel" id="request-cancel-keep" type="button">Keep Request</button>
         <button class="escrow-confirm-submit" id="request-cancel-confirm" type="button">Cancel Request</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="member-decline-confirm-dialog" class="escrow-confirm-dialog" aria-hidden="true">
+    <div class="escrow-confirm-backdrop" id="member-decline-confirm-backdrop"></div>
+    <div class="escrow-confirm-panel" role="dialog" aria-modal="true" aria-label="Decline member request">
+      <h2 class="escrow-confirm-heading" id="member-decline-confirm-heading">Decline this request?</h2>
+      <p class="escrow-confirm-text" id="member-decline-confirm-text">This person will not be added to the group.</p>
+      <div class="escrow-confirm-actions">
+        <button class="escrow-confirm-cancel" id="member-decline-confirm-cancel" type="button">Cancel</button>
+        <button class="escrow-confirm-submit" id="member-decline-confirm-submit" type="button">Decline</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="listing-discard-confirm-dialog" class="escrow-confirm-dialog" aria-hidden="true">
+    <div class="escrow-confirm-backdrop" id="listing-discard-confirm-backdrop"></div>
+    <div class="escrow-confirm-panel" role="dialog" aria-modal="true" aria-label="Discard changes">
+      <h2 class="escrow-confirm-heading">Discard changes?</h2>
+      <p class="escrow-confirm-text">You have unsaved changes to this listing. If you leave now, your edits will be lost.</p>
+      <div class="escrow-confirm-actions">
+        <button class="escrow-confirm-cancel" id="listing-discard-confirm-cancel" type="button">Keep Editing</button>
+        <button class="escrow-confirm-submit" id="listing-discard-confirm-submit" type="button">Discard</button>
       </div>
     </div>
   </div>
@@ -29816,7 +30137,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     <div id="contact-sheet" class="member-sheet" role="dialog" aria-modal="true" aria-label="Select Contact">
       <div class="member-sheet-handle" id="contact-sheet-handle"></div>
       <div class="member-sheet-header">
-        <span class="member-sheet-title">Select Contact</span>
+        <span class="member-sheet-title" id="contact-sheet-title">Select Contact</span>
         <button id="contact-sheet-close" class="contact-sheet-close" type="button" aria-label="Close">×</button>
       </div>
       <div class="member-search-wrap">
@@ -29824,6 +30145,37 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         <input id="contact-search-input" class="member-search-input" type="text" placeholder="Search contacts" autocomplete="off">
       </div>
       <div id="contact-list" class="member-list"></div>
+      <div class="contact-sheet-confirm-bar" id="contact-sheet-confirm-bar" hidden>
+        <button id="contact-sheet-confirm" class="primary-btn contact-sheet-confirm-btn" type="button" disabled>Add Member</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="listing-location-sheet-overlay" class="member-sheet-overlay" aria-hidden="true">
+    <div id="listing-location-sheet" class="member-sheet" role="dialog" aria-modal="true" aria-label="Select Location">
+      <div class="member-sheet-handle"></div>
+      <div class="member-sheet-header">
+        <span class="member-sheet-title">Select Location</span>
+        <button id="listing-location-sheet-close" class="contact-sheet-close" type="button" aria-label="Close">×</button>
+      </div>
+      <div class="member-search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(123,110,246,0.55)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+        <input id="listing-location-search-input" class="member-search-input" type="text" placeholder="Search city, barangay, or address" autocomplete="off">
+      </div>
+      <div id="listing-location-sheet-body" class="member-list listing-location-sheet-body"></div>
+    </div>
+  </div>
+
+  <div id="wallet-topup-method-sheet-overlay" class="member-sheet-overlay" aria-hidden="true">
+    <div id="wallet-topup-method-sheet" class="member-sheet" role="dialog" aria-modal="true" aria-label="Choose Payment Method">
+      <div class="member-sheet-handle"></div>
+      <div class="member-sheet-header">
+        <span class="member-sheet-title">Choose Payment Method</span>
+      </div>
+      <div class="wallet-topup-method-list" id="wallet-topup-method-list" role="radiogroup" aria-label="Payment methods"></div>
+      <div class="contact-sheet-confirm-bar">
+        <button class="wallet-topup-primary contact-sheet-confirm-btn" type="button" data-wallet-topup-method-continue disabled>Continue</button>
+      </div>
     </div>
   </div>
 
@@ -30193,6 +30545,20 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       ]},
   };
 
+  // Display-only overrides for the Track Order page — lets a specific chat's
+  // order summary show different copy than the shared trackData record
+  // (which also feeds the in-chat Track Order business flow card) without
+  // touching that existing card's content.
+  const trackOrderDisplayOverrides = {
+    'lorna-eats': {
+      title: 'Classic Merienda Tray',
+      seller: 'Lorna Merienda Tray',
+      ref: 'LMT-2026-0813-0147',
+      amount: '₱1,200.00',
+      date: 'August 13, 2026'
+    }
+  };
+
   const transactionLogData = {
     'nanay-jocelyn': [
       { id:'tx-nj-001', type:'Marketplace Payment', amount:'₱350.00', status:'Pending', date:'Today', time:'9:18 AM', ref:'PZ-MKT-NJ001', description:'Denim Jacket Size M', party:'Nanay Jocelyn', method:'Plaza Wallet', fees:'₱0.00', note:'Payment request is awaiting buyer action.', flow:'escrow', step:0 },
@@ -30266,21 +30632,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   // ── Conversation data ─────────────────────────────────
   const conversations = window.conversations = {
 
-    // ── PERSONAL: My Baby ──────────────────────────────
-    '_my-baby': {
-      name: 'My Baby', initials: 'MB', av: 'av-2',
-      photo: 'no-profile-avatar.png',
-      status: '● Favorite', presence: 'Active now', statusColor: '#7B6EF6',
-      callLabel: 'Calling My Baby',
-      actions: `<button class="quick-action primary" data-action="send-money">₱ Send</button>
-                <button class="quick-action" data-action="request-money">↓ Request</button>`,
-      placeholder: 'Message My Baby',
-      relationship: 'Favorite',
-      emptyType: 'regular',
-      emptyMeta: 'Favorite',
-      emptyState: true,
-      thread: ''
-    },
 
     // ── PERSONAL: Ate Joy ───────────────────────────────
     'ate-joy': {
@@ -30363,6 +30714,10 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         <div class="message"><div class="mini-avatar av-5">Ma</div><div class="bubble-wrap"><div class="bubble">Anak, pwede pa-request ng ₱500? For grocery lang.</div><span class="time">Now</span></div></div>
         <div class="message mama-grocery-request-message"><div class="mini-avatar av-5">Ma</div><div class="bubble-wrap">
           <article class="pay-request-card pay-request-card-no-thumb mama-grocery-request-card" id="mama-grocery-request-card" data-request-card-id="mama-grocery-request-card" data-skip-personal-request="true" data-payment-flow="money-request" data-request-state="pending" data-amount="₱500.00" data-receiver="Mama" data-payment-note="for grocery">
+            <div class="money-request-header">
+              <span class="money-request-label">Money Request</span>
+              <span class="money-request-status-pill">Pending</span>
+            </div>
             <div class="pay-request-body">
               <div class="pay-product-info" aria-label="Mama payment request">
                 <div class="pay-product-copy">
@@ -30414,12 +30769,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       placeholder: 'Message Lorna Eats',
       thread: `
         <div class="date-chip">Today</div>
-        <div class="message out"><div class="bubble-wrap"><div class="bubble">Hi po! Available pa ang Merienda Tray for 10 people?</div><span class="time">10:02 AM</span></div></div>
-        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Available pa po. It includes pancit, lumpia, and biko. What time ninyo kailangan?</div><span class="time">10:03 AM</span></div></div>
-        <div class="message out"><div class="bubble-wrap"><div class="bubble">Today sana around 1 PM. Pwede delivery?</div><span class="time">10:04 AM</span></div></div>
-        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Pwede po. Please send your delivery location so I can confirm the fee.</div><span class="time">10:05 AM</span></div></div>
-        <div class="message out"><div class="bubble-wrap"><div class="bubble">Downtown Dumaguete lang po, near the boulevard.</div><span class="time">10:06 AM</span></div></div>
-        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Okay po. Delivery is available. I’ll reserve the tray for you and send the payment request now. 👇</div><span class="time">10:07 AM</span></div></div>
+        <div class="message out"><div class="bubble-wrap"><div class="bubble">Hi po! Available pa po ba yung Classic Merienda Tray?</div><span class="time">9:14 AM</span></div></div>
         <div class="message"><div class="mini-avatar is-spacer av-8" aria-hidden="true">LE</div><div class="bubble-wrap">
           <article class="pay-request-card" id="pay-request-card" data-product-id="merienda-tray">
             <div class="pay-request-body">
@@ -30433,23 +30783,23 @@ html.plaza-theme-dark .plaza-special-offer-art img {
               <button class="pay-now-btn" id="pay-now-btn">Pay ₱450</button>
             </div>
           </article>
-          <span class="time">10:07 AM</span>
+          <span class="time">9:14 AM</span>
         </div></div>
-        <div class="message out"><div class="bubble-wrap"><div class="bubble">Payment sent na po. Please confirm if received.</div><span class="time">10:09 AM</span></div></div>
-        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Received by Plaza po. I’ll start preparing your order now.</div><span class="time">10:10 AM</span></div></div>
-        ${businessRecordCard('av-8', 'LE', { flowId: 'lorna-eats', actionKind: 'order', title: 'Merienda Tray', refLabel: 'Order Reference', etaLabel: 'Delivered', eta: '12:34 PM', latest: 'Order received by buyer. Plaza can complete the transaction once confirmed.' }, '10:11 AM')}
-        <div class="message out"><div class="bubble-wrap"><div class="bubble">Thank you! Please make the pancit less salty if possible.</div><span class="time">10:18 AM</span></div></div>
-        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Noted po. I’ll also pack the lumpia separately so it stays crispy.</div><span class="time">10:19 AM</span></div></div>
-        <div class="message out"><div class="bubble-wrap"><div class="bubble">Can you include disposable plates and utensils?</div><span class="time">10:34 AM</span></div></div>
-        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Yes po, I can include 10 sets at no additional charge.</div><span class="time">10:36 AM</span></div></div>
-        <div class="message out"><div class="bubble-wrap"><div class="bubble">Thank you. Please message me before the rider leaves.</div><span class="time">11:02 AM</span></div></div>
-        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Sure po. The tray is being packed now.</div><span class="time">11:05 AM</span></div></div>
-        <div class="message out"><div class="bubble-wrap"><div class="bubble">Hi po, any update?</div><span class="time">11:38 AM</span></div></div>
-        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Almost ready po. The rider should leave around 12:10 PM.</div><span class="time">11:40 AM</span></div></div>
-        <div class="message out"><div class="bubble-wrap"><div class="bubble">Okay po, I’ll wait near the lobby.</div><span class="time">12:08 PM</span></div></div>
-        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">The rider has left. Estimated arrival is 20–25 minutes.</div><span class="time">12:12 PM</span></div></div>
-        <div class="message out"><div class="bubble-wrap"><div class="bubble">Received na po. Everything looks good. Thank you!</div><span class="time">12:34 PM</span></div></div>
-        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Thank you rin po! Please confirm the order once you’re ready so Plaza can complete the transaction. 😊</div><span class="time">12:35 PM</span></div></div>`
+        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Hi! Yes po, available pa 😊</div><span class="time">9:15 AM</span></div></div>
+        <div class="message out"><div class="bubble-wrap"><div class="bubble">Ilang tao po yung kasya sa isang tray?</div><span class="time">9:16 AM</span></div></div>
+        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Good for 10–12 people po siya.</div><span class="time">9:17 AM</span></div></div>
+        <div class="message out"><div class="bubble-wrap"><div class="bubble">Ano-ano po yung kasama?</div><span class="time">9:18 AM</span></div></div>
+        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">May pancit, lumpia, puto, at isang pitcher ng iced tea po.</div><span class="time">9:19 AM</span></div></div>
+        <div class="message out"><div class="bubble-wrap"><div class="bubble">Puwede po bang palitan yung puto?</div><span class="time">9:20 AM</span></div></div>
+        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Yes po. Puwede ninyo itong palitan ng kutsinta o cheese bread.</div><span class="time">9:21 AM</span></div></div>
+        <div class="message out"><div class="bubble-wrap"><div class="bubble">Kasama na po ba sa presyo yung delivery?</div><span class="time">9:22 AM</span></div></div>
+        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Hindi pa po. ₱100 po ang delivery fee within your area.</div><span class="time">9:23 AM</span></div></div>
+        <div class="message out"><div class="bubble-wrap"><div class="bubble">Gaano po kaaga dapat mag-order?</div><span class="time">9:24 AM</span></div></div>
+        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Mas okay po kung at least one day before delivery.</div><span class="time">9:25 AM</span></div></div>
+        <div class="message out"><div class="bubble-wrap"><div class="bubble">Available po ba kayo bukas, around 3 PM?</div><span class="time">9:26 AM</span></div></div>
+        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Yes po, available pa yung time na iyon.</div><span class="time">9:27 AM</span></div></div>
+        <div class="message out"><div class="bubble-wrap"><div class="bubble">Puwede po bang walang shrimp yung pancit?</div><span class="time">9:28 AM</span></div></div>
+        <div class="message"><div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Puwede po. Ihahanda namin yung pancit without shrimp.</div><span class="time">9:29 AM</span></div></div>`
     },
 
     // ── REMITTANCE: OFW claiming ───────────────────────
@@ -32302,7 +32652,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
   const groupMemberDefaults = {
     'office-lunch': [
-      { id: 'maria-santos', name: 'Maria Santos', photo: 'https://i.pravatar.cc/150?img=47', isYou: true },
+      { id: 'maria-santos', name: 'Maria Santos', photo: 'https://i.pravatar.cc/150?img=47', isYou: true, isAdmin: true },
       { id: 'mae-dela-cruz', name: 'Mae Dela Cruz', initials: 'Ma', avatarClass: 'av-8', isAdmin: true },
       { id: 'dianne-yap', name: 'Dianne Yap', initials: 'Di', avatarClass: 'av-4' },
       { id: 'jocelyn-reyes', name: 'Jocelyn Reyes', initials: 'Jo', avatarClass: 'av-6' },
@@ -32316,7 +32666,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       { id: 'nina-torres', name: 'Nina Torres', initials: 'Ni', avatarClass: 'av-6' }
     ],
     'pamilya-group': [
-      { id: 'maria-santos', name: 'Maria Santos', photo: 'https://i.pravatar.cc/150?img=47', isYou: true },
+      { id: 'maria-santos', name: 'Maria Santos', photo: 'https://i.pravatar.cc/150?img=47', isYou: true, isAdmin: true },
       { id: 'mama', name: 'Mama', chatId: 'mama', photo: 'https://i.pravatar.cc/100?img=41', isAdmin: true },
       { id: 'papa-santos', name: 'Papa Santos', initials: 'Pa', avatarClass: 'av-5', isAdmin: true },
       { id: 'kuya-mark', name: 'Kuya Mark', chatId: 'kuya-mark', photo: 'https://i.pravatar.cc/100?img=14' },
@@ -32324,7 +32674,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       { id: 'jessa-mae', name: 'Jessa Mae Lopez', photo: 'https://i.pravatar.cc/100?img=43' }
     ],
     'barkada-trip': [
-      { id: 'maria-santos', name: 'Maria Santos', photo: 'https://i.pravatar.cc/150?img=47', isYou: true },
+      { id: 'maria-santos', name: 'Maria Santos', photo: 'https://i.pravatar.cc/150?img=47', isYou: true, isAdmin: true },
       { id: 'camille-garcia', name: 'Camille Garcia', initials: 'Ca', avatarClass: 'av-2', isAdmin: true },
       { id: 'janna-dela-cruz', name: 'Janna Dela Cruz', initials: 'Ja', avatarClass: 'av-7' },
       { id: 'marco-reyes', name: 'Marco Reyes', initials: 'MR', avatarClass: 'av-3' },
@@ -32334,8 +32684,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       { id: 'kevin-uy', name: 'Kevin Uy', initials: 'KU', avatarClass: 'av-1' }
     ],
     'grade4-parents': [
-      { id: 'maria-santos', name: 'Maria Santos', photo: 'https://i.pravatar.cc/150?img=47', isYou: true },
-      { id: 'maam-liza', name: 'Maam Liza Santos', initials: 'Ma', avatarClass: 'av-3', isAdmin: true },
+      { id: 'maria-santos', name: 'Maria Santos', photo: 'https://i.pravatar.cc/150?img=47', isYou: true, isAdmin: true },
+      { id: 'maam-liza', name: 'Maam Liza Santos', initials: 'Ma', avatarClass: 'av-3' },
       { id: 'ana-reyes', name: 'Ana Reyes', initials: 'AR', avatarClass: 'av-5' },
       { id: 'bong-santos', name: 'Bong Santos', initials: 'BS', avatarClass: 'av-2' },
       { id: 'rhea-cruz', name: 'Rhea Cruz', initials: 'RC', avatarClass: 'av-6' },
@@ -32343,7 +32693,9 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     ]
   };
 
-  const groupPendingInvites = {};
+  // Per-group array of { id, name, photo/initials/avatarClass, requestedById, requestedByName }
+  // awaiting admin approval before joining groupMembersFor's roster.
+  const groupPendingRequests = {};
 
   // Shared with Track Collection's member avatars (see populateTrack) so the same
   // person shows up with the same face wherever their name appears in the app.
@@ -32400,6 +32752,40 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
   function groupMemberCount(chatId, c = conversations[chatId]) {
     return c?.memberCount || groupMemberCountFromStatus(c) || groupMembersFor(chatId, c).length;
+  }
+
+  function currentGroupSelfEntry(chatId, c = conversations[chatId]) {
+    return groupMembersFor(chatId, c).find(member => member.isYou)
+      || { id: 'maria-santos', name: 'Maria Santos', isAdmin: false };
+  }
+
+  function isCurrentUserGroupAdmin(chatId, c = conversations[chatId]) {
+    return Boolean(currentGroupSelfEntry(chatId, c)?.isAdmin);
+  }
+
+  // Group mutations (approving a request, etc.) must write into
+  // conversations[chatId].members rather than the shared groupMemberDefaults
+  // literal — otherwise the change would leak into every chat that ever
+  // falls back to that same default roster.
+  function ensureGroupMembersMaterialized(chatId, c = conversations[chatId]) {
+    if (!c) return [];
+    if (!Array.isArray(c.members)) c.members = groupMembersFor(chatId, c).map(member => ({ ...member }));
+    return c.members;
+  }
+
+  function bumpGroupMemberCount(chatId, delta) {
+    const c = conversations[chatId];
+    if (!c) return;
+    if (typeof c.memberCount === 'number' && c.memberCount > 0) {
+      c.memberCount += delta;
+      return;
+    }
+    if (groupMemberCountFromStatus(c) > 0) {
+      c.status = String(c.status).replace(/(\d[\d,]*)(\s+members?)/i, (_, num, suffix) => {
+        const next = Number(String(num).replace(/,/g, '')) + delta;
+        return `${next.toLocaleString()}${suffix}`;
+      });
+    }
   }
 
   function memberInitials(name = '') {
@@ -33011,29 +33397,135 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     </button>`;
   }
 
+  function renderPendingRequestRow(request, { isAdmin } = {}) {
+    const name = escapeHtml(request.name || 'Member');
+    const addedBy = escapeHtml(request.requestedByName || 'A member');
+    const actions = isAdmin
+      ? `<span class="group-pending-actions">
+          <button class="group-pending-action approve" type="button" data-approve-request="${escapeHtml(request.id)}" aria-label="Approve ${name}'s request">
+            <i class="hgi-solid hgi-checkmark-circle-02 hugeicon" aria-hidden="true"></i>
+          </button>
+          <button class="group-pending-action decline" type="button" data-decline-request="${escapeHtml(request.id)}" aria-label="Decline ${name}'s request">
+            <i class="hgi-solid hgi-cancel-01 hugeicon" aria-hidden="true"></i>
+          </button>
+        </span>`
+      : `<span class="group-pending-status">Pending approval</span>`;
+    return `<div class="group-member-row group-pending-row">
+      ${groupMemberAvatarMarkup(request)}
+      <span class="group-member-copy">
+        <span class="group-member-name">${name}</span>
+        <span class="group-member-labels"><span class="group-member-label">Added by ${addedBy}</span></span>
+      </span>
+      ${actions}
+    </div>`;
+  }
+
+  function openGroupAddMembersFlow(chatId = groupMembersChatId || currentChat) {
+    const c = conversations[chatId];
+    if (!c?.isGroup) return;
+    const memberIds = new Set(groupMembersFor(chatId, c).map(member => member.chatId || member.id));
+    const pendingIds = new Set((groupPendingRequests[chatId] || []).map(request => request.id));
+    const excludeIds = new Set([...memberIds, ...pendingIds]);
+    openContactSheet('add-members', {
+      excludeIds,
+      onConfirm: ids => submitGroupMemberRequests(chatId, ids)
+    });
+  }
+
+  function submitGroupMemberRequests(chatId, ids) {
+    const c = conversations[chatId];
+    if (!c || !ids?.length) return;
+    const list = groupPendingRequests[chatId] || (groupPendingRequests[chatId] = []);
+    const self = currentGroupSelfEntry(chatId, c);
+    let added = 0;
+    ids.forEach(id => {
+      if (list.some(request => request.id === id)) return;
+      const contact = conversations[id] || {};
+      list.push({
+        id,
+        name: contactDisplayName(contact) || contact.name || 'Contact',
+        photo: contact.photo || '',
+        initials: contact.initials || memberInitials(contact.name),
+        avatarClass: contact.av || 'av-2',
+        requestedById: self?.id || 'maria-santos',
+        requestedByName: self?.name || 'Maria Santos'
+      });
+      added += 1;
+    });
+    if (!added) return;
+    showToast(added === 1 ? 'Request sent for admin approval' : `${added} requests sent for admin approval`);
+    renderGroupMembersScreen(chatId);
+  }
+
+  function approveGroupPendingRequest(chatId, requestId) {
+    const c = conversations[chatId];
+    const list = groupPendingRequests[chatId] || [];
+    const idx = list.findIndex(request => request.id === requestId);
+    if (idx === -1 || !c) return;
+    const [request] = list.splice(idx, 1);
+    const members = ensureGroupMembersMaterialized(chatId, c);
+    if (!members.some(member => member.id === request.id)) {
+      members.push({
+        id: request.id,
+        name: request.name,
+        photo: request.photo,
+        initials: request.initials,
+        avatarClass: request.avatarClass
+      });
+      bumpGroupMemberCount(chatId, 1);
+    }
+    showToast(`${request.name} added to the group`);
+    renderGroupMembersScreen(chatId);
+  }
+
+  function declineGroupPendingRequest(chatId, requestId) {
+    const list = groupPendingRequests[chatId] || [];
+    const idx = list.findIndex(request => request.id === requestId);
+    if (idx === -1) return;
+    const [request] = list.splice(idx, 1);
+    showToast(`Declined ${request.name}'s request`);
+    renderGroupMembersScreen(chatId);
+  }
+
   function renderGroupMembersScreen(chatId = groupMembersChatId || currentChat) {
     const content = document.getElementById('group-members-content');
     const c = conversations[chatId];
     if (!content || !c?.isGroup) return;
     groupMembersChatId = chatId;
     const query = groupMembersSearchQuery.trim().toLowerCase();
+    const isAdmin = isCurrentUserGroupAdmin(chatId, c);
+    const viewer = currentGroupSelfEntry(chatId, c);
     const members = groupMembersFor(chatId, c);
     const visibleMembers = query
       ? members.filter(member => String(member.name || '').toLowerCase().includes(query))
       : members;
-    const pending = groupPendingInvites[chatId] || [];
+    const allPending = groupPendingRequests[chatId] || [];
+    const scopedPending = isAdmin ? allPending : allPending.filter(request => request.requestedById === viewer?.id);
     const visiblePending = query
-      ? pending.filter(member => String(member.name || '').toLowerCase().includes(query))
-      : pending;
+      ? scopedPending.filter(request => String(request.name || '').toLowerCase().includes(query))
+      : scopedPending;
     content.innerHTML = `
-      <input class="group-members-search" id="group-members-search" type="search" placeholder="Search members" autocomplete="off" value="${escapeHtml(groupMembersSearchQuery)}">
+      <div class="group-members-search-field">
+        <i class="hgi-solid hgi-search-01 hugeicon" aria-hidden="true"></i>
+        <input id="group-members-search" type="search" placeholder="Search members" autocomplete="off" value="${escapeHtml(groupMembersSearchQuery)}">
+      </div>
+      <div class="group-members-card group-add-members-card">
+        <button class="group-member-row group-add-members-row" type="button" id="group-add-members-btn">
+          <span class="group-add-members-icon"><i class="hgi-solid hgi-user-add-01 hugeicon" aria-hidden="true"></i></span>
+          <span class="group-member-copy"><span class="group-add-members-label">Add Members</span></span>
+          <i class="hgi-solid hgi-arrow-right-02 hugeicon contact-row-chevron" aria-hidden="true"></i>
+        </button>
+      </div>
+      ${visiblePending.length ? `<section class="group-members-section">
+        <h2 class="group-members-section-title">Pending Approvals (${visiblePending.length})</h2>
+        <div class="group-members-card">${visiblePending.map(request => renderPendingRequestRow(request, { isAdmin })).join('')}</div>
+      </section>` : ''}
       <section class="group-members-section">
-        <h2 class="group-members-section-title">${escapeHtml(groupMemberCountLabel(groupMemberCount(chatId, c)))}</h2>
+        <h2 class="group-members-section-title">Members (${groupMemberCount(chatId, c)})</h2>
         <div class="group-members-card">
           ${visibleMembers.length ? visibleMembers.map(renderGroupMemberRow).join('') : '<div class="group-members-empty">No members found.</div>'}
         </div>
-      </section>
-      ${visiblePending.length ? `<section class="group-members-section"><h2 class="group-members-section-title">Pending Invitations</h2><div class="group-members-card">${visiblePending.map(renderGroupMemberRow).join('')}</div></section>` : ''}`;
+      </section>`;
     const input = content.querySelector('#group-members-search');
     input?.addEventListener('input', event => {
       groupMembersSearchQuery = event.target.value || '';
@@ -33047,6 +33539,17 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     });
     content.querySelectorAll('[data-group-member-id]').forEach(row => {
       row.addEventListener('click', () => openGroupMemberInfo(row.dataset.groupMemberId));
+    });
+    content.querySelector('#group-add-members-btn')?.addEventListener('click', () => openGroupAddMembersFlow(chatId));
+    content.querySelectorAll('[data-approve-request]').forEach(btn => {
+      btn.addEventListener('click', () => approveGroupPendingRequest(chatId, btn.dataset.approveRequest));
+    });
+    content.querySelectorAll('[data-decline-request]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const requestId = btn.dataset.declineRequest;
+        const request = (groupPendingRequests[chatId] || []).find(item => item.id === requestId);
+        openMemberDeclineDialog(chatId, requestId, request?.name || 'This member');
+      });
     });
     const backButton = document.getElementById('group-members-back');
     if (backButton) backButton.onclick = () => {
@@ -35477,7 +35980,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   function hydrateDynamicConversations() {
     try {
       const dynamic = JSON.parse(localStorage.getItem(DYNAMIC_CONVERSATIONS_KEY) || '{}');
-      const defaultRemovedIds = new Set(['_ate-joy', '_jasmine']);
+      const defaultRemovedIds = new Set(['_ate-joy', '_jasmine', '_my-baby']);
       defaultRemovedIds.forEach(id => {
         delete dynamic[id];
         delete conversations[id];
@@ -35494,7 +35997,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       const chatList = document.getElementById('chat-list');
       const pinnedOrder = ['mama', 'kuya-mark', 'nanay-jocelyn']
         .map(id => document.querySelector(`#chat-list [data-chat="${id}"]`))
-        .filter(Boolean);
+        .filter(Boolean)
+        .map(row => row.closest('.chat-swipe-shell') || row);
       if (chatList && pinnedOrder.length) chatList.prepend(...pinnedOrder);
     } catch (_) {}
   }
@@ -35692,6 +36196,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     document.body.classList.toggle('settings-active', id === 'settings-screen');
     document.body.classList.toggle('track-active', id === 'track-screen');
     document.body.classList.toggle('profile-active', id === 'profile-screen');
+    document.body.classList.toggle('group-members-active', id === 'group-members-screen');
+    document.body.classList.toggle('create-listing-active', id === 'create-listing-screen' || id === 'listing-preview-screen');
     const sameScreen = next === cur;
     if (!sameScreen) {
       cur?.classList.remove("active");
@@ -36206,6 +36712,26 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     requestCancelButton = null;
   }
 
+  let memberDeclineChatId = null;
+  let memberDeclineRequestId = null;
+
+  function openMemberDeclineDialog(chatId, requestId, memberName) {
+    const dialog = document.getElementById('member-decline-confirm-dialog');
+    if (!dialog) return;
+    memberDeclineChatId = chatId;
+    memberDeclineRequestId = requestId;
+    const text = document.getElementById('member-decline-confirm-text');
+    if (text) text.textContent = `${memberName} will not be added to the group, and the request will be removed.`;
+    dialog.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeMemberDeclineDialog() {
+    const dialog = document.getElementById('member-decline-confirm-dialog');
+    if (dialog) dialog.setAttribute('aria-hidden', 'true');
+    memberDeclineChatId = null;
+    memberDeclineRequestId = null;
+  }
+
   function ensureEscrowEntryFromBubble(bubble) {
     const id = bubble?.dataset.escrowBubble;
     if (!id) return null;
@@ -36575,7 +37101,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     return receiptCard;
   }
 
-  function markPaymentCardPaid(btn, card, amountText) {
+  function markPaymentCardPaid(btn, card, amountText, options = {}) {
     btn.textContent = '✓ Paid ' + amountText;
     btn.classList.add('btn-paid');
     btn.disabled = true;
@@ -36597,8 +37123,9 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       trackingRow.insertAdjacentElement('afterend', receiptRow);
     }
     const conversation = conversations[currentChat];
+    let businessFlowRow = null;
     if (conversation?.marketplaceProduct && trackData[currentChat]) {
-      insertPersistentBusinessFlowCard({
+      const businessFlowEl = insertPersistentBusinessFlowCard({
         anchor: receiptRow || trackingRow || card,
         chatId: currentChat,
         card: {
@@ -36611,8 +37138,12 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         },
         time: 'Now'
       });
+      businessFlowRow = businessFlowEl?.closest('.message');
     }
     const thread = document.getElementById('chat-thread');
+    if (options.moveToEnd && thread) {
+      [trackingRow, receiptRow, businessFlowRow].filter(Boolean).forEach(row => thread.appendChild(row));
+    }
     if (conversation && thread) conversation.thread = thread.innerHTML;
     return entry;
   }
@@ -36623,6 +37154,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     btn.disabled = true;
     card?.classList.add('paid');
     if (card) card.dataset.requestState = 'paid';
+    const requestPill = card?.querySelector('.money-request-status-pill');
+    if (requestPill) { requestPill.textContent = 'Paid'; requestPill.classList.add('paid'); }
 
     const requestNote = String(card?.dataset.paymentNote || card?.querySelector('.pay-request-note')?.textContent || '').trim();
     const txId = `tx-payment-${Date.now()}`;
@@ -37227,6 +37760,15 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   document.getElementById('request-cancel-keep')?.addEventListener('click', closeRequestCancelDialog);
   document.getElementById('request-cancel-backdrop')?.addEventListener('click', closeRequestCancelDialog);
 
+  document.getElementById('member-decline-confirm-submit')?.addEventListener('click', () => {
+    const chatId = memberDeclineChatId;
+    const requestId = memberDeclineRequestId;
+    closeMemberDeclineDialog();
+    if (chatId && requestId) declineGroupPendingRequest(chatId, requestId);
+  });
+  document.getElementById('member-decline-confirm-cancel')?.addEventListener('click', closeMemberDeclineDialog);
+  document.getElementById('member-decline-confirm-backdrop')?.addEventListener('click', closeMemberDeclineDialog);
+
   hydrateEscrowBubbles();
 
   document.getElementById('verification-sheet-primary')?.addEventListener('click', completeSimulationVerification);
@@ -37414,9 +37956,54 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       onConfirm: () => {
         if (requireIdentityForPhoneMode(isMoneyRequestPayment ? 'this payment request' : 'this marketplace payment')) return;
         if (isMoneyRequestPayment) completeLitePaymentRequestCard(btn, card, amountText);
-        else markPaymentCardPaid(btn, card, amountText);
+        else {
+          const isLornaMeriendaPayment = currentChat === 'lorna-eats' && card.dataset.productId === 'merienda-tray';
+          const escrowEntry = markPaymentCardPaid(btn, card, amountText, { moveToEnd: isLornaMeriendaPayment });
+          if (isLornaMeriendaPayment) {
+            followUpLornaMeriendaInquiry(escrowEntry, amountText);
+          }
+        }
         scrollThread();
       }
+    });
+  }
+
+  // Adds the seller's confirmation line and a Wallet Recent Activity entry on
+  // top of the existing generic escrow/receipt/Track Order flow above — the
+  // card, receipt, and Track Order card themselves are untouched.
+  function followUpLornaMeriendaInquiry(escrowEntry, amountText) {
+    const thread = document.getElementById('chat-thread');
+    if (!thread) return;
+    const followUpRow = document.createElement('div');
+    followUpRow.className = 'message';
+    followUpRow.innerHTML = `<div class="mini-avatar av-8">LE</div><div class="bubble-wrap"><div class="bubble">Maraming salamat po sa pagsuporta sa aming small business! Sana po ay magustuhan ninyo 😊</div><span class="time">9:31 AM</span></div></div>`;
+    thread.appendChild(followUpRow);
+    normalizeIncomingAvatarGroups(thread);
+    normalizeChatTimestamps(thread);
+    const conversation = conversations['lorna-eats'];
+    if (conversation) conversation.thread = thread.innerHTML;
+
+    assistantRecordWalletTransaction({
+      id: `wallet-tx-lorna-merienda-${escrowEntry?.id || Date.now()}`,
+      group: 'Today',
+      category: 'sent',
+      sortIndex: Date.now(),
+      title: 'Lorna Eats',
+      description: `Merienda Tray · Today · 9:14 AM`,
+      date: 'Today',
+      time: '9:14 AM',
+      type: 'Marketplace Payment',
+      amount: amountText,
+      displayAmount: `−${amountText}`,
+      direction: 'outgoing',
+      status: 'Completed',
+      ref: (escrowEntry?.id || '').toUpperCase(),
+      party: 'Lorna Eats',
+      method: 'Plaza Wallet',
+      fees: '₱0.00',
+      note: 'Paid for Merienda Tray order.',
+      avatar: 'LE',
+      avatarClass: 'av-8'
     });
   }
 
@@ -37923,7 +38510,11 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
   const contactPickerState = {
     flow: 'send',
-    query: ''
+    query: '',
+    mode: 'single',
+    excludeIds: null,
+    selectedIds: new Set(),
+    onConfirm: null
   };
 
   function contactMaskedIdentifier(id, c = conversations[id] || {}) {
@@ -37966,7 +38557,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   }
 
   function recentPlazaContactIds() {
-    return ['nanay-jocelyn', 'mama', 'lorna-eats', 'kuya-mark', '_my-baby'].filter(id => conversations[id] && !conversations[id].isGroup);
+    return ['nanay-jocelyn', 'mama', 'lorna-eats', 'kuya-mark'].filter(id => conversations[id] && !conversations[id].isGroup);
   }
 
   function setTransactionContactField(flow, chatId) {
@@ -37991,12 +38582,20 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     if (sub) sub.textContent = contactMaskedIdentifier(chatId, c);
   }
 
-  function openContactSheet(flow = 'send') {
+  function openContactSheet(flow = 'send', opts = {}) {
     contactPickerState.flow = flow;
     contactPickerState.query = '';
+    contactPickerState.mode = flow === 'add-members' ? 'multi' : 'single';
+    contactPickerState.excludeIds = opts.excludeIds || null;
+    contactPickerState.selectedIds = new Set();
+    contactPickerState.onConfirm = opts.onConfirm || null;
     const overlay = document.getElementById('contact-sheet-overlay');
     const input = document.getElementById('contact-search-input');
     if (input) input.value = '';
+    const title = document.getElementById('contact-sheet-title');
+    if (title) title.textContent = contactPickerState.mode === 'multi' ? 'Add Members' : 'Select Contact';
+    const confirmBar = document.getElementById('contact-sheet-confirm-bar');
+    if (confirmBar) confirmBar.hidden = contactPickerState.mode !== 'multi';
     renderContactSheet();
     overlay?.classList.remove('closing');
     overlay?.classList.add('open');
@@ -38014,8 +38613,9 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
   function renderContactRows(entries, label) {
     if (!entries.length) return '';
+    const multi = contactPickerState.mode === 'multi';
     return `<div class="contact-sheet-section-label">${label}</div>${entries.map(({ id, c, name, masked }) => {
-      const selected = id === currentChat;
+      const selected = multi ? contactPickerState.selectedIds.has(id) : id === currentChat;
       return `<button class="contact-sheet-row${selected ? ' is-selected' : ''}" type="button" data-contact-sheet-id="${escapeHtml(id)}">
         ${contactAvatarMarkup(id, c, 40)}
         <span class="contact-sheet-row-info">
@@ -38026,17 +38626,28 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     }).join('')}`;
   }
 
+  function updateContactSheetConfirmState() {
+    const btn = document.getElementById('contact-sheet-confirm');
+    if (!btn) return;
+    const count = contactPickerState.selectedIds.size;
+    btn.disabled = count === 0;
+    btn.textContent = count > 1 ? `Add Members (${count})` : 'Add Member';
+  }
+
   function renderContactSheet() {
     const list = document.getElementById('contact-list');
     if (!list) return;
     const q = contactPickerState.query.trim().toLowerCase();
-    const all = plazaContactEntries();
+    const excludeIds = contactPickerState.excludeIds;
+    let all = plazaContactEntries();
+    if (excludeIds) all = all.filter(item => !excludeIds.has(item.id));
     const filtered = all.filter(item => !q
       || item.name.toLowerCase().includes(q)
       || item.masked.toLowerCase().includes(q)
       || item.id.toLowerCase().includes(q));
     if (!filtered.length) {
       list.innerHTML = `<div class="contact-sheet-empty">${all.length ? 'No contacts found.' : 'No Plaza contacts available.'}</div>`;
+      if (contactPickerState.mode === 'multi') updateContactSheetConfirmState();
       return;
     }
     const recentIds = new Set(recentPlazaContactIds());
@@ -38044,6 +38655,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     const recentRendered = new Set(recent.map(item => item.id));
     const remaining = filtered.filter(item => !recentRendered.has(item.id));
     list.innerHTML = `${renderContactRows(recent, 'Recent')}${renderContactRows(remaining, 'All Contacts')}`;
+    if (contactPickerState.mode === 'multi') updateContactSheetConfirmState();
   }
 
   function selectTransactionContact(chatId) {
@@ -38400,7 +39012,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
           </div>
         </div>
         <div class="rm-field-section">
-          <div class="rm-field-label">Collection Title</div>
+          <div class="rm-field-label">Collection Name</div>
           <input class="tx-field" id="rm-title" type="text" placeholder="e.g. Monthly Dues, Field Trip Fee">
         </div>
         <div class="rm-field-section">
@@ -39043,7 +39655,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       : '';
     const productHtml = productPreview ? renderRequestProductPreviewCard(productPreview) : '';
     const requesterPhoto = 'https://i.pravatar.cc/150?img=47';
-    const requestHeaderHtml = '<span class="money-request-label">Request Money</span>';
+    const requestHeaderHtml = '<span class="money-request-label">Money Request</span>';
     const requestActionHtml = '<button class="money-request-cancel-btn" id="money-request-cancel-btn" type="button">Cancel Request</button>';
 
     closeRequestMoneySheet();
@@ -40692,6 +41304,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     const el   = document.getElementById('track-content');
     const titleEl = document.getElementById('track-title');
     if (!el) return;
+    document.getElementById('track-screen')?.classList.toggle('is-order-track', !coll);
 
     // ── Group collection mode ──────────────────────────
     if (coll) {
@@ -40851,34 +41464,39 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       if (bottomBar) bottomBar.hidden = true;
       return;
     }
-    if (titleEl) titleEl.textContent = 'Track';
+    if (titleEl) titleEl.textContent = 'Track Order';
     const actionsWrap = document.getElementById('track-actions-wrap');
     if (actionsWrap) actionsWrap.hidden = true;
     const bottomBar = document.getElementById('track-bottom-bar');
     if (bottomBar) bottomBar.hidden = true;
     const badgeMap = { paid:'badge paid', done:'badge done', neutral:'badge neutral' };
     const badgeClass = badgeMap[td.badge] || 'badge neutral';
+    const override = trackOrderDisplayOverrides[chatId] || {};
+    const orderTitle = override.title || td.type;
+    const orderRef = override.ref || String(td.ref || '').replace(/^#/, '');
+    const orderDate = override.date || td.date;
+    const orderAmount = override.amount || td.amount;
+    const amtHtml = orderAmount !== '—' ? `<span>${escapeHtml(orderAmount)}</span>` : `<span></span>`;
     const stepsHtml = td.steps.map(step => `
       <div class="timeline-item ${step.s}">
         <div class="timeline-dot"></div>
         <div class="timeline-body">
-          <div class="timeline-title">${step.t}</div>
-          ${step.sub ? `<div class="timeline-sub">${step.sub}</div>` : ''}
-          ${step.time !== '—' ? `<div class="timeline-time">${step.time}</div>` : ''}
+          <div class="timeline-title">${escapeHtml(step.t)}</div>
+          ${step.sub ? `<div class="timeline-sub">${escapeHtml(step.sub)}</div>` : ''}
+          ${step.time !== '—' ? `<div class="timeline-time">${escapeHtml(step.time)}</div>` : ''}
         </div>
       </div>`).join('');
-    const amtHtml = td.amount !== '—' ? `<span>${td.amount}</span>` : `<span></span>`;
     box.innerHTML = `
-      <div class="track-summary-card">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <div>
-            <div class="track-summary-title">${td.type}</div>
-            <div class="track-summary-sub">Ref. ${td.ref}</div>
+      <div class="track-order-card">
+        <div class="track-order-card-top">
+          <div class="track-order-card-heading">
+            <div class="track-summary-title">${escapeHtml(orderTitle)}</div>
+            <div class="track-summary-sub">Ref. ${escapeHtml(orderRef)}</div>
           </div>
-          <span class="${badgeClass}">${td.status}</span>
+          <span class="${badgeClass} track-order-badge">${escapeHtml(td.status)}</span>
         </div>
-        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:8px">
-          <span>${td.date}</span>
+        <div class="track-order-card-bottom">
+          <span>${escapeHtml(orderDate)}</span>
           ${amtHtml}
         </div>
       </div>
@@ -42170,12 +42788,74 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   const walletTopUpState = {
     amount: 0,
     preset: '',
+    methodId: '',
     transactionId: '',
     isProcessing: false,
     timer: null,
     previousBalance: 0,
     newBalance: 0
   };
+
+  const walletTopUpPaymentMethods = [
+    {
+      id: 'gcash', name: 'GCash', detail: '•••• 3321 · Connected', feeAmount: 0, eta: 'Instant',
+      iconHtml: '<span class="wallet-topup-method-icon" style="background:rgba(0,122,255,.12);color:#0072CE">G</span>',
+      available: () => true,
+      brandBg: '#0079FE', brandFg: '#ffffff',
+      brandLogoHtml: '<span class="wallet-native-pay-wordmark">GCash</span>'
+    },
+    {
+      id: 'maya', name: 'Maya', detail: '•••• 7810 · Connected', feeAmount: 0, eta: 'Instant',
+      iconHtml: '<span class="wallet-topup-method-icon" style="background:rgba(11,214,113,.14);color:#059249">M</span>',
+      available: () => true,
+      brandBg: '#00D66A', brandFg: '#0B2013',
+      brandLogoHtml: '<span class="wallet-native-pay-wordmark">maya</span>'
+    },
+    {
+      id: 'card', name: 'Debit or Credit Card', detail: '•••• 4242', feeAmount: 25, eta: 'Instant',
+      iconHtml: '<span class="wallet-topup-method-icon" style="background:rgba(123,110,246,.12);color:#6652C8"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>',
+      available: () => true,
+      brandBg: '#161721', brandFg: '#ffffff',
+      brandLogoHtml: '<span class="wallet-native-pay-wordmark">Secure Checkout</span>'
+    },
+    {
+      id: 'online-banking', name: 'Online Banking', detail: 'BPI, BDO, UnionBank, and more', feeAmount: 15, eta: '1–2 minutes',
+      iconHtml: '<span class="wallet-topup-method-icon" style="background:rgba(74,70,93,.10);color:#4A465D"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="21" x2="21" y2="21"/><line x1="5" y1="21" x2="5" y2="10"/><line x1="9" y1="21" x2="9" y2="10"/><line x1="15" y1="21" x2="15" y2="10"/><line x1="19" y1="21" x2="19" y2="10"/><polygon points="12 3 21 9 3 9"/></svg></span>',
+      available: () => true,
+      brandBg: '#F2F1F6', brandFg: '#1A1B25',
+      brandLogoHtml: '<span class="wallet-native-pay-wordmark">Online Banking</span>'
+    },
+    {
+      id: 'apple-pay', name: 'Apple Pay', detail: 'Face ID or Touch ID', feeAmount: 0, eta: 'Instant',
+      iconHtml: '<span class="wallet-topup-method-icon" style="background:rgba(0,0,0,.08);color:#111"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.734.91-1.428 0-2.517-1.32-3.489-2.66-1.899-2.75-3.4-7.85-1.418-11.25.983-1.65 2.75-2.69 4.66-2.72 1.462-.03 2.836.98 3.73.98.884 0 2.545-1.22 4.315-1.04.735.03 2.79.3 4.115 2.25-.106.07-2.46 1.44-2.435 4.29.028 3.42 3.007 4.55 3.032 4.56z"/></svg></span>',
+      available: () => typeof window.ApplePaySession !== 'undefined',
+      brandBg: '#000000', brandFg: '#ffffff',
+      brandLogoHtml: '<span class="wallet-native-pay-wordmark"> Pay</span>'
+    },
+    {
+      id: 'google-pay', name: 'Google Pay', detail: 'Linked Google account', feeAmount: 0, eta: 'Instant',
+      iconHtml: '<span class="wallet-topup-method-icon" style="background:rgba(66,133,244,.12);color:#4285F4">G</span>',
+      available: () => typeof window.ApplePaySession === 'undefined',
+      brandBg: '#ffffff', brandFg: '#1A1B25',
+      brandLogoHtml: '<span class="wallet-native-pay-wordmark">Google Pay</span>'
+    }
+  ];
+
+  function walletTopUpAvailableMethods() {
+    return walletTopUpPaymentMethods.filter(method => method.available());
+  }
+
+  function walletTopUpSelectedMethod() {
+    return walletTopUpPaymentMethods.find(method => method.id === walletTopUpState.methodId) || null;
+  }
+
+  function walletTopUpMethodFee() {
+    return walletTopUpSelectedMethod()?.feeAmount || 0;
+  }
+
+  function walletTopUpTotalToPay() {
+    return Math.max(0, walletTopUpState.amount) + walletTopUpMethodFee();
+  }
 
   function walletTopUpAmountValue(raw = '') {
     const value = Number(String(raw || '').replace(/[^0-9.]/g, ''));
@@ -42216,14 +42896,10 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
   function walletTopUpSync() {
     const payButton = document.querySelector('[data-wallet-topup-pay]');
-    const confirmAmount = document.getElementById('wallet-topup-confirm-amount');
-    const confirmTotal = document.getElementById('wallet-topup-confirm-total');
     document.querySelectorAll('[data-wallet-topup-preset]').forEach(card => {
       card.classList.toggle('is-selected', card.dataset.walletTopupPreset === walletTopUpState.preset);
     });
     if (payButton) payButton.disabled = walletTopUpState.amount <= 0 || walletTopUpState.isProcessing;
-    if (confirmAmount) confirmAmount.textContent = walletTopUpMoney(walletTopUpState.amount);
-    if (confirmTotal) confirmTotal.textContent = walletTopUpMoney(walletTopUpTotalCredit());
   }
 
   function resetWalletTopUpFlow({ keepAmount = false } = {}) {
@@ -42233,6 +42909,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     walletTopUpState.transactionId = '';
     walletTopUpState.previousBalance = 0;
     walletTopUpState.newBalance = 0;
+    walletTopUpState.methodId = '';
     if (!keepAmount) {
       walletTopUpState.amount = 0;
       walletTopUpState.preset = '';
@@ -42240,6 +42917,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       if (input) input.value = '';
     }
     hideWalletTopUpFailure();
+    closeWalletTopUpMethodSheet();
     walletTopUpSync();
   }
 
@@ -42250,6 +42928,10 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       balanceEl.dataset.balance = nextBalance;
       if (updateText && !balanceEl.classList.contains('is-hidden')) balanceEl.textContent = nextBalance;
     }
+    // Keep the unverified/phone-mode restore snapshot current — otherwise the
+    // next goTo() -> syncUnverifiedSellerActionState() call reverts this to
+    // whatever balance was cached before the top up.
+    walletDefaultBalanceText = nextBalance;
     syncWalletBalanceCapsules();
     return nextBalance;
   }
@@ -42257,8 +42939,11 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   function recordWalletTopUpSuccess() {
     const amount = walletTopUpState.amount;
     const totalCredit = walletTopUpTotalCredit();
+    const fee = walletTopUpMethodFee();
+    const methodName = walletTopUpSelectedMethod()?.name || 'Plaza Wallet';
     const now = new Date();
     const time = walletTopUpTime(now);
+    const longDate = now.toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
     const code = walletTopUpCode();
     const ref = `PLZ-${walletTopUpDateKey(now)}-${code}`;
     const amountText = walletTopUpMoney(amount);
@@ -42275,6 +42960,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       description: `Today · ${time}`,
       date: 'Today',
       time,
+      longDate,
       type: 'Wallet Top Up',
       amount: totalText,
       amountPaid: amountText,
@@ -42284,9 +42970,9 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       status: 'Completed',
       ref,
       party: 'Plaza Wallet',
-      method: 'Native Payment',
-      fees: '₱0.00',
-      note: `${totalText} has been added to your Plaza Wallet.`,
+      method: methodName,
+      fees: walletTopUpMoney(fee),
+      note: `${totalText} has been added to your Plaza Wallet via ${methodName}.`,
       avatarIcon: 'hgi-wallet-01',
       avatarClass: 'wallet-activity-topup',
       topUp: true
@@ -42331,21 +43017,15 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     requestAnimationFrame(tick);
   }
 
-  function showWalletTopUpProcessing() {
-    if (walletTopUpState.isProcessing) return;
-    walletTopUpState.isProcessing = true;
-    walletTopUpSync();
-    goTo('wallet-topup-processing-screen');
-    walletTopUpState.timer = window.setTimeout(() => {
-      const tx = recordWalletTopUpSuccess();
-      walletTopUpState.isProcessing = false;
-      walletTopUpSync();
-      goTo('wallet-screen');
-      window.setTimeout(() => {
-        animateWalletTopUpBalance(walletTopUpState.previousBalance, walletTopUpState.newBalance);
-        showToast(`Top up successful\n${tx.displayAmount} added to your wallet.`);
-      }, 120);
-    }, 1400);
+  function renderWalletTopUpSuccessScreen(tx) {
+    const amountValueEl = document.getElementById('wallet-topup-success-amount-value');
+    const methodEl = document.getElementById('wallet-topup-success-method');
+    const refEl = document.getElementById('wallet-topup-success-ref');
+    const datetimeEl = document.getElementById('wallet-topup-success-datetime');
+    if (amountValueEl) amountValueEl.textContent = walletTopUpMoney(walletTopUpState.amount);
+    if (methodEl) methodEl.textContent = tx.method;
+    if (refEl) refEl.textContent = tx.ref;
+    if (datetimeEl) datetimeEl.textContent = `${tx.longDate} · ${tx.time}`;
   }
 
   function openWalletTopUpPage({ fresh = true } = {}) {
@@ -42372,14 +43052,64 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     }, 120);
   }
 
-  function openWalletTopUpConfirmDialog() {
-    if (walletTopUpState.amount <= 0) return;
-    walletTopUpSync();
-    document.getElementById('wallet-topup-confirm-dialog')?.setAttribute('aria-hidden', 'false');
+  function walletTopUpMethodRowMarkup(method) {
+    const selected = method.id === walletTopUpState.methodId;
+    return `<button type="button" class="wallet-topup-method-row${selected ? ' is-selected' : ''}" data-wallet-topup-method="${escapeHtml(method.id)}" role="radio" aria-checked="${selected}">
+      ${method.iconHtml}
+      <span class="wallet-topup-method-info">
+        <span class="wallet-topup-method-name">${escapeHtml(method.name)}</span>
+      </span>
+      <span class="wallet-topup-method-radio" aria-hidden="true"></span>
+    </button>`;
   }
 
-  function closeWalletTopUpConfirmDialog() {
-    document.getElementById('wallet-topup-confirm-dialog')?.setAttribute('aria-hidden', 'true');
+  function renderWalletTopUpMethodList() {
+    const list = document.getElementById('wallet-topup-method-list');
+    if (!list) return;
+    list.innerHTML = walletTopUpAvailableMethods().map(walletTopUpMethodRowMarkup).join('');
+    const continueBtn = document.querySelector('[data-wallet-topup-method-continue]');
+    if (continueBtn) continueBtn.disabled = !walletTopUpState.methodId;
+  }
+
+  function selectWalletTopUpMethod(id) {
+    walletTopUpState.methodId = id;
+    renderWalletTopUpMethodList();
+  }
+
+  function openWalletTopUpMethodSheet() {
+    if (walletTopUpState.amount <= 0) return;
+    renderWalletTopUpMethodList();
+    const overlay = document.getElementById('wallet-topup-method-sheet-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('closing');
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeWalletTopUpMethodSheet() {
+    const overlay = document.getElementById('wallet-topup-method-sheet-overlay');
+    if (!overlay || !overlay.classList.contains('open')) return;
+    overlay.classList.remove('open');
+    overlay.classList.add('closing');
+    overlay.setAttribute('aria-hidden', 'true');
+    window.setTimeout(() => overlay.classList.remove('closing'), 220);
+  }
+
+  function openWalletTopUpReviewPage() {
+    if (!walletTopUpState.methodId) return;
+    const method = walletTopUpSelectedMethod();
+    const fee = walletTopUpMethodFee();
+    const amountEl = document.getElementById('wallet-topup-review-amount');
+    const methodEl = document.getElementById('wallet-topup-review-method');
+    const feeRow = document.getElementById('wallet-topup-review-fee-row');
+    const feeEl = document.getElementById('wallet-topup-review-fee');
+    const totalEl = document.getElementById('wallet-topup-review-total');
+    if (amountEl) amountEl.textContent = walletTopUpMoney(walletTopUpState.amount);
+    if (methodEl) methodEl.textContent = method?.name || '—';
+    if (feeRow) feeRow.hidden = fee <= 0;
+    if (feeEl) feeEl.textContent = walletTopUpMoney(fee);
+    if (totalEl) totalEl.textContent = walletTopUpMoney(walletTopUpTotalToPay());
+    goTo('wallet-topup-review-screen');
   }
 
   function selectWalletTopUpPreset(card) {
@@ -42398,57 +43128,51 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     walletTopUpSync();
   }
 
-  async function presentWalletTopUpNativePayment() {
-    const amount = walletTopUpState.amount;
-    const total = walletTopUpTotalCredit();
-    if (window.PaymentRequest && amount > 0) {
-      try {
-        const request = new PaymentRequest(
-          [{
-            supportedMethods: 'basic-card',
-            data: { supportedNetworks: ['visa', 'mastercard', 'amex', 'jcb'] }
-          }],
-          {
-            displayItems: [
-              { label: 'Top-up amount', amount: { currency: 'PHP', value: amount.toFixed(2) } }
-            ],
-            total: { label: 'Plaza Wallet Top Up', amount: { currency: 'PHP', value: amount.toFixed(2) } }
-          }
-        );
-        const response = await request.show();
-        await response.complete('success');
-        return true;
-      } catch (error) {
-        const message = `${error?.name || ''} ${error?.message || ''}`.toLowerCase();
-        if (message.includes('abort') || message.includes('cancel')) return false;
-      }
-    }
-    await new Promise(resolve => window.setTimeout(resolve, 420));
-    return total > 0;
+  // Simulates the selected provider's own native checkout — deliberately
+  // rendered with the provider's branding (not Project Plaza's UI) so it
+  // reads as a distinct external app, then auto-resolves to success.
+  function presentWalletTopUpNativePayment() {
+    return new Promise(resolve => {
+      const method = walletTopUpSelectedMethod();
+      if (!method) { resolve(false); return; }
+      const screen = document.getElementById('wallet-native-pay-screen');
+      const content = document.getElementById('wallet-native-pay-content');
+      const brand = document.getElementById('wallet-native-pay-brand');
+      const amountEl = document.getElementById('wallet-native-pay-amount');
+      const statusText = document.getElementById('wallet-native-pay-status-text');
+      if (!screen || !content) { resolve(true); return; }
+      screen.style.background = method.brandBg;
+      screen.style.color = method.brandFg;
+      if (brand) brand.innerHTML = method.brandLogoHtml;
+      if (amountEl) amountEl.textContent = walletTopUpMoney(walletTopUpTotalToPay());
+      content.classList.remove('is-success');
+      if (statusText) statusText.textContent = 'Authorizing payment…';
+      goTo('wallet-native-pay-screen');
+      window.setTimeout(() => {
+        content.classList.add('is-success');
+        if (statusText) statusText.textContent = 'Payment Successful';
+        window.setTimeout(() => resolve(true), 850);
+      }, 1200);
+    });
   }
 
   async function confirmWalletTopUpPayment() {
-    if (walletTopUpState.isProcessing || walletTopUpState.amount <= 0) return;
-    if (requireIdentityForPhoneMode('this top up')) {
-      closeWalletTopUpConfirmDialog();
-      return;
-    }
-    closeWalletTopUpConfirmDialog();
-    const authorized = await requestTransactionAuth({
-      transactionType: 'walletTopup',
-      amountText: walletTopUpMoney(walletTopUpState.amount)
-    });
-    if (!authorized) return;
+    if (walletTopUpState.isProcessing || walletTopUpState.amount <= 0 || !walletTopUpState.methodId) return;
+    if (requireIdentityForPhoneMode('this top up')) return;
     walletTopUpState.isProcessing = true;
     walletTopUpSync();
     const paid = await presentWalletTopUpNativePayment();
-    walletTopUpState.isProcessing = false;
-    walletTopUpSync();
     if (!paid) {
-      showWalletTopUpFailure();
+      walletTopUpState.isProcessing = false;
+      walletTopUpSync();
+      showToast('Payment was not completed. Please try again.');
       return;
     }
-    showWalletTopUpProcessing();
+    const tx = recordWalletTopUpSuccess();
+    walletTopUpState.isProcessing = false;
+    walletTopUpSync();
+    renderWalletTopUpSuccessScreen(tx);
+    goTo('wallet-topup-success-screen');
   }
 
   function initWalletTopUpFlow() {
@@ -42490,22 +43214,27 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       walletTopUpSync();
     });
 
-    document.querySelector('[data-wallet-topup-pay]')?.addEventListener('click', openWalletTopUpConfirmDialog);
-    document.querySelectorAll('[data-wallet-topup-confirm-cancel]').forEach(button => {
-      button.addEventListener('click', closeWalletTopUpConfirmDialog);
+    document.querySelector('[data-wallet-topup-pay]')?.addEventListener('click', openWalletTopUpMethodSheet);
+
+    document.getElementById('wallet-topup-method-sheet-overlay')?.addEventListener('click', event => {
+      if (event.target.id === 'wallet-topup-method-sheet-overlay') closeWalletTopUpMethodSheet();
+    });
+    document.getElementById('wallet-topup-method-list')?.addEventListener('click', event => {
+      const row = event.target.closest('[data-wallet-topup-method]');
+      if (row) selectWalletTopUpMethod(row.dataset.walletTopupMethod);
+    });
+    document.querySelector('[data-wallet-topup-method-continue]')?.addEventListener('click', () => {
+      if (!walletTopUpState.methodId) return;
+      closeWalletTopUpMethodSheet();
+      openWalletTopUpReviewPage();
     });
     document.querySelector('[data-wallet-topup-confirm-payment]')?.addEventListener('click', confirmWalletTopUpPayment);
 
     document.querySelector('[data-wallet-topup-done]')?.addEventListener('click', () => {
-      resetWalletTopUpFlow({ keepAmount: false });
+      const { previousBalance, newBalance } = walletTopUpState;
       goTo('wallet-screen');
-    });
-
-    document.querySelector('[data-wallet-topup-view-receipt]')?.addEventListener('click', () => {
-      if (!walletTopUpState.transactionId) return;
-      currentTransactionId = walletTopUpState.transactionId;
-      transactionDetailReturnScreen = 'wallet-topup-success-screen';
-      goTo('transaction-detail-screen');
+      window.setTimeout(() => animateWalletTopUpBalance(previousBalance, newBalance), 120);
+      resetWalletTopUpFlow({ keepAmount: false });
     });
 
     document.querySelector('[data-wallet-topup-retry]')?.addEventListener('click', () => {
@@ -42516,12 +43245,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     document.querySelector('[data-wallet-topup-cancel]')?.addEventListener('click', () => {
       resetWalletTopUpFlow({ keepAmount: false });
       goTo('wallet-screen');
-    });
-
-    document.querySelector('[data-wallet-topup-try-again]')?.addEventListener('click', event => {
-      event.preventDefault();
-      hideWalletTopUpFailure();
-      openWalletTopUpConfirmDialog();
     });
 
     document.querySelector('[data-wallet-topup-cancel-page]')?.addEventListener('click', event => {
@@ -44545,7 +45268,23 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     if (event.target.id === 'contact-sheet-close' || event.target.id === 'contact-sheet-overlay') { closeContactSheet(); return; }
     const contactRow = event.target.closest('[data-contact-sheet-id]');
     if (contactRow) {
-      selectTransactionContact(contactRow.dataset.contactSheetId);
+      if (contactPickerState.mode === 'multi') {
+        const id = contactRow.dataset.contactSheetId;
+        if (contactPickerState.selectedIds.has(id)) contactPickerState.selectedIds.delete(id);
+        else contactPickerState.selectedIds.add(id);
+        renderContactSheet();
+      } else {
+        selectTransactionContact(contactRow.dataset.contactSheetId);
+      }
+      return;
+    }
+    if (event.target.closest('#contact-sheet-confirm')) {
+      if (contactPickerState.mode === 'multi' && contactPickerState.selectedIds.size) {
+        const ids = [...contactPickerState.selectedIds];
+        const onConfirm = contactPickerState.onConfirm;
+        closeContactSheet();
+        onConfirm?.(ids);
+      }
       return;
     }
     // Member sheet — Done
@@ -45135,7 +45874,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   function plazaAssistantFindChatTarget(text = '') {
     const normalized = String(text || '').toLowerCase();
     const aliases = [
-      { id: '_my-baby', terms: ['my baby', 'baby'] },
       { id: 'nanay-jocelyn', terms: ['jocelyn', 'nanay jocelyn', 'denim jacket'] },
       { id: 'grade4-parents', terms: ['grade 4', 'grade4', 'parents group', 'miscellaneous fee'] },
       { id: 'mama', terms: ['mama'] },
@@ -45174,6 +45912,130 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     return categories.find(category => category.terms.some(term => value.includes(term))) || null;
   }
 
+  // ── Conversation summarization ─────────────────────────
+  // Parses the actual thread content for a chat (not a generic description)
+  // so "summarize our conversation" reflects what was really said.
+  function assistantExtractConversationEntries(chatId) {
+    const raw = conversations[chatId]?.thread;
+    if (!raw) return null;
+    const holder = document.createElement('div');
+    holder.innerHTML = raw;
+    const entries = [];
+    let currentDate = 'Today';
+    [...holder.children].forEach(node => {
+      if (node.classList.contains('date-chip')) {
+        currentDate = node.textContent.trim() || currentDate;
+        return;
+      }
+      if (node.classList.contains('message')) {
+        const out = node.classList.contains('out');
+        const time = node.querySelector('.time')?.textContent.trim() || '';
+        const linkTitle = node.querySelector('.entertainment-link-preview-title')?.textContent.trim();
+        if (linkTitle) {
+          const source = node.querySelector('.entertainment-link-preview-domain')?.textContent.trim()
+            || node.querySelector('.entertainment-link-preview-subtitle')?.textContent.trim() || '';
+          entries.push({ type: 'link', out, date: currentDate, time, title: linkTitle, source });
+          return;
+        }
+        const bubbleEl = node.querySelector('.bubble');
+        let bubbleText = '';
+        if (bubbleEl) {
+          const bubbleClone = bubbleEl.cloneNode(true);
+          bubbleClone.querySelectorAll('.message-meta, .time').forEach(el => el.remove());
+          bubbleText = bubbleClone.textContent.trim();
+        }
+        if (bubbleText) {
+          entries.push({ type: 'text', out, date: currentDate, time, text: bubbleText });
+          return;
+        }
+        const card = node.querySelector('.payment-receipt-card, .group-pay-card, .status-card, .business-flow-card');
+        if (card) {
+          const heading = card.querySelector('.payment-receipt-heading, .card-title, .business-flow-title, .group-pay-title')?.textContent.trim() || '';
+          const amount = card.querySelector('.payment-receipt-amount, .group-pay-amount')?.textContent.trim() || '';
+          if (heading || amount) entries.push({ type: 'card', out, date: currentDate, time, heading, amount });
+        }
+        return;
+      }
+      if (node.classList.contains('sys-msg')) {
+        const text = node.querySelector('.sys-msg-text')?.textContent.trim();
+        if (text) entries.push({ type: 'system', out: false, date: currentDate, time: '', text });
+      }
+    });
+    return entries;
+  }
+
+  function assistantSummarizeConversation(chatId, opts = {}) {
+    const entries = assistantExtractConversationEntries(chatId);
+    if (!entries) return { ok: false };
+    const filtered = opts.dateFilter === 'today' ? entries.filter(entry => /today/i.test(entry.date)) : entries;
+    if (!filtered.length) return { ok: true, empty: true };
+
+    const contact = conversations[chatId]?.name || 'this contact';
+
+    // Curated, content-accurate summary for the seeded Kuya Mark example —
+    // matches the real thread (movie invite, shared link, ₱250 share).
+    if (chatId === 'kuya-mark' && opts.dateFilter !== 'today') {
+      if (opts.short) {
+        return {
+          ok: true,
+          mode: 'short',
+          paragraph: 'Kuya Mark invited you to watch Saving Sarah and sent the Beetzee Play link. Your share is ₱250, so let him know if you can join and pay.'
+        };
+      }
+      return {
+        ok: true,
+        mode: 'short',
+        paragraph: 'Kuya Mark invited you to watch Saving Sarah together later. He also asked if you could share your screen and sent you a Beetzee Play link to the movie. You might want to let him know if you’re available and able to screen-share.'
+      };
+    }
+
+    const textEntries = filtered.filter(entry => entry.type === 'text');
+    const truncate = text => text.length > 140 ? `${text.slice(0, 137)}…` : text;
+
+    const keyPoints = [];
+    filtered.forEach(entry => {
+      if (entry.type === 'text') keyPoints.push(`${entry.out ? 'You' : contact}: “${truncate(entry.text)}”`);
+      else if (entry.type === 'link') keyPoints.push(`${entry.out ? 'You' : contact} shared a link to ${entry.title}${entry.source ? ` (${entry.source})` : ''}.`);
+      else if (entry.type === 'card' && (entry.heading || entry.amount)) keyPoints.push([entry.heading, entry.amount].filter(Boolean).join(' · '));
+      else if (entry.type === 'system') keyPoints.push(entry.text);
+    });
+
+    const decisions = textEntries
+      .filter(entry => entry.out && /\b(sige|okay|ok lang|yes|sure|deal|confirmed|approved)\b/i.test(entry.text))
+      .map(entry => `You agreed: “${truncate(entry.text)}”`);
+
+    const lastText = [...filtered].reverse().find(entry => entry.type === 'text');
+    let nextStep = '';
+    if (lastText && !lastText.out && /[?]|pwede|paki|please|can you|could you/i.test(lastText.text)) {
+      nextStep = `Reply to ${contact} about: “${truncate(lastText.text)}”`;
+    } else if (lastText && lastText.out) {
+      nextStep = `Wait for ${contact}’s reply.`;
+    }
+
+    if (opts.short || filtered.length <= 6) {
+      const paragraph = keyPoints.slice(0, 3).join(' ') || `You and ${contact} exchanged ${filtered.length} message${filtered.length === 1 ? '' : 's'}.`;
+      return { ok: true, mode: 'short', paragraph, nextStep };
+    }
+    return {
+      ok: true,
+      mode: 'structured',
+      keyPoints: keyPoints.slice(0, 6),
+      decisions,
+      nextSteps: nextStep ? [nextStep] : []
+    };
+  }
+
+  // Plain conversational text — no card, no labels/headings. Summaries read
+  // like a friend recapping the thread, not a structured report.
+  function assistantConversationSummaryText(result) {
+    if (!result.ok) return "I couldn't access the messages in this conversation.";
+    if (result.empty) return 'There are no messages to summarize for that range yet.';
+    if (result.mode === 'structured') {
+      return [...(result.keyPoints || []), ...(result.decisions || []), ...(result.nextSteps || [])].join(' ');
+    }
+    return [result.paragraph, result.nextStep].filter(Boolean).join(' ');
+  }
+
   function plazaAssistantScreenSummary() {
     const screenId = currentScreen()?.id || '';
     if (screenId === 'track-screen') {
@@ -45187,10 +46049,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     if (screenId === 'wallet-screen') {
       const balance = document.getElementById('wallet-balance-value')?.textContent?.trim() || 'your current balance';
       return `Wallet summary: your Plaza Wallet balance is ${balance}. Recent activity and wallet updates are available from this page.`;
-    }
-    if (screenId === 'conversation-screen') {
-      const name = document.getElementById('conv-name')?.textContent?.trim() || 'this chat';
-      return `Chat summary: you are in ${name}. I can help explain the thread, prepare a payment or request, or open related transaction details.`;
     }
     if (screenId === 'plaza-screen') {
       return 'Plaza summary: this is the super app directory for marketplace, entertainment, travel, hotels, government, health, bills, and play services.';
@@ -45234,6 +46092,8 @@ html.plaza-theme-dark .plaza-special-offer-art img {
   const plazaAssistantIntentStore = new Map();
   let plazaAssistantIntentCounter = 0;
   let plazaAssistantPendingEditIntentId = null;
+  let plazaAssistantAwaitingYesNo = null; // { intentId, stage: 'restate' | 'confirm' }
+  let plazaAssistantLastSummaryChat = null; // chatId the most recent conversation summary was generated for
   let plazaAssistantTxSequence = 0;
   const PLAZA_ASSISTANT_TX_DATE = 'Jul 27, 2026';
   const plazaAssistantTimes = ['1:42 PM', '1:58 PM', '2:06 PM', '2:14 PM', '2:22 PM', '2:30 PM'];
@@ -45416,11 +46276,21 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     return match[1].replace(/[.?!]+$/, '').trim() || fallback;
   }
 
+  function assistantCurrentChatContact() {
+    if (currentScreen()?.id !== 'conversation-screen') return null;
+    const c = conversations[currentChat];
+    if (!c || c.isGroup) return null;
+    return assistantChatContact(currentChat);
+  }
+
   function assistantBuildMoneyIntent(text = '', kind = 'send') {
     const amount = assistantExtractAmount(text, null);
     if (!amount) return { missing: 'amount' };
-    const recipient = assistantRecipientFor(text);
+    let recipient = assistantRecipientFor(text);
     if (recipient?.ambiguous) return { ambiguous: recipient };
+    // No contact named in the message — if we're inside a 1:1 chat, that
+    // chat's contact is the implied recipient rather than an open question.
+    if (!recipient) recipient = assistantCurrentChatContact();
     if (!recipient) return { missing: kind === 'request' ? 'payer' : 'recipient' };
     const reasonFallback = kind === 'request' ? 'Money request' : 'Personal transfer';
     return {
@@ -45438,6 +46308,84 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       method: 'Plaza Wallet',
       status: 'Needs confirmation'
     };
+  }
+
+  // ── Plain-language "Do you want to..." Yes/No gate ────
+  // Required before the detailed field-list card: restate the exact action
+  // in one sentence and require an explicit yes/no (typed or tapped) before
+  // anything else is shown.
+  function assistantYesNoIntentParts(intent) {
+    const amount = assistantPeso(intent.total || intent.amount);
+    const name = intent.recipientName;
+    if (intent.kind === 'request') {
+      const reasonPart = intent.reason && intent.reason !== 'Money request' ? ` for ${intent.reason}` : '';
+      return { verb: 'request', amount, preposition: 'from', name, reasonPart };
+    }
+    const reasonPart = intent.reason && intent.reason !== 'Personal transfer' ? ` for ${intent.reason}` : '';
+    return { verb: 'send', amount, preposition: 'to', name, reasonPart };
+  }
+
+  function assistantYesNoBubbleMarkup(intent) {
+    const id = assistantIntentId(intent);
+    plazaAssistantAwaitingYesNo = { intentId: id, stage: 'restate' };
+    const parts = assistantYesNoIntentParts(intent);
+    return `<div class="plaza-assistant-yesno" data-assistant-intent-id="${escapeHtml(id)}" data-assistant-flow="${escapeHtml(intent.kind)}">
+      <p class="plaza-assistant-yesno-text">
+        <span>Do you want to ${escapeHtml(parts.verb)} <b class="plaza-assistant-yesno-highlight">${escapeHtml(parts.amount)}</b></span>
+        <span>${escapeHtml(parts.preposition)} <b class="plaza-assistant-yesno-highlight">${escapeHtml(parts.name)}</b>${escapeHtml(parts.reasonPart)}?</span>
+      </p>
+      <div class="plaza-assistant-yesno-actions">
+        <button class="primary" type="button" data-assistant-card-action="yesno-yes">Yes</button>
+        <button type="button" data-assistant-card-action="yesno-no">No</button>
+      </div>
+    </div>`;
+  }
+
+  function assistantMatchesYes(text = '') {
+    return /^\s*(yes|yep|yup|sure|go ahead|confirm|okay|ok|oo|sige)\b/i.test(text.trim());
+  }
+  function assistantMatchesNo(text = '') {
+    return /^\s*(no|nope|nah|cancel|never\s*mind|huwag|ayaw)\b/i.test(text.trim());
+  }
+
+  function assistantApplyPendingYesNo(question = '') {
+    if (!plazaAssistantAwaitingYesNo) return null;
+    const { intentId, stage } = plazaAssistantAwaitingYesNo;
+    const intent = plazaAssistantIntentStore.get(intentId);
+    if (!intent) { plazaAssistantAwaitingYesNo = null; return null; }
+    const isYes = assistantMatchesYes(question);
+    const isNo = !isYes && assistantMatchesNo(question);
+    if (!isYes && !isNo) return null;
+    plazaAssistantAwaitingYesNo = null;
+    if (isNo) {
+      const card = document.querySelector(`[data-assistant-intent-id="${intent.intentId}"]`)?.closest('.plaza-assistant-message');
+      if (card) assistantSetCardNote(card, 'Cancelled');
+      return { text: `Okay, I did not ${intent.kind === 'request' ? 'send that request' : 'send any money'}. Nothing was ${intent.kind === 'request' ? 'requested' : 'sent'}.` };
+    }
+    // Yes
+    if (stage === 'restate') return { cardHtml: assistantMoneyConfirmationCard(intent) };
+    // stage === 'confirm' — same as tapping the card's own Confirm button
+    return assistantAdvanceIntentAfterConfirm(intent);
+  }
+
+  function assistantApplyConversationSummaryFollowUp(question = '') {
+    if (!plazaAssistantLastSummaryChat) return null;
+    if (currentScreen()?.id !== 'conversation-screen' || currentChat !== plazaAssistantLastSummaryChat) return null;
+    const lower = String(question || '').toLowerCase();
+    if (/\b(make it shorter|shorter|shorten)\b/.test(lower)) {
+      return { text: assistantConversationSummaryText(assistantSummarizeConversation(currentChat, { short: true })) };
+    }
+    if (/\bsummarize today\b|\btoday only\b/.test(lower)) {
+      return { text: assistantConversationSummaryText(assistantSummarizeConversation(currentChat, { dateFilter: 'today' })) };
+    }
+    if (/\bwhat should i reply\b|\bhow should i reply\b|\bsuggest a reply\b/.test(lower)) {
+      const entries = assistantExtractConversationEntries(currentChat) || [];
+      const lastIncoming = [...entries].reverse().find(entry => entry.type === 'text' && !entry.out);
+      const contact = conversations[currentChat]?.name || 'them';
+      if (!lastIncoming) return { text: `I don't see a recent message from ${contact} to reply to.` };
+      return { text: `You could reply to “${lastIncoming.text}”, letting ${contact} know if you're available or need more details.` };
+    }
+    return null;
   }
 
   function assistantFieldMarkup(label, value, options = {}) {
@@ -45468,12 +46416,21 @@ html.plaza-theme-dark .plaza-special-offer-art img {
           assistantFieldMarkup('Payment method', intent.method),
           assistantFieldMarkup('Note', intent.note || 'Optional')
         ].join('')
-      : [
-          assistantFieldMarkup(isRequest ? 'Request from' : 'Send to', intent.recipientName),
-          assistantFieldMarkup('Amount', assistantPeso(intent.amount), { total: true }),
-          assistantFieldMarkup(isRequest ? 'Reason' : 'Message', intent.reason),
-          assistantFieldMarkup(isRequest ? 'Delivered through' : 'Funding source', isRequest ? 'Plaza chat' : intent.method)
-        ].join('');
+      : isRequest
+        ? [
+            assistantFieldMarkup('Request from', intent.recipientName),
+            assistantFieldMarkup('Requested amount', assistantPeso(intent.amount), { total: true }),
+            assistantFieldMarkup('Reason', intent.reason),
+            assistantFieldMarkup('Delivered through', 'Plaza chat')
+          ].join('')
+        : [
+            assistantFieldMarkup('Send to', intent.recipientName),
+            assistantFieldMarkup('Amount', assistantPeso(intent.amount)),
+            assistantFieldMarkup('Message', intent.reason),
+            assistantFieldMarkup('Funding source', intent.method),
+            assistantFieldMarkup('Fee', assistantPeso(intent.fee || 0)),
+            assistantFieldMarkup('Total amount', assistantPeso(intent.total), { total: true })
+          ].join('');
     const subtitle = isBill
       ? 'I found the saved bill details. Review them here before we continue.'
       : isRequest
@@ -45524,25 +46481,18 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     </article>`;
   }
 
-  function assistantAuthCard(intent) {
+  function assistantMoneyConfirmationCard(intent) {
     const id = assistantIntentId(intent);
-    return `<article class="plaza-assistant-card" data-assistant-intent-id="${escapeHtml(id)}" data-assistant-flow="${escapeHtml(intent.kind)}">
-      <div class="plaza-assistant-card-header">
-        <span class="plaza-assistant-card-logo gradient"><i class="hgi-solid hgi-finger-print hugeicon" aria-hidden="true"></i></span>
-        <div class="plaza-assistant-card-title">
-          <strong>Approve with biometrics</strong>
-          <small>Use Face ID or fingerprint to authorize this Plaza Wallet action.</small>
-        </div>
-      </div>
-      <div class="plaza-assistant-card-body">
-        <div class="plaza-assistant-auth-row">
-          <span class="plaza-assistant-auth-icon"><i class="hgi-solid hgi-shield-01 hugeicon" aria-hidden="true"></i></span>
-          <span>Your payment details stay in this chat. Plaza will ask again for sensitive actions.</span>
-        </div>
-      </div>
-      <div class="plaza-assistant-card-actions">
+    const confirmLabel = intent.kind === 'request' ? 'Send Request' : 'Confirm';
+    const amount = assistantPeso(intent.total || intent.amount);
+    return `<article class="plaza-assistant-money-confirm" data-assistant-intent-id="${escapeHtml(id)}" data-assistant-flow="${escapeHtml(intent.kind)}">
+      <div class="plaza-assistant-money-confirm-avatar">${assistantLogoMarkup(intent, 'circle')}</div>
+      <div class="plaza-assistant-money-confirm-name">${escapeHtml(intent.recipientName)}</div>
+      <div class="plaza-assistant-money-confirm-verified"><span class="wallet-profile-check" aria-hidden="true">✓</span><span>Fully Verified</span></div>
+      <div class="plaza-assistant-money-confirm-amount">${escapeHtml(amount)}</div>
+      <div class="plaza-assistant-money-confirm-actions">
+        <button class="primary" type="button" data-assistant-card-action="confirm">${escapeHtml(confirmLabel)}</button>
         <button type="button" data-assistant-card-action="cancel">Cancel</button>
-        <button class="primary" type="button" data-assistant-card-action="authenticate">Use Face ID</button>
       </div>
     </article>`;
   }
@@ -45624,6 +46574,73 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     if (currentScreen()?.id === 'conversation-screen' && currentChat === chatId) loadConversation(chatId);
   }
 
+  // Drops the completed send-money transaction into the recipient's chat
+  // thread as a standard payment-receipt card (same component used by
+  // in-chat payments) instead of the assistant's own detailed panel card.
+  // Returns false when there is no chat to deliver into, so the caller can
+  // fall back. Send-money only — a request has not been paid yet, so it
+  // must never render as a receipt (see assistantInsertRequestMoneyCard).
+  function assistantDeliverConversationReceipt(intent, tx) {
+    const chatId = intent?.recipientChatId;
+    if (!chatId || !conversations[chatId]) return false;
+    const note = String(intent.reason || intent.note || '').trim();
+    const cardHtml = `<article class="payment-receipt-card" data-payment-receipt data-transaction-id="${escapeHtml(tx.id)}" data-reference="${escapeHtml(tx.ref)}"${note ? ` data-note="${escapeHtml(note)}"` : ''} role="button" tabindex="0" aria-label="Open payment receipt">
+      <div class="payment-receipt-heading"><span class="payment-receipt-check" aria-hidden="true">✓</span><span>Payment Sent</span></div>
+      <div class="payment-receipt-amount">${escapeHtml(tx.amount)}</div>
+      <div class="payment-receipt-divider" aria-hidden="true"></div>
+      <div class="payment-receipt-details">${paymentReceiptDetailsMarkup({ reference: tx.ref, paymentDate: tx.date, dateTime: tx.time }, { note, method: tx.method })}</div>
+    </article>`;
+    const rowHtml = `<div class="message out payment-receipt-message"><div class="bubble-wrap">${cardHtml}<span class="time">${escapeHtml(tx.time)}</span></div></div>`;
+    conversations[chatId].thread = `${conversations[chatId].thread || ''}${rowHtml}`;
+    return true;
+  }
+
+  // Inserts the existing pending Request Money card (same component/markup
+  // as the manual Request Money flow) into the recipient's chat thread, and
+  // records a Pending History Logs entry. A request is not a completed
+  // payment, so it must never render as a receipt.
+  function assistantInsertRequestMoneyCard(intent, tx) {
+    const chatId = intent?.recipientChatId;
+    if (!chatId || !conversations[chatId]) return false;
+    const reason = String(intent.reason || '').trim();
+    const noteHtml = requestMoneyNoteMarkup({ reason: reason && reason !== 'Money request' ? reason : '' });
+    const rowHtml = `<div class="money-request-wrap">
+      <article class="money-request-card request-money-card" id="money-request-card" data-request-state="pending">
+        <div class="money-request-header" id="mr-header">
+          <span class="money-request-label">Money Request</span>
+          <span class="money-request-status-pill" id="mr-status-pill">Pending</span>
+        </div>
+        <div class="money-request-body">
+          <div class="money-request-amount">${escapeHtml(tx.amount)}</div>
+          ${noteHtml}
+          <div class="request-money-status-copy" aria-live="polite"></div>
+          <button class="money-request-cancel-btn" id="money-request-cancel-btn" type="button">Cancel Request</button>
+        </div>
+      </article>
+    </div>`;
+    conversations[chatId].thread = `${conversations[chatId].thread || ''}${rowHtml}`;
+    const logBucket = transactionLogData[chatId] ||= [];
+    logBucket.unshift({
+      id: tx.id,
+      type: 'Payment Request',
+      amount: tx.amount,
+      status: 'Pending',
+      date: tx.date,
+      time: tx.time,
+      ref: tx.ref,
+      description: reason || `Money request sent to ${intent.recipientName}`,
+      party: intent.recipientName,
+      method: tx.method,
+      fees: tx.fees,
+      userNote: reason,
+      note: reason || `Payment request sent to ${intent.recipientName}.`,
+      flow: 'request',
+      step: 1
+    });
+    if (currentScreen()?.id === 'conversation-screen' && currentChat === chatId) loadConversation(chatId);
+    return true;
+  }
+
   function assistantTransactionForIntent(intent) {
     const code = assistantNextCode(intent.kind === 'bill' ? 'BL' : intent.kind === 'request' ? 'RQ' : 'SN');
     const time = assistantNextTime();
@@ -45684,6 +46701,21 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     intent.status = tx.status;
     intent.transactionId = tx.id;
     assistantRecordWalletTransaction(tx);
+    if (intent.kind === 'request') {
+      if (assistantInsertRequestMoneyCard(intent, tx)) {
+        plazaAssistantAppendMessage(`I sent your ${assistantPeso(intent.amount)} request to ${intent.recipientName}.`);
+        return;
+      }
+      assistantAppendConversationRecord(intent, tx);
+      plazaAssistantAppendMessage(assistantReceiptCard(intent, tx, code), { card: true });
+      return;
+    }
+    if (intent.kind === 'send' && assistantDeliverConversationReceipt(intent, tx)) {
+      closePlazaAssistant();
+      currentChat = intent.recipientChatId;
+      goTo('conversation-screen');
+      return;
+    }
     assistantAppendConversationRecord(intent, tx);
     plazaAssistantAppendMessage(assistantReceiptCard(intent, tx, code), { card: true });
   }
@@ -45859,6 +46891,14 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     const intentId = card?.dataset.assistantIntentId;
     const intent = plazaAssistantIntentStore.get(intentId);
     if (!intent) return;
+    if (action === 'yesno-yes' || action === 'yesno-no') {
+      const result = assistantApplyPendingYesNo(action === 'yesno-yes' ? 'yes' : 'no');
+      assistantSetCardNote(card, action === 'yesno-yes' ? 'Confirmed' : 'Declined');
+      if (result?.cardHtml) plazaAssistantAppendMessage(result.cardHtml, { card: true });
+      else if (result?.text) plazaAssistantAppendMessage(result.text);
+      if (result?.action) runPlazaAssistantAction(result.action);
+      return;
+    }
     if (action === 'edit') {
       plazaAssistantPendingEditIntentId = intentId;
       plazaAssistantAppendMessage('Sure. Type the change in this chat, like “change amount to ₱900,” “use account 1234,” or “reason school supplies.”');
@@ -45883,16 +46923,6 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       }
       if (intent.kind === 'request') {
         assistantCompleteIntent(intentId);
-      } else {
-        plazaAssistantAppendMessage(assistantAuthCard(intent), { card: true });
-      }
-      return;
-    }
-    if (action === 'authenticate') {
-      button.disabled = true;
-      if (isPhoneVerifiedNewAccountMode()) {
-        assistantSetCardNote(card, 'Identity verification required');
-        plazaAssistantAppendMessage(assistantVerificationRequiredCard(), { card: true });
         return;
       }
       requestTransactionAuth({
@@ -45900,12 +46930,11 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         amountText: assistantPeso(intent.total || intent.amount),
         subjectLabel: intent.kind === 'bill' ? intent.billerName : intent.recipientName
       }).then(authorized => {
+        button.disabled = false;
         if (!authorized) {
-          button.disabled = false;
-          button.textContent = 'Use Face ID';
+          plazaAssistantAppendMessage('Verification was canceled, so nothing was sent. Tap Confirm again whenever you are ready.');
           return;
         }
-        button.textContent = 'Approved';
         assistantCompleteIntent(intentId);
       });
       return;
@@ -45986,6 +47015,12 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     const editedIntentResponse = assistantApplyPendingEdit(question);
     if (editedIntentResponse) return editedIntentResponse;
 
+    const yesNoResponse = assistantApplyPendingYesNo(question);
+    if (yesNoResponse) return yesNoResponse;
+
+    const summaryFollowUpResponse = assistantApplyConversationSummaryFollowUp(question);
+    if (summaryFollowUpResponse) return summaryFollowUpResponse;
+
     const restrictedAssistantIntent = /\b(send money|send\s*₱|transfer|request money|collect\s*₱|pay bills?|pay my .*bill|top up|top-up|cash in|add money)\b/i.test(lower);
     if (isPhoneVerifiedNewAccountMode() && restrictedAssistantIntent) {
       return { cardHtml: assistantVerificationRequiredCard() };
@@ -45998,6 +47033,11 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     }
 
     if (/\b(summary|summarize|recap)\b/i.test(lower)) {
+      if (currentScreen()?.id === 'conversation-screen') {
+        const wantsToday = /\btoday\b/i.test(lower);
+        plazaAssistantLastSummaryChat = currentChat;
+        return { text: assistantConversationSummaryText(assistantSummarizeConversation(currentChat, wantsToday ? { dateFilter: 'today' } : {})) };
+      }
       return { text: plazaAssistantScreenSummary() };
     }
 
@@ -46036,7 +47076,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       if (requestIntent.missing) {
         return { text: 'Who should I request the money from?' };
       }
-      return { cardHtml: assistantSummaryCard(requestIntent) };
+      return { html: true, cardHtml: assistantYesNoBubbleMarkup(requestIntent) };
     }
 
     const wantsSendMoney = /\b(send money|send|transfer|pay|bayad)\b/i.test(lower)
@@ -46053,7 +47093,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       if (sendIntent.missing) {
         return { text: 'Who should receive the money?' };
       }
-      return { cardHtml: assistantSummaryCard(sendIntent) };
+      return { cardHtml: assistantYesNoBubbleMarkup(sendIntent) };
     }
 
     if (/\b(remind|reminder)\b/i.test(lower)) {
@@ -47112,6 +48152,185 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
   })();
 
+  // ── Sell listing: location bottom sheet ───────────────
+  (function initListingLocationSheet() {
+    const PH_LOCATIONS = [
+      { main: 'Barangay Looc', secondary: 'Dumaguete City, Negros Oriental' },
+      { main: 'Barangay Piapi', secondary: 'Dumaguete City, Negros Oriental' },
+      { main: 'Barangay Bantayan', secondary: 'Dumaguete City, Negros Oriental' },
+      { main: 'Barangay Camanjac', secondary: 'Dumaguete City, Negros Oriental' },
+      { main: 'Barangay Tabuctubig', secondary: 'Dumaguete City, Negros Oriental' },
+      { main: 'Barangay Junob', secondary: 'Dumaguete City, Negros Oriental' },
+      { main: 'Dumaguete City', secondary: 'Negros Oriental' },
+      { main: 'Bais City', secondary: 'Negros Oriental' },
+      { main: 'Bayawan City', secondary: 'Negros Oriental' },
+      { main: 'Canlaon City', secondary: 'Negros Oriental' },
+      { main: 'Siquijor', secondary: 'Siquijor Province' },
+      { main: 'Cebu City', secondary: 'Cebu' },
+      { main: 'Mandaue City', secondary: 'Cebu' },
+      { main: 'Lapu-Lapu City', secondary: 'Cebu' },
+      { main: 'Manila', secondary: 'Metro Manila' },
+      { main: 'Quezon City', secondary: 'Metro Manila' },
+      { main: 'Makati City', secondary: 'Metro Manila' },
+      { main: 'Taguig City', secondary: 'Metro Manila' },
+      { main: 'Pasig City', secondary: 'Metro Manila' },
+      { main: 'Davao City', secondary: 'Davao del Sur' },
+      { main: 'Iloilo City', secondary: 'Iloilo' },
+      { main: 'Bacolod City', secondary: 'Negros Occidental' },
+      { main: 'Tagbilaran City', secondary: 'Bohol' },
+      { main: 'Baguio City', secondary: 'Benguet' },
+      { main: 'Zamboanga City', secondary: 'Zamboanga del Sur' },
+      { main: 'Cagayan de Oro City', secondary: 'Misamis Oriental' },
+      { main: 'General Santos City', secondary: 'South Cotabato' },
+      { main: 'Butuan City', secondary: 'Agusan del Norte' },
+      { main: 'Tacloban City', secondary: 'Leyte' },
+      { main: 'Naga City', secondary: 'Camarines Sur' },
+      { main: 'Legazpi City', secondary: 'Albay' },
+      { main: 'Puerto Princesa City', secondary: 'Palawan' },
+      { main: 'Dipolog City', secondary: 'Zamboanga del Norte' }
+    ];
+    const RECENT_KEY = 'project-plaza:listing-recent-locations';
+    const LOCATION_PIN_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-7.58 7-12A7 7 0 0 0 5 10c0 4.42 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+
+    const trigger = document.getElementById('listing-location-trigger');
+    const field = document.getElementById('listing-location');
+    const overlay = document.getElementById('listing-location-sheet-overlay');
+    const searchInput = document.getElementById('listing-location-search-input');
+    const closeBtn = document.getElementById('listing-location-sheet-close');
+    const body = document.getElementById('listing-location-sheet-body');
+    if (!trigger || !field || !overlay || !searchInput || !body) return;
+
+    let isLoadingCurrent = false;
+    let currentLocationError = '';
+
+    function getRecents() {
+      try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); } catch (_) { return []; }
+    }
+    function addRecent(loc) {
+      const list = getRecents().filter(item => item.main !== loc.main || item.secondary !== loc.secondary);
+      list.unshift(loc);
+      try { localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, 5))); } catch (_) {}
+    }
+
+    function highlight(text, query) {
+      if (!query) return escapeHtml(text);
+      const idx = text.toLowerCase().indexOf(query.toLowerCase());
+      if (idx === -1) return escapeHtml(text);
+      const before = text.slice(0, idx);
+      const match = text.slice(idx, idx + query.length);
+      const after = text.slice(idx + query.length);
+      return `${escapeHtml(before)}<span class="listing-location-highlight">${escapeHtml(match)}</span>${escapeHtml(after)}`;
+    }
+
+    function locationRowHtml(loc, query, variant = 'search') {
+      const nameWeightClass = variant === 'recent' ? 'listing-location-name-medium' : 'listing-location-name-regular';
+      return `<button class="contact-sheet-row" type="button" data-location-main="${escapeHtml(loc.main)}" data-location-secondary="${escapeHtml(loc.secondary)}">
+        <span class="listing-location-row-icon">${LOCATION_PIN_SVG}</span>
+        <span class="contact-sheet-row-info">
+          <span class="contact-sheet-row-name ${nameWeightClass}">${highlight(loc.main, query)}</span>
+          <span class="contact-sheet-row-sub">${highlight(loc.secondary, query)}</span>
+        </span>
+      </button>`;
+    }
+
+    function currentLocationRowHtml() {
+      if (isLoadingCurrent) {
+        return `<button class="listing-location-current-row" type="button" disabled id="listing-location-use-current">
+          <span class="listing-location-spinner" aria-hidden="true"></span>
+          <span class="listing-location-current-label">Getting your location…</span>
+        </button>`;
+      }
+      return `<button class="listing-location-current-row" type="button" id="listing-location-use-current">
+        <span class="listing-location-row-icon">${LOCATION_PIN_SVG}</span>
+        <span class="listing-location-current-label">Use Current Location</span>
+        <i class="hgi-solid hgi-arrow-right-02 hugeicon" aria-hidden="true"></i>
+      </button>`;
+    }
+
+    function render() {
+      const q = searchInput.value.trim();
+      if (!q) {
+        const recents = getRecents();
+        body.innerHTML = `
+          ${currentLocationRowHtml()}
+          ${currentLocationError ? `<div class="listing-location-note">${escapeHtml(currentLocationError)}</div>` : ''}
+          ${recents.length ? `<div class="contact-sheet-section-label">Recent Locations</div>${recents.map(r => locationRowHtml(r, '', 'recent')).join('')}` : ''}
+        `;
+      } else {
+        const lowerQ = q.toLowerCase();
+        const matches = PH_LOCATIONS.filter(loc => loc.main.toLowerCase().includes(lowerQ) || loc.secondary.toLowerCase().includes(lowerQ)).slice(0, 8);
+        body.innerHTML = matches.length
+          ? matches.map(r => locationRowHtml(r, q)).join('')
+          : `<div class="contact-sheet-empty">No locations found. Try a different search.</div>`;
+      }
+      hydrateHugeicons(body);
+    }
+
+    function selectLocation(loc) {
+      field.value = `${loc.main}, ${loc.secondary}`;
+      addRecent(loc);
+      closeSheet();
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    function useCurrentLocation() {
+      if (isLoadingCurrent) return;
+      currentLocationError = '';
+      if (!navigator.geolocation) {
+        currentLocationError = 'Location access is off. Search for a location instead.';
+        render();
+        return;
+      }
+      isLoadingCurrent = true;
+      render();
+      navigator.geolocation.getCurrentPosition(
+        () => {
+          isLoadingCurrent = false;
+          // No reverse-geocoding service in this prototype — resolve to a
+          // general area only. Never surface raw coordinates or a precise
+          // address from the device's actual location.
+          selectLocation({ main: 'Barangay Looc', secondary: 'Dumaguete City, Negros Oriental' });
+        },
+        () => {
+          isLoadingCurrent = false;
+          currentLocationError = 'Location access is off. Search for a location instead.';
+          render();
+        },
+        { timeout: 8000 }
+      );
+    }
+
+    function openSheet() {
+      currentLocationError = '';
+      searchInput.value = '';
+      render();
+      overlay.classList.remove('closing');
+      overlay.classList.add('open');
+      overlay.removeAttribute('aria-hidden');
+      window.setTimeout(() => searchInput.focus(), 160);
+    }
+
+    function closeSheet() {
+      overlay.classList.remove('open');
+      overlay.classList.add('closing');
+      overlay.setAttribute('aria-hidden', 'true');
+      setTimeout(() => overlay.classList.remove('closing'), 220);
+    }
+
+    trigger.addEventListener('click', openSheet);
+    trigger.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openSheet(); }
+    });
+    closeBtn?.addEventListener('click', closeSheet);
+    overlay.addEventListener('click', event => { if (event.target === overlay) closeSheet(); });
+    searchInput.addEventListener('input', render);
+    body.addEventListener('click', event => {
+      if (event.target.closest('#listing-location-use-current')) { useCurrentLocation(); return; }
+      const row = event.target.closest('[data-location-main]');
+      if (row) selectLocation({ main: row.dataset.locationMain, secondary: row.dataset.locationSecondary });
+    });
+  })();
+
   // ══════════════════════════════════════════════════════
   //  MARKETPLACE MODULE
   // ══════════════════════════════════════════════════════
@@ -47615,15 +48834,17 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
     const sellerStatusLabels = {
       active: 'Active',
+      inactive: 'Inactive',
       draft: 'Draft',
       rejected: 'Rejected',
       sold: 'Sold'
     };
     const sellerActionLabels = {
       active: 'Edit',
+      inactive: 'Edit',
       draft: 'Continue Editing',
       rejected: 'Fix Listing',
-      sold: 'View Details'
+      sold: 'Edit'
     };
     const sellerListings = [
       {
@@ -47635,7 +48856,14 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         price: '₱120',
         views: '234 views',
         favorites: '18 favorites',
-        updated: 'Updated 2 hours ago'
+        updated: 'Updated 2 hours ago',
+        description: 'Handwoven banana leaf trays, great for serving kakanin or pasalubong. Set of 12 pieces, trimmed and ready to use.',
+        quantity: 12,
+        condition: 'New',
+        location: 'Barangay Looc, Dumaguete City, Negros Oriental',
+        fulfillment: ['delivery', 'pickup'],
+        fulfillmentDetails: { pickup: 'Plaza Mall entrance' },
+        photos: ['https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=900&h=680&fit=crop&q=85']
       },
       {
         id: 'seller-kakanin-set',
@@ -47646,7 +48874,14 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         price: '₱210',
         views: '88 views',
         favorites: '11 favorites',
-        updated: 'Updated yesterday'
+        updated: 'Updated yesterday',
+        description: 'Assorted kakanin sampler — biko, sapin-sapin, kutsinta, and more. Good for merienda or pasalubong.',
+        quantity: 8,
+        condition: 'New',
+        location: 'Barangay Piapi, Dumaguete City, Negros Oriental',
+        fulfillment: ['pickup'],
+        fulfillmentDetails: { pickup: 'Barangay Piapi covered court' },
+        photos: []
       },
       {
         id: 'seller-bibingka-draft',
@@ -47668,7 +48903,14 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         price: '₱350',
         views: '412 views',
         favorites: '37 favorites',
-        updated: 'Sold Jul 27, 2026'
+        updated: 'Sold Jul 27, 2026',
+        description: 'Preloved denim jacket, size M. Good condition with minimal wear, no rips or stains. Washed and pressed before handover.',
+        quantity: 1,
+        condition: 'Used',
+        location: 'Barangay Camanjac, Dumaguete City, Negros Oriental',
+        fulfillment: ['meetup'],
+        fulfillmentDetails: { meetup: 'Robinsons Dumaguete' },
+        photos: ['36964453_69280765_1000.webp', 'Tezza-2179.jpg']
       }
     ];
 
@@ -47719,10 +48961,12 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       const list = document.getElementById('mkt-seller-list');
       if (!list) return;
       const status = activeSellStatus();
-      const filtered = sellerListings.filter(item => item.status === status);
+      const filtered = status === 'active'
+        ? sellerListings.filter(item => item.status === 'active' || item.status === 'inactive')
+        : sellerListings.filter(item => item.status === status);
       list.innerHTML = filtered.length
         ? filtered.map(sellerListingCardMarkup).join('')
-        : `<div class="mkt-seller-empty"><h3>No ${escapeHtml(sellerStatusLabels[status] || status)} listings</h3><p>Your items will appear here once they match this status.</p></div>`;
+        : `<div class="mkt-seller-empty"><h3>No ${escapeHtml(status === 'active' ? 'listings' : (sellerStatusLabels[status] || status))}</h3><p>Your items will appear here once they match this status.</p></div>`;
     }
 
     window.renderMarketplaceSellerListings = renderMarketplaceSellerListings;
@@ -47742,7 +48986,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
         openCreateListingWizard({ fromDraft: listing });
         return;
       }
-      showToast(`${sellerActionLabels[listing.status] || 'View Details'} opened`);
+      openEditListingWizard(listing.id);
     });
 
     const listingWizard = {
@@ -47752,7 +48996,11 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       replaceIndex: null,
       fulfillment: new Set(),
       fulfillmentDetails: { delivery: '', pickup: '', meetup: '' },
-      publishedProductId: ''
+      publishedProductId: '',
+      editingListingId: null,
+      statusOn: true,
+      originalStatus: '',
+      originalSnapshot: ''
     };
     const listingCategoryLabels = {
       groceries: 'Groceries',
@@ -47801,6 +49049,19 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       listingWizard.fulfillment = new Set();
       listingWizard.fulfillmentDetails = { delivery: '', pickup: '', meetup: '' };
       listingWizard.publishedProductId = '';
+      listingWizard.editingListingId = null;
+      listingWizard.statusOn = true;
+      listingWizard.originalStatus = '';
+      listingWizard.originalSnapshot = '';
+
+      const statusSection = document.getElementById('listing-status-section');
+      if (statusSection) statusSection.hidden = true;
+      const titleEl = document.getElementById('create-listing-title');
+      if (titleEl) titleEl.textContent = 'Create Listing';
+      const draftBtn = document.getElementById('listing-draft-btn');
+      if (draftBtn) draftBtn.textContent = 'Save as Draft';
+      const nextBtn = document.getElementById('listing-next-btn');
+      if (nextBtn) nextBtn.textContent = 'Next';
 
       const form = document.getElementById('listing-wizard-form');
       form?.reset();
@@ -47839,8 +49100,168 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
     window.openCreateListingWizard = openCreateListingWizard;
 
+    function updateListingStatusToggleUI() {
+      const toggle = document.getElementById('listing-status-toggle');
+      const sub = document.getElementById('listing-status-sub');
+      const soldNote = document.getElementById('listing-status-sold-note');
+      const section = document.getElementById('listing-status-section');
+      if (!toggle) return;
+      const isSold = listingWizard.originalStatus === 'sold';
+      toggle.classList.toggle('is-on', listingWizard.statusOn);
+      toggle.setAttribute('aria-checked', String(listingWizard.statusOn));
+      toggle.disabled = isSold;
+      if (sub) sub.textContent = listingWizard.statusOn
+        ? 'This listing is visible in Marketplace.'
+        : 'This listing is hidden from Marketplace.';
+      if (soldNote) soldNote.hidden = !isSold;
+      if (section) section.hidden = !listingWizard.editingListingId;
+    }
+
+    function serializeListingSnapshot() {
+      syncListingStateFromForm();
+      return JSON.stringify({
+        category: listingWizard.category,
+        title: listingFieldValue('listing-product-name'),
+        description: listingFieldValue('listing-description'),
+        price: listingFieldValue('listing-price'),
+        quantity: listingFieldValue('listing-quantity'),
+        condition: listingWizard.condition,
+        location: listingFieldValue('listing-location'),
+        fulfillment: [...listingWizard.fulfillment].sort(),
+        fulfillmentDetails: listingWizard.fulfillmentDetails,
+        photos: listingWizard.photos.map(photo => photo.src),
+        statusOn: listingWizard.statusOn
+      });
+    }
+
+    function isListingDirty() {
+      return serializeListingSnapshot() !== listingWizard.originalSnapshot;
+    }
+
+    function populateListingFormFromListing(listing) {
+      const categoryKey = Object.keys(listingCategoryLabels).find(key => listingCategoryLabels[key] === listing.category) || '';
+      const categoryInput = document.getElementById('listing-category');
+      const titleInput = document.getElementById('listing-product-name');
+      const descInput = document.getElementById('listing-description');
+      const priceInput = document.getElementById('listing-price');
+      const quantityInput = document.getElementById('listing-quantity');
+      const conditionInput = document.getElementById('listing-condition');
+      const locationInput = document.getElementById('listing-location');
+      if (categoryInput) categoryInput.value = categoryKey;
+      if (titleInput) titleInput.value = listing.title || '';
+      if (descInput) descInput.value = listing.description || '';
+      if (priceInput) priceInput.value = String(listing.price || '').replace(/[^0-9.]/g, '');
+      if (quantityInput) quantityInput.value = String(listing.quantity || 1);
+      if (conditionInput) conditionInput.value = listing.condition || 'New';
+      if (locationInput) locationInput.value = listing.location || '';
+
+      listingWizard.photos = (listing.photos || []).map(src => ({ src, name: 'Listing photo' }));
+      listingWizard.fulfillment = new Set(listing.fulfillment || []);
+      listingWizard.fulfillmentDetails = {
+        delivery: '',
+        pickup: (listing.fulfillmentDetails && listing.fulfillmentDetails.pickup) || '',
+        meetup: (listing.fulfillmentDetails && listing.fulfillmentDetails.meetup) || ''
+      };
+      const pickupInput = document.getElementById('listing-pickup-location');
+      const meetupInput = document.getElementById('listing-meetup-location');
+      if (pickupInput) pickupInput.value = listingWizard.fulfillmentDetails.pickup;
+      if (meetupInput) meetupInput.value = listingWizard.fulfillmentDetails.meetup;
+
+      listingWizard.editingListingId = listing.id;
+      listingWizard.originalStatus = listing.status;
+      listingWizard.statusOn = listing.status !== 'inactive';
+
+      renderListingPhotos();
+      updateFulfillmentDetails();
+      updateListingStatusToggleUI();
+      listingWizard.originalSnapshot = serializeListingSnapshot();
+      updateListingNextState();
+    }
+
+    function openEditListingWizard(listingId) {
+      const listing = sellerListings.find(item => item.id === listingId);
+      if (!listing) return;
+      resetListingWizard();
+      populateListingFormFromListing(listing);
+      const titleEl = document.getElementById('create-listing-title');
+      if (titleEl) titleEl.textContent = 'Edit Listing';
+      const draftBtn = document.getElementById('listing-draft-btn');
+      if (draftBtn) draftBtn.textContent = 'Cancel';
+      const nextBtn = document.getElementById('listing-next-btn');
+      if (nextBtn) nextBtn.textContent = 'Save Changes';
+      if (typeof goTo === 'function') goTo('create-listing-screen');
+    }
+    window.openEditListingWizard = openEditListingWizard;
+
+    let listingDiscardConfirmAction = null;
+    function requestLeaveListingWizard(action) {
+      if (listingWizard.editingListingId && isListingDirty()) {
+        listingDiscardConfirmAction = action;
+        document.getElementById('listing-discard-confirm-dialog')?.setAttribute('aria-hidden', 'false');
+        return;
+      }
+      action();
+    }
+    document.getElementById('listing-discard-confirm-cancel')?.addEventListener('click', () => {
+      listingDiscardConfirmAction = null;
+      document.getElementById('listing-discard-confirm-dialog')?.setAttribute('aria-hidden', 'true');
+    });
+    document.getElementById('listing-discard-confirm-backdrop')?.addEventListener('click', () => {
+      listingDiscardConfirmAction = null;
+      document.getElementById('listing-discard-confirm-dialog')?.setAttribute('aria-hidden', 'true');
+    });
+    document.getElementById('listing-discard-confirm-submit')?.addEventListener('click', () => {
+      const action = listingDiscardConfirmAction;
+      listingDiscardConfirmAction = null;
+      document.getElementById('listing-discard-confirm-dialog')?.setAttribute('aria-hidden', 'true');
+      if (action) action();
+    });
+
+    document.getElementById('listing-status-toggle')?.addEventListener('click', () => {
+      if (listingWizard.originalStatus === 'sold') return;
+      listingWizard.statusOn = !listingWizard.statusOn;
+      updateListingStatusToggleUI();
+      updateListingNextState();
+    });
+
+    function saveListingEdits() {
+      const listing = sellerListings.find(item => item.id === listingWizard.editingListingId);
+      if (!listing) return;
+      syncListingStateFromForm();
+      listing.title = listingFieldValue('listing-product-name') || listing.title;
+      listing.category = listingCategoryLabels[listingWizard.category] || listing.category;
+      listing.description = listingFieldValue('listing-description');
+      listing.price = listingMoneyValue();
+      listing.quantity = Number(listingFieldValue('listing-quantity')) || listing.quantity;
+      listing.condition = listingWizard.condition;
+      listing.location = listingFieldValue('listing-location');
+      listing.fulfillment = [...listingWizard.fulfillment];
+      listing.fulfillmentDetails = { ...listingWizard.fulfillmentDetails };
+      listing.photos = listingWizard.photos.map(photo => photo.src);
+      listing.photo = listing.photos[0] || '';
+      listing.status = listing.status === 'sold' ? 'sold' : (listingWizard.statusOn ? 'active' : 'inactive');
+      listing.updated = 'Updated just now';
+
+      if (listing.productId && mktProducts[listing.productId] && mktProducts[listing.productId].seller === 'maria-santos') {
+        const product = mktProducts[listing.productId];
+        product.title = listing.title;
+        product.price = listing.price;
+        product.desc = listing.description;
+        if (listing.photos.length) {
+          product.photo = listing.photos[0];
+          product.images = listing.photos;
+        }
+      }
+
+      renderMarketplaceSellerListings();
+      showToast('Listing updated');
+      closeCreateListingWizard(listing.status === 'sold' ? 'sold' : 'active');
+    }
+
     document.getElementById('mkt-list-item-btn')?.addEventListener('click', () => openCreateListingWizard());
-    document.getElementById('listing-wizard-back')?.addEventListener('click', () => closeCreateListingWizard(activeSellStatus()));
+    document.getElementById('listing-wizard-back')?.addEventListener('click', () => {
+      requestLeaveListingWizard(() => closeCreateListingWizard(activeSellStatus()));
+    });
     document.getElementById('listing-wizard-form')?.addEventListener('submit', event => event.preventDefault());
 
     function renderListingPhotos() {
@@ -47895,7 +49316,9 @@ html.plaza-theme-dark .plaza-special-offer-art img {
 
     function updateListingNextState() {
       const next = document.getElementById('listing-next-btn');
-      if (next) next.disabled = !isListingFormValid();
+      if (!next) return;
+      const valid = isListingFormValid();
+      next.disabled = listingWizard.editingListingId ? !(valid && isListingDirty()) : !valid;
     }
 
     const listingPhotoInput = document.getElementById('listing-photo-input');
@@ -47996,7 +49419,7 @@ html.plaza-theme-dark .plaza-special-offer-art img {
             </button>
           </div>
           <h2 class="listing-preview-title">${escapeHtml(title)}</h2>
-          <div class="listing-preview-meta">${escapeHtml(category)} · ${escapeHtml(condition)}</div>
+          <div class="listing-preview-meta">${escapeHtml(category)} · ${escapeHtml(condition)}${listingWizard.editingListingId ? ` · <span class="seller-status seller-status-${listingWizard.statusOn ? 'active' : 'inactive'}">${listingWizard.statusOn ? 'Active' : 'Inactive'}</span>` : ''}</div>
           <section class="listing-preview-block">
             <h3>Description</h3>
             <div class="listing-preview-copy">${escapeHtml(desc)}</div>
@@ -48093,9 +49516,25 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       showToast('Listing published');
     }
 
-    document.getElementById('listing-draft-btn')?.addEventListener('click', saveListingDraft);
+    document.getElementById('listing-draft-btn')?.addEventListener('click', () => {
+      if (listingWizard.editingListingId) {
+        requestLeaveListingWizard(() => closeCreateListingWizard(activeSellStatus()));
+      } else {
+        saveListingDraft();
+      }
+    });
     document.getElementById('listing-next-btn')?.addEventListener('click', () => {
       if (!isListingFormValid()) return;
+      if (listingWizard.editingListingId && !isListingDirty()) return;
+      const publishBtn = document.getElementById('listing-publish-btn');
+      const previewTitle = document.getElementById('listing-preview-title');
+      if (listingWizard.editingListingId) {
+        if (publishBtn) publishBtn.textContent = 'Confirm Changes';
+        if (previewTitle) previewTitle.textContent = 'Review Changes';
+      } else {
+        if (publishBtn) publishBtn.textContent = 'Publish';
+        if (previewTitle) previewTitle.textContent = 'Preview Listing';
+      }
       renderListingPreview();
       if (typeof goTo === 'function') goTo('listing-preview-screen');
     });
@@ -48105,7 +49544,10 @@ html.plaza-theme-dark .plaza-special-offer-art img {
     document.getElementById('listing-preview-header-back')?.addEventListener('click', () => {
       if (typeof goTo === 'function') goTo('create-listing-screen');
     });
-    document.getElementById('listing-publish-btn')?.addEventListener('click', publishListing);
+    document.getElementById('listing-publish-btn')?.addEventListener('click', () => {
+      if (listingWizard.editingListingId) saveListingEdits();
+      else publishListing();
+    });
     document.getElementById('listing-result-back')?.addEventListener('click', () => closeCreateListingWizard('active'));
     document.getElementById('listing-go-sell-btn')?.addEventListener('click', () => closeCreateListingWizard('active'));
     document.getElementById('listing-view-listing-btn')?.addEventListener('click', () => {
@@ -48830,6 +50272,28 @@ html.plaza-theme-dark .plaza-special-offer-art img {
       window.setTimeout(() => target.classList.remove('pending-request-target-highlight'), 1200);
     }, 120);
   }
+
+  window.deckFocusGrade4CollectionRequest = function deckFocusGrade4CollectionRequest() {
+    currentChat = 'grade4-parents';
+    window.currentChat = currentChat;
+    goTo('conversation-screen');
+    window.setTimeout(() => {
+      const thread = document.getElementById('chat-thread');
+      const target = thread?.querySelector('.group-pay-card');
+      if (!thread || !target) return;
+      const targetRow = target.closest('.message, .sys-msg') || target;
+      const threadRect = thread.getBoundingClientRect();
+      const targetRect = targetRow.getBoundingClientRect();
+      const targetTop = targetRect.top - threadRect.top + thread.scrollTop;
+      const centeredTop = targetTop - Math.max(12, (thread.clientHeight - targetRect.height) / 2);
+      const maxScroll = Math.max(0, thread.scrollHeight - thread.clientHeight);
+      thread.scrollTo({ top: Math.max(0, Math.min(centeredTop, maxScroll)), behavior: 'auto' });
+      target.classList.remove('pending-request-target-highlight');
+      void target.offsetWidth;
+      target.classList.add('pending-request-target-highlight');
+      window.setTimeout(() => target.classList.remove('pending-request-target-highlight'), 1200);
+    }, 180);
+  };
 
   function sendPendingRequestMoney(request) {
     currentChat = request.chatId;
